@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue8"
+    tools:context=".InputPage">
+
+    <RelativeLayout
+        android:id="@+id/relay2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="175dp"
+            android:layout_marginTop="75dp"
+            android:layout_marginStart="45dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="Hello,                Welcome!"
+            android:textSize="75dp"
+            android:textColor="@color/blue5"/>
+
+        <EditText
+            android:id="@+id/amountEditText"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="350dp"
+            android:layout_marginEnd="75dp"
+            android:background="@drawable/edit_round"
+            android:hint=" "
+            android:inputType="numberDecimal"
+            android:textAlignment="center"
+            android:textSize="30dp" />
+
+        <Button
+            android:id="@+id/saveBtn"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="150dp"
+            android:layout_marginTop="425dp"
+            android:layout_marginEnd="100dp"
+            android:backgroundTint="@color/blue7"
+            android:text="→"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="45dp"
+            android:textStyle="bold"
+            android:paddingBottom="38dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter your Daily Budget:"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="300dp"
+                android:textSize="25dp"
+                android:textColor="@color/black">
+
+            </TextView>
+
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+</RelativeLayout>
