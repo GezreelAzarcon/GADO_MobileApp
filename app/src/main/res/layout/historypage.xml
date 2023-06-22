@@ -1,0 +1,57 @@
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/blue8"
+    tools:context=".history_page">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/back_btn"
+            android:layout_width="65dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="25dp"
+            android:text= "⬅"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:paddingTop="2dp"
+            android:paddingLeft="17dp"
+            android:paddingBottom="15dp"
+            android:backgroundTint="@color/blue9"
+            android:textColor="@color/black">
+        </Button>
+    </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="195dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="95dp"
+            android:text="History"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:paddingTop="10dp"
+            android:paddingLeft="45dp"
+            android:background="@drawable/history_bg"
+            android:textColor="@color/black">
+
+        </TextView>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
+
