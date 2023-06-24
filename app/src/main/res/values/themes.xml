@@ -3,10 +3,15 @@
     <style name="Base.Theme.GADOApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimaryVariant">@color/blue12</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
     </style>
 
     <style name="Theme.GADOApp" parent="Base.Theme.GADOApp" />
+    <style name="SlideActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+    </style>
 </resources>

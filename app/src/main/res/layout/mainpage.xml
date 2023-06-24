@@ -1,18 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/blue8"
     tools:context=".main_page">
 
-    <TextView
-        android:id="@+id/amountText"
-        android:layout_width="match_parent"
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="8dp"
-        android:gravity="right"
-        android:text="0.00"
-        android:textColor="@color/black"
-        android:textSize="30dp" />
-</LinearLayout>
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/amountText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="270dp"
+            android:layout_marginTop="25dp"
+            android:text="0.00000"
+            android:textColor="@color/black"
+            android:textSize="35dp" />
+
+        <Button
+            android:id="@+id/history_btn"
+            android:layout_width="65dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="25dp"
+            android:text= "≡"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:paddingLeft="20dp"
+            android:paddingBottom="10dp"
+            android:backgroundTint="@color/blue9"
+            android:textColor="@color/black">
+        </Button>
+
+        <EditText
+            android:id="@+id/expensesText"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="128dp"
+            android:layout_marginTop="475dp"
+            android:layout_marginEnd="75dp"
+            android:background="@drawable/edit_round"
+            android:hint="Expenses"
+            android:textColor="@color/black"
+            android:inputType="numberDecimal"
+            android:textAlignment="center"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/EnterBtn"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="125dp"
+            android:layout_marginTop="535dp"
+            android:layout_marginEnd="100dp"
+            android:backgroundTint="@color/white"
+            android:text="Enter"
+            android:textAlignment="center"
+            android:textColor="@color/blue10"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="230dp"
+            android:layout_marginTop="34dp"
+            android:text="$"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:paddingLeft="10dp"
+            android:background="@drawable/coin_bg"
+            android:textColor="@color/black">
+
+        </TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="110dp"
+            android:text="Life:"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:paddingLeft="10dp"
+            android:textColor="@color/black">
+
+        </TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginStart="75dp"
+            android:layout_marginTop="210dp"
+            android:background="@drawable/profile_bg"
+            android:text=" ">
+
+        </TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="65dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="165dp"
+            android:layout_marginTop="255dp"
+            android:background="@drawable/profile_head"
+            android:text=" ">
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="154dp"
+            android:layout_height="85dp"
+            android:layout_marginStart="125dp"
+            android:layout_marginTop="350dp"
+            android:background="@drawable/profile_head"
+            android:text=" ">
+        </TextView>
+    </LinearLayout>
+
+</RelativeLayout >
