@@ -52,11 +52,13 @@ public class MainActivity extends AppCompatActivity {
     public void openInputPage(){
         Intent intent = new Intent(this, InputPage.class);
         startActivity(intent);
+        finish();
 
     }
     public void openUsercredential(){
         Intent intent = new Intent(this, usercredential_page.class);
         startActivity(intent);
+        finish();
 
     }
 
