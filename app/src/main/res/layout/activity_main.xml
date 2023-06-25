@@ -28,27 +28,75 @@
 
         <RelativeLayout
             android:id="@+id/relay1"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_below="@+id/imgView_logo">
+
+            <TextView
+                android:layout_width="500dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="115dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="70dp"
+                android:text="Guarding your"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="115dp"
-                android:text="Guarding your                                    money is easier than you                                 think!"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="55dp"
+                android:layout_marginEnd="10dp"
+                android:text="money is"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="25sp" />
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="177dp"
+                android:layout_marginEnd="10dp"
+                android:text="easier"
+                android:textAlignment="center"
+                android:textColor="#5390EA"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="260dp"
+                android:layout_marginEnd="10dp"
+                android:text="than you"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="77dp"
+                android:layout_marginStart="177dp"
+                android:layout_marginEnd="10dp"
+                android:text="think!"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+
 
             <Button
                 android:id="@+id/get_started"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="63dp"
-                android:layout_marginTop="225dp"
+                android:layout_marginTop="200dp"
                 android:backgroundTint="@color/blue2"
                 android:paddingLeft="105dp"
                 android:paddingRight="105dp"
@@ -62,10 +110,10 @@
             <Button
                 android:id="@+id/signinshortcutbtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="63dp"
-                android:layout_marginTop="285dp"
+                android:layout_marginTop="280dp"
                 android:backgroundTint="@color/blue3"
                 android:paddingLeft="105dp"
                 android:paddingRight="105dp"
