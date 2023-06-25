@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/blue8"
-    tools:context=".history_page">
+    tools:context=".HistoryPage">
 
     <RelativeLayout
         android:layout_width="wrap_content"

@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class main_page extends AppCompatActivity {
+public class MainPage extends AppCompatActivity {
 
     private Button history;
 
@@ -38,7 +38,7 @@ public class main_page extends AppCompatActivity {
 
     }
     public void openhistory_page(){
-        Intent intent = new Intent(this, history_page.class);
+        Intent intent = new Intent(this, HistoryPage.class);
         startActivity(intent);
 
     }
