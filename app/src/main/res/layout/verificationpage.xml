@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/blue8"
+    android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="500dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="80dp"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:paddingTop="10dp"
+            android:paddingLeft="45dp"
+            android:background="@drawable/veridesign"
+            android:textColor="@color/black">
+        </TextView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VERIFICATION"
+            android:layout_marginStart="85dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="105dp"
+            android:textColor="@color/white"
+            android:textSize="35sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter the 4-digit code that we have sent through your email to complete Sign up."
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginTop="205dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="normal"/>
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/blue20"
+        android:layout_marginTop="300dp"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="40dp"
+        app:cardBackgroundColor="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@color/blue20"
+            android:weightSum="4"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="50dp">
+
+            <EditText
+                android:id="@+id/otp1"
+                android:layout_width="50dp"
+                android:layout_height="100dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLines="1"
+                android:maxLength="1"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:background="@drawable/verificationbg"
+                android:textColor="@color/black"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/otp2"
+                android:layout_width="50dp"
+                android:layout_height="100dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLines="1"
+                android:maxLength="1"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:background="@drawable/verificationbg"
+                android:textColor="@color/black"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/otp3"
+                android:layout_width="50dp"
+                android:layout_height="100dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLines="1"
+                android:maxLength="1"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:background="@drawable/verificationbg"
+                android:textColor="@color/black"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/otp4"
+                android:layout_width="50dp"
+                android:layout_height="100dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLines="1"
+                android:maxLength="1"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:background="@drawable/verificationbg"
+                android:textColor="@color/black"
+                android:layout_weight="1"/>
+
+
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/continueBtn"
+            android:layout_width="334dp"
+            android:layout_height="75dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="300dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/blue21"
+            android:text="CONTINUE"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/resendBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="250dp"
+                android:layout_marginTop="238dp"
+                android:text="Resend"
+                android:textAlignment="center"
+                android:backgroundTint="@color/blue20"
+                android:textColor="@color/blue19"
+                android:textSize="17dp"
+                />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="If you didn't receive the code!"
+                android:textStyle="normal"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="250dp"
+                android:textSize="17dp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+
+
+
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
