@@ -3,11 +3,9 @@ package com.alphabravo.gadoapp;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +39,7 @@ public class InputPage extends AppCompatActivity {
                 Paper.book().destroy();
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(InputPage.this, "Account Logged Out!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(InputPage.this, signin_page.class));
+                startActivity(new Intent(InputPage.this, SigninPage.class));
             }
         });
         save.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +48,7 @@ public class InputPage extends AppCompatActivity {
 
                 String m = amount.getText().toString();
 
-                Intent intent = new Intent(InputPage.this, main_page.class);
+                Intent intent = new Intent(InputPage.this, MainPage.class);
 
                 intent.putExtra("amountUser", m);
                 startActivity(intent);

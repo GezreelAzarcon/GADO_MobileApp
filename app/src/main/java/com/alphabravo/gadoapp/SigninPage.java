@@ -1,29 +1,25 @@
 package com.alphabravo.gadoapp;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import io.paperdb.Paper;
 
-public class signin_page extends AppCompatActivity {
+public class SigninPage extends AppCompatActivity {
 
     private Button start;
     private EditText email, pass;
@@ -66,17 +62,17 @@ public class signin_page extends AppCompatActivity {
     }
 
     private void AllowAccess(String userEmail1, String userPass1) {
-        auth.signInWithEmailAndPassword(userEmail1, userPass1).addOnCompleteListener(signin_page.this , new OnCompleteListener<AuthResult>() {
+        auth.signInWithEmailAndPassword(userEmail1, userPass1).addOnCompleteListener(SigninPage.this , new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(signin_page.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
                     openInputPage();
                     finish();
                 }else if (task.isSuccessful()){
 
                 }else{
-                    Toast.makeText(signin_page.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SigninPage.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -84,7 +80,7 @@ public class signin_page extends AppCompatActivity {
 
     private void loginUser(String email, String pass) {
 
-        auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(signin_page.this , new OnCompleteListener<AuthResult>() {
+        auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(SigninPage.this , new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful() && check.isChecked()) {
@@ -92,15 +88,15 @@ public class signin_page extends AppCompatActivity {
                     Paper.book().write(UserEmail, email);
                     Paper.book().write(UserPass, pass);
 
-                    Toast.makeText(signin_page.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
                     openInputPage();
                     finish();
                 }else if (task.isSuccessful()){
-                    Toast.makeText(signin_page.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
                     openInputPage();
                     finish();
                 }else{
-                    Toast.makeText(signin_page.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SigninPage.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

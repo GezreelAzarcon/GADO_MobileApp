@@ -1,15 +1,12 @@
 package com.alphabravo.gadoapp;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,7 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class usercredential_page extends AppCompatActivity {
+public class SignupPage extends AppCompatActivity {
 
     private Button signin, create;
     private EditText email, password;
@@ -52,13 +49,13 @@ public class usercredential_page extends AppCompatActivity {
                 String txtPass = password.getText().toString();
 
                 if (TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtPass) && check.isChecked()) {
-                    Toast.makeText(usercredential_page.this, "Credentials are Empty!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupPage.this, "Credentials are Empty!", Toast.LENGTH_SHORT).show();
                 }else if (!check.isChecked()){
-                    Toast.makeText(usercredential_page.this, "Accept Terms and Conditions!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupPage.this, "Accept Terms and Conditions!", Toast.LENGTH_SHORT).show();
                 }else if (txtPass.length() < 6){
-                    Toast.makeText(usercredential_page.this, "Password should be greater than 6", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupPage.this, "Password should be greater than 6", Toast.LENGTH_SHORT).show();
                 }else if (txtPass.length() > 20){
-                    Toast.makeText(usercredential_page.this, "Password should be less than 20", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupPage.this, "Password should be less than 20", Toast.LENGTH_SHORT).show();
                 }else{
                     registerUser(txtEmail, txtPass);
                 }
@@ -72,29 +69,29 @@ public class usercredential_page extends AppCompatActivity {
 
     private void registerUser(String email, String pass) {
 
-        auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(usercredential_page.this , new OnCompleteListener<AuthResult>() {
+        auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(SignupPage.this , new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(usercredential_page.this, "User Registration Successful!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupPage.this, "User Registration Successful!", Toast.LENGTH_SHORT).show();
                     openVerificationpage();
                     finish();
                 }else{
-                    Toast.makeText(usercredential_page.this, "User Registration Failed! Check Credentials", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignupPage.this, "User Registration Failed! Check Credentials", Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
     public void openSigninPage(){
-        Intent intent = new Intent(this, signin_page.class);
+        Intent intent = new Intent(this, SigninPage.class);
         startActivity(intent);
         finish();
 
     }
 
     public void openVerificationpage(){
-        Intent intent = new Intent(this, verification_page.class);
+        Intent intent = new Intent(this, VerificationPage.class);
         startActivity(intent);
 
     }
