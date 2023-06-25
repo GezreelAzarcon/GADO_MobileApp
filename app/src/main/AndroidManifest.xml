@@ -13,6 +13,18 @@
         android:theme="@style/Theme.GADOApp"
         tools:targetApi="31">
         <activity
+            android:name=".signin_page"
+            android:exported="false"/>
+        <activity
+            android:name=".usercredential_page"
+            android:exported="false"/>
+        <activity
+            android:name=".verification_page"
+            android:exported="false"/>
+        <activity
+            android:name=".history_page"
+            android:exported="false"/>
+        <activity
             android:name=".main_page"
             android:exported="false"/>
         <activity
