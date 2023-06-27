@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "746758967929",
+    "firebase_url": "https://gado-mobile-app-default-rtdb.firebaseio.com",
+    "project_id": "gado-mobile-app",
+    "storage_bucket": "gado-mobile-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746758967929:android:a6606640a53915c2dabaa8",
+        "android_client_info": {
+          "package_name": "com.alphabravo.gadoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "746758967929-mvga2rutcipvj76t6gkivgna4qak4kne.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSRf489oaEM0izv63SClasDgXoIZtBHQc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "746758967929-mvga2rutcipvj76t6gkivgna4qak4kne.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
