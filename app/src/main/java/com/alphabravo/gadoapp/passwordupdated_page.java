@@ -34,7 +34,7 @@ public class passwordupdated_page extends AppCompatActivity {
 
     }
     public void openSignin(){
-        Intent intent = new Intent(this, signin_page.class);
+        Intent intent = new Intent(this, SigninPage.class);
         startActivity(intent);
 
     }
