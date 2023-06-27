@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "746758967929",
+    "firebase_url": "https://gado-mobile-app-default-rtdb.firebaseio.com",
     "project_id": "gado-mobile-app",
     "storage_bucket": "gado-mobile-app.appspot.com"
   },
