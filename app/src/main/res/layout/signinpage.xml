@@ -46,8 +46,20 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="435dp"
-            android:text="Remember Me"
+            android:text="Remember Me?"
             tools:ignore="HardcodedText"></CheckBox>
+
+        <CheckBox
+            android:id="@+id/PrivacyCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="435dp"
+            android:text="Privacy Policy"
+            tools:ignore="HardcodedText"></CheckBox>
+
+
+
 
         <Button
             android:id="@+id/startBtn"
