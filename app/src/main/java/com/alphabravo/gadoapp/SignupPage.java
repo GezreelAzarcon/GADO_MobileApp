@@ -241,7 +241,7 @@ public class SignupPage extends AppCompatActivity {
 
                     materialAlertDialogBuilder.show();
                 }else {
-                    create.setEnabled(false);
+                    create.setEnabled(true);
 
 
                 }

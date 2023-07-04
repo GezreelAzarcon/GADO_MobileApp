@@ -53,19 +53,30 @@
             android:textAlignment="center"
             android:textSize="20dp" />
 
-        <Button
-            android:id="@+id/EnterBtn"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="125dp"
-            android:layout_marginTop="535dp"
-            android:layout_marginEnd="100dp"
-            android:backgroundTint="@color/white"
-            android:text="Enter"
-            android:textAlignment="center"
-            android:textColor="@color/blue10"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/text_view_date"
+                android:layout_width="300dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="570dp"
+                android:layout_marginEnd="100dp"
+                android:hint="dd/mmm/yyy; 00:00:00 nn"
+                android:paddingLeft="10dp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="18dp">
+
+            </EditText>
+
+
+
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout
@@ -82,11 +93,24 @@
             android:textStyle="bold"
             android:paddingLeft="10dp"
             android:background="@drawable/coin_bg"
-            android:textColor="@color/black">
+            android:textColor="@color/black"/>
 
-        </TextView>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/EnterBtn"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="125dp"
+        android:layout_marginTop="530dp"
+        android:layout_marginEnd="100dp"
+        android:backgroundTint="@color/black"
+        android:text="Enter"
+        android:textAlignment="center"
+        android:textColor="@color/blue10"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -150,5 +174,23 @@
             android:text=" ">
         </TextView>
     </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/bottom_background"
+        android:elevation="16dp"
+        app:itemTextColor="@color/white"
+        app:itemIconSize="30dp"
+        app:itemIconTint="@drawable/item_selector"
+        app:itemRippleColor="@android:color/transparent"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_menu" />
 
 </RelativeLayout >
