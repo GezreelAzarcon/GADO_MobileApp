@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/verification">
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/blue12"
+        android:layout_marginTop="325dp"
+        android:layout_marginBottom="90dp"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="40dp"
+        app:cardBackgroundColor="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@color/blue12"
+            android:weightSum="4"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="70dp">
+
+            <EditText
+                android:id="@+id/otpnew1"
+                android:layout_width="30dp"
+                android:layout_height="70dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="60dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLines="1"
+                android:maxLength="1"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:background="@drawable/verificationbg1"
+                android:textColor="@color/black"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/otpnew2"
+                android:layout_width="30dp"
+                android:layout_height="70dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLines="1"
+                android:maxLength="1"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:background="@drawable/verificationbg1"
+                android:textColor="@color/black"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/otpnew3"
+                android:layout_width="30dp"
+                android:layout_height="70dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLines="1"
+                android:maxLength="1"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:background="@drawable/verificationbg1"
+                android:textColor="@color/black"
+                android:layout_weight="1"/>
+            <EditText
+                android:id="@+id/otpnew4"
+                android:layout_width="30dp"
+                android:layout_height="70dp"
+                android:layout_marginEnd="35dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLines="1"
+                android:maxLength="1"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:background="@drawable/verificationbg1"
+                android:textColor="@color/black"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Verify Code"
+                android:textStyle="bold"
+                android:shadowColor="@color/white"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="140dp"
+                android:textSize="45dp"
+                android:textColor="@color/green1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Code"
+                android:textStyle="bold"
+                android:shadowColor="@color/white"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="25dp"
+                android:textSize="30dp"
+                android:textColor="@color/black">
+            </TextView>
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/verifyBtn"
+            android:layout_width="80dp"
+            android:layout_height="60sp"
+            android:layout_marginStart="275dp"
+            android:layout_marginTop="160dp"
+            android:layout_marginEnd="170dp"
+            android:backgroundTint="@color/green1"
+            android:text="→"
+            android:paddingTop="-90dp"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter the 4-digit code that we have sent on your email. Didn't receive a code?"
+            android:layout_marginStart="60sp"
+            android:layout_marginEnd="60sp"
+            android:layout_marginTop="230sp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="normal">
+
+        </TextView>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/resendveriBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="145sp"
+            android:layout_marginTop="290sp"
+            android:text="Resend"
+            android:textAlignment="center"
+            android:backgroundTint="#1AFFFFFF"
+            android:textColor="@color/green1"
+            android:textSize="20sp"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

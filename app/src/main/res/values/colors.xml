@@ -24,6 +24,10 @@
     <color name="blue20">#3F8993</color>
     <color name="blue21">#C9EAEE</color>
     <color name="blue22">#062B2D</color>
+    <color name="blue23">#64CEC8</color>
+    <color name="blue24">#50CADA</color>
+    <color name="green1">#1A5D55</color>
+    <color name="green2">#42A29C</color>
     <color name="yellow1">#D4B721</color>
     <color name="gray1">#d2d2d2</color>
 </resources>
