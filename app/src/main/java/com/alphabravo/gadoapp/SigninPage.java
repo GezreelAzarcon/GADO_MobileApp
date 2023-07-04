@@ -201,7 +201,10 @@ public class SigninPage extends AppCompatActivity {
             public void onClick(View v) {
                 String txtEmail = email.getText().toString();
                 String txtPass = pass.getText().toString();
-                if (!privacy.isChecked()){
+
+                if (TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtPass) && check.isChecked()) {
+                    Toast.makeText(SigninPage.this, "Credentials are Empty!", Toast.LENGTH_SHORT).show();
+                }else if (!privacy.isChecked()){
                     Toast.makeText(SigninPage.this, "Check Privacy Policy!", Toast.LENGTH_SHORT).show();
                 }else {
                     loginUser(txtEmail, txtPass);
