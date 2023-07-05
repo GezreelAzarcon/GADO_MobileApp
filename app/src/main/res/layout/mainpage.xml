@@ -14,30 +14,7 @@
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
 
-        <TextView
-            android:id="@+id/amountText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="270dp"
-            android:layout_marginTop="25dp"
-            android:text="0.00000"
-            android:textColor="@color/black"
-            android:textSize="35dp" />
 
-        <Button
-            android:id="@+id/history_btn"
-            android:layout_width="65dp"
-            android:layout_height="55dp"
-            android:layout_marginStart="35dp"
-            android:layout_marginTop="25dp"
-            android:text= "≡"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            android:paddingLeft="20dp"
-            android:paddingBottom="10dp"
-            android:backgroundTint="@color/blue9"
-            android:textColor="@color/black">
-        </Button>
 
         <EditText
             android:id="@+id/expensesText"
@@ -54,20 +31,18 @@
             android:textSize="20dp" />
 
 
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/text_view_date"
-                android:layout_width="300dp"
+                android:layout_width="260dp"
                 android:layout_height="55dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="570dp"
-                android:layout_marginEnd="100dp"
-                android:hint="dd/mmm/yyy; 00:00:00 nn"
-                android:paddingLeft="10dp"
+                android:layout_marginTop="25dp"
+                android:text="dd/mmm/yyy; 00:00:00 nn"
+                android:background="@drawable/date_background"
+                android:fontFamily="sans-serif-light"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="18dp">
@@ -75,28 +50,10 @@
             </EditText>
 
 
-
         </LinearLayout>
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="230dp"
-            android:layout_marginTop="34dp"
-            android:text="$"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            android:paddingLeft="10dp"
-            android:background="@drawable/coin_bg"
-            android:textColor="@color/black"/>
-
-
-    </LinearLayout>
 
     <Button
         android:id="@+id/EnterBtn"
@@ -105,7 +62,7 @@
         android:layout_marginStart="125dp"
         android:layout_marginTop="530dp"
         android:layout_marginEnd="100dp"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/white"
         android:text="Enter"
         android:textAlignment="center"
         android:textColor="@color/blue10"
@@ -116,24 +73,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
-            android:layout_marginTop="110dp"
-            android:text="Life:"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            android:paddingLeft="10dp"
-            android:textColor="@color/black">
+            android:layout_height="wrap_content">
 
-        </TextView>
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="105dp"
+                android:paddingTop="5dp"
+                android:text="₱"
+                android:textSize="35dp"
+                android:textStyle="bold"
+                android:paddingLeft="20dp"
+                android:background="@drawable/coin_bg"
+                android:textColor="@color/black"/>
+
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/lifePoint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="110dp"
             android:paddingLeft="10dp"
             android:text="0"
@@ -146,7 +111,7 @@
             android:id="@+id/slash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="110dp"
             android:paddingLeft="10dp"
             android:text="/"
@@ -159,7 +124,7 @@
             android:id="@+id/constLife"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="110dp"
             android:paddingLeft="10dp"
             android:text="0"
@@ -235,8 +200,11 @@
 
     <Button
         android:id="@+id/resetButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Daily Reset" />
+        android:layout_width="120dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="270dp"
+        android:layout_marginTop="25dp"
+        android:text="Daily Reset"
+        android:backgroundTint="@color/black"/>
 
 </RelativeLayout >

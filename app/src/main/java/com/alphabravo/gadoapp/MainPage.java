@@ -31,11 +31,11 @@ public class MainPage extends AppCompatActivity {
 
     EditText expenses, datentime;
 
-    Button history, enter, reset;
+    Button enter, reset;
 
-    DatabaseReference databaseUsers;
 
-    TextView amountTextView, constAmount;
+    TextView lifepoints, constAmount;
+
 
     MyDatabaseHelper myDB; // SQLite
 
@@ -55,10 +55,9 @@ public class MainPage extends AppCompatActivity {
         reset = findViewById(R.id.resetButton);
         expenses = findViewById(R.id.expensesText);
         datentime = findViewById(R.id.text_view_date);
-        amountTextView = findViewById(R.id.lifePoint);
+        lifepoints = findViewById(R.id.lifePoint);
         constAmount = findViewById(R.id.constLife);
 
-        databaseUsers = FirebaseDatabase.getInstance().getReference().child("User");
 
         myDB = new MyDatabaseHelper(MainPage.this);
 
@@ -67,10 +66,24 @@ public class MainPage extends AppCompatActivity {
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
+                String lifepointsTXT = lifepoints.getText().toString();
+                String datentimeTXT = datentime.getText().toString();
+                Boolean checkinsertdata = myDB.insertuserdata(lifepointsTXT, datentimeTXT);
+                if(checkinsertdata == true)
+                {
+                    Toast.makeText(MainPage.this, "Stored!", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(MainPage.this, "Stored!", Toast.LENGTH_SHORT).show();
+
+                }
+
                 updatePoint(); // Updates point each arithmetic
-                InsertData();  // firebase?
 
             }
+
+
         });
 
 
@@ -83,16 +96,13 @@ public class MainPage extends AppCompatActivity {
         EditText datentime = findViewById(R.id.text_view_date);
         datentime.setText(currentDate);
 
-        history = (Button) findViewById(R.id.history_btn);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_home);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.bottom_input) {
-                startActivity(new Intent(getApplicationContext(), InputPage.class));
-                return true;
-            } else if (item.getItemId() == R.id.bottom_home) {
+
+            if (item.getItemId() == R.id.bottom_home) {
                 return true;
             } else if (item.getItemId() == R.id.bottom_history) {
                 startActivity(new Intent(getApplicationContext(), HistoryPage.class));
@@ -105,13 +115,7 @@ public class MainPage extends AppCompatActivity {
         });
 
 
-        history.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openhistory_page();
 
-            }
-        });
 
 
         // removed
@@ -140,7 +144,7 @@ public class MainPage extends AppCompatActivity {
             if (cursor.moveToFirst()){
                 budget = cursor.getString(1);
                 pointText = cursor.getString(2);
-                amountTextView.setText(pointText);
+                lifepoints.setText(pointText);
                 constAmount.setText(budget);
             }else {
                 cursor.close();
@@ -155,7 +159,7 @@ public class MainPage extends AppCompatActivity {
         int pointINT = Integer.valueOf(pointText);
         pointText = String.valueOf(pointINT - expensesINT);
         myDB.updateScore(pointText, "1");
-        amountTextView.setText(pointText);
+        lifepoints.setText(pointText);
     }
 
 
@@ -166,25 +170,7 @@ public class MainPage extends AppCompatActivity {
     }
 
 
-    private void InsertData(){
 
-        String expensesTXT = expenses.getText().toString();
-        String datentimeTXT = datentime.getText().toString();
-        String id = databaseUsers.push().getKey();
-
-        User user = new User(expensesTXT, datentimeTXT);
-        databaseUsers.child("gado-mobile-app").child(id).setValue(user)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful())
-                        {
-                            Toast.makeText(MainPage.this, "Saved!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-    }
 
 
 

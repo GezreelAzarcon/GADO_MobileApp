@@ -1,7 +1,6 @@
 package com.alphabravo.gadoapp;
 
-import static com.alphabravo.gadoapp.R.id.amountText;
-import static com.alphabravo.gadoapp.R.id.bottom_input;
+
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -31,40 +30,15 @@ public class InputPage extends AppCompatActivity {
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.activity_input_page);
 
-        logout = findViewById(R.id.logoutButton1);
         Paper.init(this);
         save = findViewById(R.id.saveBtn);
         amount = findViewById(R.id.amountEditText);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setSelectedItemId(R.id.bottom_input);
-
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.bottom_input) {
-                return true;
-            } else if (item.getItemId() == R.id.bottom_home) {
-                startActivity(new Intent(getApplicationContext(), MainPage.class));
-                return true;
-            } else if (item.getItemId() == R.id.bottom_history) {
-                startActivity(new Intent(getApplicationContext(), HistoryPage.class));
-                return true;
-            } else if (item.getItemId() == R.id.bottom_settings) {
-                startActivity(new Intent(getApplicationContext(), SettingsPage.class));
-                return true;
-            }
-            return false;
-        });
 
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Paper.book().destroy();
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(InputPage.this, "Account Logged Out!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(InputPage.this, SigninPage.class));
-            }
-        });
+
+
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
