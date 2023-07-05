@@ -2,6 +2,7 @@ package com.alphabravo.gadoapp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,19 +21,28 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
+import io.paperdb.Paper;
 
 
 public class MainPage extends AppCompatActivity {
 
     EditText expenses, datentime;
 
-    Button history, enter;
+    Button history, enter, reset;
 
     DatabaseReference databaseUsers;
 
-    TextView amountTextView;
+    TextView amountTextView, constAmount;
+
+    MyDatabaseHelper myDB; // SQLite
+
+    String budget = ""; //constant budget variable
+    String pointText = ""; //point variable, changes each arithmetic
+
+    // pointText / budget --> TextView format
 
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
@@ -41,19 +51,25 @@ public class MainPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainpage);
 
-
         enter = findViewById(R.id.EnterBtn);
+        reset = findViewById(R.id.resetButton);
         expenses = findViewById(R.id.expensesText);
         datentime = findViewById(R.id.text_view_date);
+        amountTextView = findViewById(R.id.lifePoint);
+        constAmount = findViewById(R.id.constLife);
 
         databaseUsers = FirebaseDatabase.getInstance().getReference().child("User");
 
+        myDB = new MyDatabaseHelper(MainPage.this);
+
+        getDBData(); // Displays Data
 
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
+                updatePoint(); // Updates point each arithmetic
+                InsertData();  // firebase?
 
-                InsertData();
             }
         });
 
@@ -97,19 +113,58 @@ public class MainPage extends AppCompatActivity {
             }
         });
 
-        amountTextView = findViewById(R.id.amountText);
 
-        String useramount = getIntent().getStringExtra("amountUser");
+        // removed
+        //String userAmount = getIntent().getStringExtra("amountUser");
 
-        amountTextView.setText(useramount);
+
+        //daily reset logic button (temporary)
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDB.resetLocalDatabase();
+                startActivity(new Intent(MainPage.this, InputPage.class));
+            }
+        });
+
 
     }
+
+
+    // SQLite Read and Display Data to TextViews
+    void getDBData() {
+        Cursor cursor = myDB.readAllData();
+        if (cursor.getCount() == 0){
+            Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
+        } else {
+            if (cursor.moveToFirst()){
+                budget = cursor.getString(1);
+                pointText = cursor.getString(2);
+                amountTextView.setText(pointText);
+                constAmount.setText(budget);
+            }else {
+                cursor.close();
+            }
+        }
+    }
+
+
+    // SQLite Update Point Each Arithmetic
+    void updatePoint() {
+        int expensesINT = Integer.valueOf(expenses.getText().toString());
+        int pointINT = Integer.valueOf(pointText);
+        pointText = String.valueOf(pointINT - expensesINT);
+        myDB.updateScore(pointText, "1");
+        amountTextView.setText(pointText);
+    }
+
 
     public void openhistory_page() {
         Intent intent = new Intent(this, HistoryPage.class);
         startActivity(intent);
 
     }
+
 
     private void InsertData(){
 
@@ -137,6 +192,5 @@ public class MainPage extends AppCompatActivity {
 
 
 }
-
 
 
