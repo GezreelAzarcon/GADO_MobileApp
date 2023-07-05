@@ -9,46 +9,50 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    Context context;
-    ArrayList<User> list;
 
-    public MyAdapter(Context context, ArrayList<User> list) {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+    private Context context;
+    private ArrayList lifepoints_id, datentime_id;
+
+    public MyAdapter(Context context, ArrayList lifepoints_id, ArrayList datentime_id) {
         this.context = context;
-        this.list = list;
+        this.lifepoints_id = lifepoints_id;
+        this.datentime_id = datentime_id;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.userentry,parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.userentry,parent,false);
         return new MyViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        User user = list.get(position);
-        holder.expenses.setText(user.getExpenses());
-        holder.datentime.setText(user.getDatentime());
+        holder.lifepoints_id.setText((String.valueOf((lifepoints_id.get(position)))));
+        holder.datentime_id.setText((String.valueOf((datentime_id.get(position)))));
 
 
     }
-
 
     @Override
     public int getItemCount() {
-
-        return list.size();
+        return lifepoints_id.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView expenses, datentime;
-        public  MyViewHolder(@NonNull View itemView){
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView lifepoints_id, datentime_id;
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            expenses = itemView.findViewById(R.id.textexpenses);
-            datentime = itemView.findViewById(R.id.textdatentime);
+            lifepoints_id = itemView.findViewById(R.id.textlifepoints);
+            datentime_id = itemView.findViewById(R.id.textdatentime);
+
         }
     }
 }
+
+
