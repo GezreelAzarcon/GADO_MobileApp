@@ -49,7 +49,7 @@
             android:background="@drawable/edit_round"
             android:hint="Expenses"
             android:textColor="@color/black"
-            android:inputType="numberDecimal"
+            android:inputType="numberDecimal|numberSigned"
             android:textAlignment="center"
             android:textSize="20dp" />
 
@@ -129,6 +129,46 @@
 
         </TextView>
 
+        <TextView
+            android:id="@+id/lifePoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="110dp"
+            android:paddingLeft="10dp"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:textStyle="bold">
+
+        </TextView>
+        <TextView
+            android:id="@+id/slash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="110dp"
+            android:paddingLeft="10dp"
+            android:text="/"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:textStyle="bold">
+
+        </TextView>
+        <TextView
+            android:id="@+id/constLife"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="110dp"
+            android:paddingLeft="10dp"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:textStyle="bold">
+
+        </TextView>
+
     </LinearLayout>
 
     <LinearLayout
@@ -192,5 +232,11 @@
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_menu" />
+
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Daily Reset" />
 
 </RelativeLayout >

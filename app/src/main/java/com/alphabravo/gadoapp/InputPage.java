@@ -1,5 +1,6 @@
 package com.alphabravo.gadoapp;
 
+import static com.alphabravo.gadoapp.R.id.amountText;
 import static com.alphabravo.gadoapp.R.id.bottom_input;
 
 import android.annotation.SuppressLint;
@@ -21,7 +22,6 @@ public class InputPage extends AppCompatActivity {
 
     private EditText amount;
     private Button save, logout;
-
 
 
 
@@ -68,21 +68,27 @@ public class InputPage extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String budget = amount.getText().toString();
 
-                String m = amount.getText().toString();
+                // SQLite Write Data
+                MyDatabaseHelper myDB = new MyDatabaseHelper(InputPage.this);
+                myDB.addBook(amount.getText().toString().trim(),
+                             amount.getText().toString().trim());
 
-                Intent intent = new Intent(InputPage.this, MainPage.class);
+                //Intent intent = new Intent(InputPage.this, MainPage.class);
+                //intent.putExtra("amountUser", budget);
+                //startActivity(intent);
 
-                intent.putExtra("amountUser", m);
-                startActivity(intent);
+                startActivity(new Intent(InputPage.this, MainPage.class));
+
+
             }
         });
 
 
 
+        }
+
     }
-
-
-}
 
 
