@@ -7,7 +7,7 @@
     app:cardElevation="12dp"
     app:cardCornerRadius="16dp"
     android:layout_margin="16dp"
-    android:backgroundTint="@color/blue7">
+    android:backgroundTint="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,12 +24,12 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/textexpenses"
+            android:id="@+id/textlifepoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:textSize="23dp"
-            android:textColor="@color/yellow1"
+            android:textColor="#ff2c2c"
             android:textStyle="bold"/>
 
 
