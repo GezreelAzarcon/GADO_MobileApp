@@ -29,12 +29,12 @@ import io.paperdb.Paper;
 
 public class MainPage extends AppCompatActivity {
 
-    EditText expenses, datentime;
+    EditText expenses, datentime, time, description;
 
     Button enter, reset;
 
 
-    TextView lifepoints, constAmount;
+    TextView lifepoints, constamount;
 
 
     MyDatabaseHelper myDB; // SQLite
@@ -55,8 +55,10 @@ public class MainPage extends AppCompatActivity {
         reset = findViewById(R.id.resetButton);
         expenses = findViewById(R.id.expensesText);
         datentime = findViewById(R.id.text_view_date);
+        time = findViewById(R.id.text_view_time);
         lifepoints = findViewById(R.id.lifePoint);
-        constAmount = findViewById(R.id.constLife);
+        constamount = findViewById(R.id.constLife);
+        description = findViewById(R.id.descriptionText);
 
 
         myDB = new MyDatabaseHelper(MainPage.this);
@@ -66,16 +68,19 @@ public class MainPage extends AppCompatActivity {
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                String lifepointsTXT = lifepoints.getText().toString();
                 String datentimeTXT = datentime.getText().toString();
-                Boolean checkinsertdata = myDB.insertuserdata(lifepointsTXT, datentimeTXT);
+                String timeTXT = time.getText().toString();
+                String constamountTXT = constamount.getText().toString();
+                String expensesTXT = expenses.getText().toString();
+                String descriptionTXT = description.getText().toString();
+                Boolean checkinsertdata = myDB.insertuserdata(datentimeTXT, timeTXT, constamountTXT, expensesTXT, descriptionTXT);
                 if(checkinsertdata == true)
                 {
-                    Toast.makeText(MainPage.this, "Stored!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainPage.this, "SAVED! Check history.", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    Toast.makeText(MainPage.this, "Stored!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainPage.this, "Did not saved.", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -90,11 +95,15 @@ public class MainPage extends AppCompatActivity {
 
         long date = System.currentTimeMillis();
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy " + "hh:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy ");
+        SimpleDateFormat stf = new SimpleDateFormat("hh:mm a");
         String currentDate = sdf.format(date);
+        String currentTime = stf.format(date);
 
         EditText datentime = findViewById(R.id.text_view_date);
+        EditText time = findViewById(R.id.text_view_time);
         datentime.setText(currentDate);
+        time.setText(currentTime);
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -145,7 +154,7 @@ public class MainPage extends AppCompatActivity {
                 budget = cursor.getString(1);
                 pointText = cursor.getString(2);
                 lifepoints.setText(pointText);
-                constAmount.setText(budget);
+                constamount.setText(budget);
             }else {
                 cursor.close();
             }

@@ -14,21 +14,56 @@
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
 
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="470dp"
+            android:layout_marginEnd="75dp"
+            android:text="EXPENSES:"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:inputType="numberDecimal|numberSigned"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="470dp"
+            android:layout_marginEnd="75dp"
+            android:text="REASON: ex."
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20dp" />
+
 
 
         <EditText
             android:id="@+id/expensesText"
             android:layout_width="150dp"
             android:layout_height="50dp"
-            android:layout_marginStart="128dp"
-            android:layout_marginTop="475dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="500dp"
             android:layout_marginEnd="75dp"
             android:background="@drawable/edit_round"
-            android:hint="Expenses"
+            android:text="0000"
             android:textColor="@color/black"
             android:inputType="numberDecimal|numberSigned"
             android:textAlignment="center"
             android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/descriptionText"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="500dp"
+            android:background="@drawable/edit_round"
+            android:text="FOOD"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:textSize="15dp" />
 
 
         <LinearLayout
@@ -37,10 +72,24 @@
 
             <EditText
                 android:id="@+id/text_view_date"
-                android:layout_width="260dp"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="20dp"
                 android:layout_height="55dp"
                 android:layout_marginTop="25dp"
-                android:text="dd/mmm/yyy; 00:00:00 nn"
+                android:text="dd/mmm/yyy;"
+                android:background="@drawable/date_background"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/black"
+                android:textSize="18dp">
+
+            </EditText>
+            <EditText
+                android:id="@+id/text_view_time"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="10dp"
+                android:text="00:00:00 nn"
                 android:background="@drawable/date_background"
                 android:fontFamily="sans-serif-light"
                 android:textAlignment="center"
@@ -48,6 +97,7 @@
                 android:textSize="18dp">
 
             </EditText>
+
 
 
         </LinearLayout>
@@ -60,7 +110,7 @@
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginStart="125dp"
-        android:layout_marginTop="530dp"
+        android:layout_marginTop="570dp"
         android:layout_marginEnd="100dp"
         android:backgroundTint="@color/white"
         android:text="Enter"
