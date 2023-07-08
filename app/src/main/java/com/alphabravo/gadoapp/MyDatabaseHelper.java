@@ -29,7 +29,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("create Table Userdetails(lifepoints TEXT primary key, datentime TEXT)");
+        db.execSQL("create Table Userdetails(datentime TEXT, time TEXT, constamount TEXT, expenses TEXT, description TEXT)");
 
         String query = "CREATE TABLE " + TABLE_NAME + " ("
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -45,12 +45,15 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
-    public Boolean insertuserdata(String lifepoints, String datentime){
+    public Boolean insertuserdata(String datentime, String time, String constamount, String expenses, String description){
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("lifepoints", lifepoints);
         contentValues.put("datentime", datentime);
+        contentValues.put("time", time);
+        contentValues.put("constamount", constamount);
+        contentValues.put("expenses", expenses);
+        contentValues.put("description", description);
         long result = db.insert("Userdetails", null, contentValues);
 
         if (result == -1){

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class HistoryPage extends AppCompatActivity {
     RecyclerView recyclerView;
-    ArrayList<String> lifepoints, datentime;
+    ArrayList<String> datentime, time, constamount, expenses, description;
     MyDatabaseHelper DB;
     MyAdapter adapter;
 
@@ -41,10 +41,13 @@ public class HistoryPage extends AppCompatActivity {
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.historypage);
         DB = new MyDatabaseHelper(this);
-        lifepoints = new ArrayList<>();
         datentime = new ArrayList<>();
+        time = new ArrayList<>();
+        constamount = new ArrayList<>();
+        expenses = new ArrayList<>();
+        description = new ArrayList<>();
         recyclerView = findViewById(R.id.recycleview);
-        adapter = new MyAdapter(this, lifepoints, datentime);
+        adapter = new MyAdapter(this, datentime, time, constamount, expenses, description);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         displaydata();
@@ -94,8 +97,11 @@ public class HistoryPage extends AppCompatActivity {
             return;
         }else{
             while (cursor.moveToNext()){
-                lifepoints.add(cursor.getString(0));
-                datentime.add(cursor.getString(1));
+                datentime.add(cursor.getString(0));
+                time.add(cursor.getString(1));
+                constamount.add(cursor.getString(2));
+                expenses.add(cursor.getString(3));
+                description.add(cursor.getString(4));
 
 
             }
