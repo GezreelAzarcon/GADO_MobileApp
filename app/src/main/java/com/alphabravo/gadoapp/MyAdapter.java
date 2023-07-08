@@ -16,12 +16,15 @@ import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private Context context;
-    private ArrayList lifepoints_id, datentime_id;
+    private ArrayList datentime_id, time_id, constamount_id, expenses_id, description_id;
 
-    public MyAdapter(Context context, ArrayList lifepoints_id, ArrayList datentime_id) {
+    public MyAdapter(Context context, ArrayList datentime_id, ArrayList time_id, ArrayList constamount_id, ArrayList expenses_id, ArrayList description_id) {
         this.context = context;
-        this.lifepoints_id = lifepoints_id;
         this.datentime_id = datentime_id;
+        this.time_id = time_id;
+        this.constamount_id = constamount_id;
+        this.expenses_id = expenses_id;
+        this.description_id = description_id;
     }
 
     @NonNull
@@ -33,23 +36,33 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.lifepoints_id.setText((String.valueOf((lifepoints_id.get(position)))));
         holder.datentime_id.setText((String.valueOf((datentime_id.get(position)))));
+        holder.time_id.setText((String.valueOf((time_id.get(position)))));
+        holder.constamount_id.setText((String.valueOf((constamount_id.get(position)))));
+        holder.expenses_id.setText((String.valueOf((expenses_id.get(position)))));
+        holder.description_id.setText((String.valueOf((description_id.get(position)))));
+
 
 
     }
 
     @Override
     public int getItemCount() {
-        return lifepoints_id.size();
+        return expenses_id.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView lifepoints_id, datentime_id;
+        TextView datentime_id, time_id, constamount_id, expenses_id, description_id ;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            lifepoints_id = itemView.findViewById(R.id.textlifepoints);
             datentime_id = itemView.findViewById(R.id.textdatentime);
+            time_id = itemView.findViewById(R.id.texttime);
+            constamount_id = itemView.findViewById(R.id.textconstamunt);
+            expenses_id = itemView.findViewById(R.id.textexpenses);
+            description_id = itemView.findViewById(R.id.textdescription);
+
+
+
 
         }
     }
