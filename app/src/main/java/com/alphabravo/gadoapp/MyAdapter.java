@@ -48,7 +48,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public int getItemCount() {
-        return expenses_id.size();
+        return time_id.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
