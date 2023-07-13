@@ -29,13 +29,13 @@ import io.paperdb.Paper;
 
 public class MainPage extends AppCompatActivity {
 
-    EditText expenses, datentime;
+    EditText expenses, datentime, time, description;
 
-    Button history, enter, reset;
+    Button enter, reset;
 
-    DatabaseReference databaseUsers;
 
-    TextView amountTextView, constAmount;
+    TextView lifepoints, constamount;
+
 
     MyDatabaseHelper myDB; // SQLite
 
@@ -55,10 +55,11 @@ public class MainPage extends AppCompatActivity {
         reset = findViewById(R.id.resetButton);
         expenses = findViewById(R.id.expensesText);
         datentime = findViewById(R.id.text_view_date);
-        amountTextView = findViewById(R.id.lifePoint);
-        constAmount = findViewById(R.id.constLife);
+        time = findViewById(R.id.text_view_time);
+        lifepoints = findViewById(R.id.lifePoint);
+        constamount = findViewById(R.id.constLife);
+        description = findViewById(R.id.descriptionText);
 
-        databaseUsers = FirebaseDatabase.getInstance().getReference().child("User");
 
         myDB = new MyDatabaseHelper(MainPage.this);
 
@@ -67,51 +68,65 @@ public class MainPage extends AppCompatActivity {
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
+                String datentimeTXT = datentime.getText().toString();
+                String timeTXT = time.getText().toString();
+                String constamountTXT = constamount.getText().toString();
+                String expensesTXT = expenses.getText().toString();
+                String descriptionTXT = description.getText().toString();
+                Boolean checkinsertdata = myDB.insertuserdata(datentimeTXT, timeTXT, constamountTXT, expensesTXT, descriptionTXT);
+                if(checkinsertdata == true)
+                {
+                    Toast.makeText(MainPage.this, "SAVED! Check history.", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(MainPage.this, "Did not saved.", Toast.LENGTH_SHORT).show();
+
+                }
+
                 updatePoint(); // Updates point each arithmetic
-                InsertData();  // firebase?
 
             }
+
+
         });
 
 
 
         long date = System.currentTimeMillis();
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy " + "hh:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy ");
+        SimpleDateFormat stf = new SimpleDateFormat("hh:mm a");
         String currentDate = sdf.format(date);
+        String currentTime = stf.format(date);
 
         EditText datentime = findViewById(R.id.text_view_date);
+        EditText time = findViewById(R.id.text_view_time);
         datentime.setText(currentDate);
+        time.setText(currentTime);
 
-        history = (Button) findViewById(R.id.history_btn);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_home);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.bottom_input) {
-                startActivity(new Intent(getApplicationContext(), InputPage.class));
-                return true;
-            } else if (item.getItemId() == R.id.bottom_home) {
+
+            if (item.getItemId() == R.id.bottom_home) {
                 return true;
             } else if (item.getItemId() == R.id.bottom_history) {
                 startActivity(new Intent(getApplicationContext(), HistoryPage.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 return true;
             } else if (item.getItemId() == R.id.bottom_settings) {
                 startActivity(new Intent(getApplicationContext(), SettingsPage.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 return true;
             }
             return false;
         });
 
 
-        history.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openhistory_page();
 
-            }
-        });
 
 
         // removed
@@ -140,8 +155,8 @@ public class MainPage extends AppCompatActivity {
             if (cursor.moveToFirst()){
                 budget = cursor.getString(1);
                 pointText = cursor.getString(2);
-                amountTextView.setText(pointText);
-                constAmount.setText(budget);
+                lifepoints.setText(pointText);
+                constamount.setText(budget);
             }else {
                 cursor.close();
             }
@@ -155,7 +170,7 @@ public class MainPage extends AppCompatActivity {
         int pointINT = Integer.valueOf(pointText);
         pointText = String.valueOf(pointINT - expensesINT);
         myDB.updateScore(pointText, "1");
-        amountTextView.setText(pointText);
+        lifepoints.setText(pointText);
     }
 
 
@@ -166,25 +181,7 @@ public class MainPage extends AppCompatActivity {
     }
 
 
-    private void InsertData(){
 
-        String expensesTXT = expenses.getText().toString();
-        String datentimeTXT = datentime.getText().toString();
-        String id = databaseUsers.push().getKey();
-
-        User user = new User(expensesTXT, datentimeTXT);
-        databaseUsers.child("gado-mobile-app").child(id).setValue(user)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful())
-                        {
-                            Toast.makeText(MainPage.this, "Saved!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-    }
 
 
 

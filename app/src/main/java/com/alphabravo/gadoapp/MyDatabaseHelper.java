@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
-    private static final String DATABASE_NAME = "booklibrary.db";
+    private static final String DATABASE_NAME = "gado-mobile-app";
     private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_NAME = "my_library";
@@ -28,6 +28,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        db.execSQL("create Table Userdetails(datentime TEXT, time TEXT, constamount TEXT, expenses TEXT, description TEXT)");
+
         String query = "CREATE TABLE " + TABLE_NAME + " ("
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUMN_BUDGET + " TEXT, "
@@ -38,8 +41,35 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("drop Table if exists Userdetails");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
+    }
+    public Boolean insertuserdata(String datentime, String time, String constamount, String expenses, String description){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("datentime", datentime);
+        contentValues.put("time", time);
+        contentValues.put("constamount", constamount);
+        contentValues.put("expenses", expenses);
+        contentValues.put("description", description);
+        long result = db.insert("Userdetails", null, contentValues);
+
+        if (result == -1){
+            return false;
+
+        }else {
+            return true;
+        }
+
+    }
+
+    public Cursor getdata()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("Select * from Userdetails", null);
+        return cursor;
     }
 
     void addBook(String budget, String points) {

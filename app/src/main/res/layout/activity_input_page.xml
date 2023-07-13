@@ -17,13 +17,13 @@
             android:id="@+id/hello"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="175dp"
-            android:layout_marginTop="75dp"
             android:layout_marginStart="45dp"
+            android:layout_marginTop="75dp"
+            android:layout_marginBottom="175dp"
             android:fontFamily="sans-serif-condensed-medium"
             android:text="Hello,                Welcome!"
-            android:textSize="75dp"
-            android:textColor="@color/blue5"/>
+            android:textColor="@color/blue5"
+            android:textSize="75dp" />
 
         <EditText
             android:id="@+id/amountEditText"
@@ -33,7 +33,7 @@
             android:layout_marginTop="350dp"
             android:layout_marginEnd="75dp"
             android:background="@drawable/edit_round"
-            android:hint=" "
+            android:text="0000"
             android:inputType="numberDecimal"
             android:textAlignment="center"
             android:textSize="30dp" />
@@ -60,44 +60,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Enter your Daily Budget:"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="300dp"
-                android:textSize="25dp"
-                android:textColor="@color/black">
+                android:text="Enter your Daily Budget:"
+                android:textColor="@color/black"
+                android:textSize="25dp">
 
             </TextView>
 
         </LinearLayout>
 
 
-
-
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/logoutButton1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Log Out" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/bottom_background"
-        android:elevation="16dp"
-        app:itemTextColor="@color/white"
-        app:itemIconSize="30dp"
-        app:itemIconTint="@drawable/item_selector"
-        app:itemRippleColor="@android:color/transparent"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_menu" />
+
 
 
 </RelativeLayout>
