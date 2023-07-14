@@ -28,6 +28,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 import io.paperdb.Paper;
 
@@ -42,6 +50,24 @@ public class SigninPage extends AppCompatActivity {
 
     private static final String UserEmail = "UserEmail";
     private static final String UserPass = "UserPass";
+
+
+    //firebase & sqlite
+    MyDatabaseHelper myDatabase; // SQLite
+    FirebaseAuth fAuth;
+    DatabaseReference databaseHistoryData;
+    String userID;
+    //firebase
+
+    //try
+    TextView signInText;
+    ArrayList<String> dates = new ArrayList<>();
+    ArrayList<String> times = new ArrayList<>();
+    ArrayList<String> budgets = new ArrayList<>();
+    ArrayList<String> expense = new ArrayList<>();
+    ArrayList<String> descriptions = new ArrayList<>();
+
+    String mema;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -60,6 +86,16 @@ public class SigninPage extends AppCompatActivity {
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
         start.setEnabled(false);
 
+        signInText = findViewById(R.id.signInTxt);
+
+        //firebase
+        fAuth = FirebaseAuth.getInstance();
+        userID = fAuth.getCurrentUser().getUid();
+        //firebase
+
+        //sql
+        myDatabase = new MyDatabaseHelper(SigninPage.this);
+        addHistoryDataToSQLite();
         privacy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton CompoundButton, boolean b) {
@@ -193,9 +229,6 @@ public class SigninPage extends AppCompatActivity {
         });
 
 
-
-
-
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,12 +241,11 @@ public class SigninPage extends AppCompatActivity {
                     Toast.makeText(SigninPage.this, "Check Privacy Policy!", Toast.LENGTH_SHORT).show();
                 }else {
                     loginUser(txtEmail, txtPass);
+                    addHistoryDataToSQLite();
                 }
-
-
-
             }
         });
+
         String UserEmail1 = Paper.book().read(UserEmail);
         String UserPass1 = Paper.book().read(UserPass);
         if (UserPass1 != "" && UserPass1 != ""){
@@ -224,6 +256,45 @@ public class SigninPage extends AppCompatActivity {
 
 
 
+    }
+    private void retrieveHistoryData() {
+
+        userID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
+        databaseHistoryData = FirebaseDatabase.getInstance().getReference(userID);
+        databaseHistoryData.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot zoneSnapshot: snapshot.getChildren()) {
+                    String date = zoneSnapshot.child("date").getValue(String.class);
+                    dates.add(date);
+
+                    String time = zoneSnapshot.child("time").getValue(String.class);
+                    times.add(time);
+
+                    String budget = zoneSnapshot.child("budget").getValue(String.class);
+                    budgets.add(budget);
+
+                    String expenses = zoneSnapshot.child("expenses").getValue(String.class);
+                    expense.add(expenses);
+
+                    String description = zoneSnapshot.child("description").getValue(String.class);
+                    descriptions.add(description);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(SigninPage.this, "Failed", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    private void addHistoryDataToSQLite() {
+        retrieveHistoryData();
+        int size = dates.size();
+        for (int i = 0; i < size ; i++) {
+            myDatabase.insertuserdata(dates.get(i), times.get(i), budgets.get(i), expense.get(i), descriptions.get(i));
+        }
     }
 
     private void AllowAccess(String userEmail1, String userPass1) {

@@ -17,6 +17,7 @@ import io.paperdb.Paper;
 public class SettingsPage extends AppCompatActivity {
 
     private Button logout;
+    MyDatabaseHelper myDB; // SQLite
 
 
     @SuppressLint("MissingInflatedId")
@@ -26,7 +27,7 @@ public class SettingsPage extends AppCompatActivity {
         setContentView(R.layout.settingspage);
 
         logout = findViewById(R.id.logoutButton1);
-
+        myDB = new MyDatabaseHelper(SettingsPage.this);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,9 +36,10 @@ public class SettingsPage extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(SettingsPage.this, "Account Logged Out!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(SettingsPage.this, SigninPage.class));
+                myDB.resetLocalDatabase();
+                myDB.resetLocalHistoryDatabase();
             }
         });
-
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -59,7 +61,6 @@ public class SettingsPage extends AppCompatActivity {
             return false;
         });
 
-
-
     }
+
 }
