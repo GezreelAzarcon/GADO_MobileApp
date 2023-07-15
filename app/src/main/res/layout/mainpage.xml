@@ -20,11 +20,11 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="470dp"
             android:layout_marginEnd="75dp"
-            android:text="EXPENSES:"
-            android:textStyle="bold"
-            android:textColor="@color/black"
             android:inputType="numberDecimal|numberSigned"
-            android:textSize="20dp" />
+            android:text="EXPENSES:"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="150dp"
@@ -34,9 +34,8 @@
             android:layout_marginEnd="75dp"
             android:text="REASON: ex."
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="20dp" />
-
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
 
         <EditText
@@ -47,10 +46,10 @@
             android:layout_marginTop="500dp"
             android:layout_marginEnd="75dp"
             android:background="@drawable/edit_round"
-            android:text="0000"
-            android:textColor="@color/black"
             android:inputType="number"
+            android:text="0000"
             android:textAlignment="center"
+            android:textColor="@color/black"
             android:textSize="20dp" />
 
         <EditText
@@ -61,8 +60,8 @@
             android:layout_marginTop="500dp"
             android:background="@drawable/edit_round"
             android:text="FOOD"
-            android:textColor="@color/black"
             android:textAlignment="center"
+            android:textColor="@color/black"
             android:textSize="15dp" />
 
 
@@ -73,25 +72,26 @@
             <EditText
                 android:id="@+id/text_view_date"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="20dp"
                 android:layout_height="55dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="25dp"
-                android:text="dd/mmm/yyy;"
                 android:background="@drawable/date_background"
                 android:fontFamily="sans-serif-light"
+                android:text="dd/mmm/yyy;"
                 android:textColor="@color/black"
                 android:textSize="18dp">
 
             </EditText>
+
             <EditText
                 android:id="@+id/text_view_time"
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
-                android:layout_marginTop="25dp"
                 android:layout_marginStart="10dp"
-                android:text="00:00:00 nn"
+                android:layout_marginTop="25dp"
                 android:background="@drawable/date_background"
                 android:fontFamily="sans-serif-light"
+                android:text="00:00:00 nn"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="18dp">
@@ -99,11 +99,21 @@
             </EditText>
 
 
-
         </LinearLayout>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageView"
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:layout_marginStart="75dp"
+            android:layout_marginTop="215dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:shapeAppearanceOverlay="@style/circular"
+            app:srcCompat="@drawable/baseline_person_outline_24" />
+
+
     </RelativeLayout>
-
-
 
     <Button
         android:id="@+id/EnterBtn"
@@ -186,49 +196,32 @@
 
     </LinearLayout>
 
-    <LinearLayout
+
+
+
+
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="120dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="270dp"
+        android:layout_marginTop="25dp"
+        android:text="Daily Reset"
+        android:backgroundTint="@color/black"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="390dp"
+        android:layout_marginStart="300dp"
+        android:layout_marginBottom="28dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/baseline_photo_camera_24"
+        android:contentDescription="TODO"
+        android:focusable="true" />
 
-        <TextView
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginStart="75dp"
-            android:layout_marginTop="210dp"
-            android:background="@drawable/profile_bg"
-            android:text=" ">
 
-        </TextView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="65dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="165dp"
-            android:layout_marginTop="255dp"
-            android:background="@drawable/profile_head"
-            android:text=" ">
-        </TextView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="154dp"
-            android:layout_height="85dp"
-            android:layout_marginStart="125dp"
-            android:layout_marginTop="350dp"
-            android:background="@drawable/profile_head"
-            android:text=" ">
-        </TextView>
-    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -248,13 +241,16 @@
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_menu" />
 
-    <Button
-        android:id="@+id/resetButton"
-        android:layout_width="120dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="270dp"
-        android:layout_marginTop="25dp"
-        android:text="Daily Reset"
-        android:backgroundTint="@color/black"/>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:layout_marginStart="50dp"
+        android:max="0"
+        android:progress="0"
+        android:progressDrawable="@drawable/progress_bar_custom" />
 
 </RelativeLayout >
+
