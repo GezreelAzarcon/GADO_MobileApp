@@ -6,13 +6,11 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -75,13 +73,13 @@ public class HistoryPage extends AppCompatActivity {
 
             if (item.getItemId() == R.id.bottom_home) {
                 startActivity(new Intent(getApplicationContext(), MainPage.class));
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                overridePendingTransition(0, 0);
                 return true;
             } else if (item.getItemId() == R.id.bottom_history) {
                 return true;
             } else if (item.getItemId() == R.id.bottom_settings) {
                 startActivity(new Intent(getApplicationContext(), SettingsPage.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                overridePendingTransition(0, 0);
                 return true;
             }
             return false;

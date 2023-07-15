@@ -49,11 +49,11 @@ public class SettingsPage extends AppCompatActivity {
 
             if (item.getItemId() == R.id.bottom_home) {
                 startActivity(new Intent(getApplicationContext(), MainPage.class));
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                overridePendingTransition(0, 0);
                 return true;
             } else if (item.getItemId() == R.id.bottom_history) {
                 startActivity(new Intent(getApplicationContext(), HistoryPage.class));
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                overridePendingTransition(0, 0);
                 return true;
             } else if (item.getItemId() == R.id.bottom_settings) {
                 return true;

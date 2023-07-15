@@ -3,17 +3,28 @@ package com.alphabravo.gadoapp;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -21,14 +32,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ktx.Firebase;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -38,7 +45,31 @@ import java.util.stream.Collectors;
 
 import javax.security.auth.login.LoginException;
 
-import io.paperdb.Paper;
+
+
+class ImageManager {
+    private static ImageManager instance;
+    private Uri imageUri;
+
+    private ImageManager() {
+        // Private constructor to prevent instantiation
+    }
+
+    public static ImageManager getInstance() {
+        if (instance == null) {
+            instance = new ImageManager();
+        }
+        return instance;
+    }
+
+    public Uri getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(Uri imageUri) {
+        this.imageUri = imageUri;
+    }
+}
 
 
 public class MainPage extends AppCompatActivity {
@@ -48,13 +79,27 @@ public class MainPage extends AppCompatActivity {
 
     TextView lifepoints, constamount;
 
-
     MyDatabaseHelper myDB; // SQLite
 
-    String budget = ""; //constant budget variable
-    String pointText = ""; //point variable, changes each arithmetic
+    String budget = ""; // constant budget variable
+    String pointText = ""; // point variable, changes each arithmetic
 
-    // pointText / budget --> TextView format
+    ImageView imageView;
+    FloatingActionButton button;
+
+
+    private ImageManager imageManager;
+    private StorageReference storageReference;
+
+    private DatabaseReference databaseReference;
+
+    public Uri imageUri;
+    private static final String IMAGE_URI_KEY = "imageUri"; // Key for storing the image URI
+
+    private ProgressBar pointBar;
+    private double maxBudget = 0;
+    private double currentBudget = 0;
+
 
     //firebase
     FirebaseAuth fAuth;
@@ -79,6 +124,16 @@ public class MainPage extends AppCompatActivity {
         lifepoints = findViewById(R.id.lifePoint);
         constamount = findViewById(R.id.constLife);
         description = findViewById(R.id.descriptionText);
+        myDB = new MyDatabaseHelper(MainPage.this);
+        pointBar = findViewById(R.id.progressBar);
+
+        imageView = findViewById(R.id.imageView);
+        button = findViewById(R.id.floatingActionButton);
+        imageManager = ImageManager.getInstance();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
+
 
 
         //firebase
@@ -92,6 +147,23 @@ public class MainPage extends AppCompatActivity {
         myDB = new MyDatabaseHelper(MainPage.this);
         getDBData(); // Displays Data
 
+        //Code for bar progress
+        String budgetString = constamount.getText().toString();
+        if (!budgetString.isEmpty()) {
+            maxBudget = Double.parseDouble(budgetString);
+            currentBudget = maxBudget;
+            pointBar.setMax((int) maxBudget);
+            pointBar.setProgress((int) currentBudget);
+        }
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImagePicker.with(MainPage.this).crop().compress(1024).maxResultSize(1080,1080).start();
+            }
+        });
+
 
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,8 +171,15 @@ public class MainPage extends AppCompatActivity {
                 setHistoryData();
                 addHistoryData();
                 updatePoint(); // Updates point each arithmetic
-
             }
+        });
+
+        // Restore the image URI if it is available
+        if (imageManager.getImageUri() != null) {
+            imageView.setImageURI(imageManager.getImageUri());
+        }
+
+        // Set current date and time
 
         });
 
@@ -110,9 +189,6 @@ public class MainPage extends AppCompatActivity {
         SimpleDateFormat stf = new SimpleDateFormat("hh:mm a");
         String currentDate = sdf.format(date);
         String currentTime = stf.format(date);
-
-        EditText datentime = findViewById(R.id.text_view_date);
-        EditText time = findViewById(R.id.text_view_time);
         datentime.setText(currentDate);
         time.setText(currentTime);
 
@@ -126,11 +202,11 @@ public class MainPage extends AppCompatActivity {
                 return true;
             } else if (item.getItemId() == R.id.bottom_history) {
                 startActivity(new Intent(getApplicationContext(), HistoryPage.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                overridePendingTransition(0, 0);
                 return true;
             } else if (item.getItemId() == R.id.bottom_settings) {
                 startActivity(new Intent(getApplicationContext(), SettingsPage.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                overridePendingTransition(0, 0);
                 return true;
             }
             return false;
@@ -138,11 +214,24 @@ public class MainPage extends AppCompatActivity {
 
 
 
+
+
         // removed
         //String userAmount = getIntent().getStringExtra("amountUser");
 
 
-        //daily reset logic button (temporary)
+
+
+
+        // Restore the image URI when the activity is recreated
+        if (savedInstanceState != null) {
+            imageUri = savedInstanceState.getParcelable(IMAGE_URI_KEY);
+            if (imageUri != null) {
+                imageView.setImageURI(imageUri);
+            }
+        }
+
+        // daily reset logic button (temporary)
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,6 +240,14 @@ public class MainPage extends AppCompatActivity {
                 startActivity(new Intent(MainPage.this, InputPage.class));
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save the image URI when the activity is paused
+        outState.putParcelable(IMAGE_URI_KEY, imageUri);
+    }
 
     }
 
@@ -185,20 +282,19 @@ public class MainPage extends AppCompatActivity {
     // SQLite Read and Display Data to TextViews
     void getDBData() {
         Cursor cursor = myDB.readAllData();
-        if (cursor.getCount() == 0){
+        if (cursor.getCount() == 0) {
             Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
         } else {
-            if (cursor.moveToFirst()){
+            if (cursor.moveToFirst()) {
                 budget = cursor.getString(1);
                 pointText = cursor.getString(2);
                 lifepoints.setText(pointText);
                 constamount.setText(budget);
-            }else {
+            } else {
                 cursor.close();
             }
         }
     }
-
 
     // SQLite Update Point Each Arithmetic
     void updatePoint() {
@@ -207,14 +303,52 @@ public class MainPage extends AppCompatActivity {
         pointText = String.valueOf(pointINT - expensesINT);
         myDB.updateScore(pointText, "1");
         lifepoints.setText(pointText);
+
+
+    }
+
+    // Code to save the picture to Firebase Storage and Realtime database
+    private void uploadPicture() {
+        if (imageUri != null) {
+            String key = databaseReference.child("images").push().getKey();
+            StorageReference imageRef = storageReference.child("images/" + key + ".jpg");
+            UploadTask uploadTask = imageRef.putFile(imageUri);
+            uploadTask.addOnSuccessListener(taskSnapshot -> {
+                // Image upload success
+                // Get the download URL of the uploaded image
+                imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    String imageURL = uri.toString();
+                    // Store the image URL in the Realtime Database
+                    databaseReference.child("images").child(key).setValue(imageURL)
+                            .addOnSuccessListener(aVoid -> {
+                                // Image URL stored successfully
+                            })
+                            .addOnFailureListener(e -> {
+                                // Handle any errors that occurred while storing the image URL
+                            });
+                }).addOnFailureListener(e -> {
+                    // Handle any errors that occurred while retrieving the download URL
+                });
+            }).addOnFailureListener(e -> {
+                // Handle any errors that occurred during image upload
+            });
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            imageUri = data.getData();
+            imageView.setImageURI(imageUri);
+
+            // Store the image URI in the ImageManager
+            imageManager.setImageUri(imageUri);
+
+            uploadPicture();
+        }
     }
 
 
-    public void openhistory_page() {
-        Intent intent = new Intent(this, HistoryPage.class);
-        startActivity(intent);
 
-    }
 }
-
-
