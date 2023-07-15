@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,9 +25,25 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.ktx.Firebase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import javax.security.auth.login.LoginException;
 
 
 
@@ -56,7 +73,6 @@ class ImageManager {
 
 
 public class MainPage extends AppCompatActivity {
-
     EditText expenses, datentime, time, description;
 
     Button enter, reset;
@@ -83,6 +99,14 @@ public class MainPage extends AppCompatActivity {
     private ProgressBar pointBar;
     private double maxBudget = 0;
     private double currentBudget = 0;
+
+
+    //firebase
+    FirebaseAuth fAuth;
+    DatabaseReference databaseHistoryData;
+    String userID;
+    //firebase
+
 
 
 
@@ -112,7 +136,15 @@ public class MainPage extends AppCompatActivity {
 
 
 
+        //firebase
+        fAuth = FirebaseAuth.getInstance();
+        userID = fAuth.getCurrentUser().getUid();
+        userID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
+        databaseHistoryData = FirebaseDatabase.getInstance().getReference(userID);
+        //firebase
 
+        //sql
+        myDB = new MyDatabaseHelper(MainPage.this);
         getDBData(); // Displays Data
 
         //Code for bar progress
@@ -132,33 +164,12 @@ public class MainPage extends AppCompatActivity {
             }
         });
 
+
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                String spendingString = expenses.getText().toString();
-                if (!spendingString.isEmpty()) {
-                    double spendingAmount = Double.parseDouble(spendingString);
-                    currentBudget -= spendingAmount;
-                    if (currentBudget < 0) {
-                        currentBudget = 0;
-                    }
-                    pointBar.setProgress((int) currentBudget);
-                }
-
-
-
-                String datentimeTXT = datentime.getText().toString();
-                String timeTXT = time.getText().toString();
-                String constamountTXT = constamount.getText().toString();
-                String expensesTXT = expenses.getText().toString();
-                String descriptionTXT = description.getText().toString();
-                Boolean checkinsertdata = myDB.insertuserdata(datentimeTXT, timeTXT, constamountTXT, expensesTXT, descriptionTXT);
-                if (checkinsertdata) {
-                    Toast.makeText(MainPage.this, "SAVED! Check history.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainPage.this, "Did not save.", Toast.LENGTH_SHORT).show();
-                }
+            public void onClick(View v){
+                setHistoryData();
+                addHistoryData();
                 updatePoint(); // Updates point each arithmetic
             }
         });
@@ -169,6 +180,9 @@ public class MainPage extends AppCompatActivity {
         }
 
         // Set current date and time
+
+        });
+
         long date = System.currentTimeMillis();
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy ");
@@ -202,6 +216,8 @@ public class MainPage extends AppCompatActivity {
 
 
 
+        // removed
+        //String userAmount = getIntent().getStringExtra("amountUser");
 
 
 
@@ -220,6 +236,7 @@ public class MainPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 myDB.resetLocalDatabase();
+                myDB.resetLocalHistoryDatabase();
                 startActivity(new Intent(MainPage.this, InputPage.class));
             }
         });
@@ -231,6 +248,36 @@ public class MainPage extends AppCompatActivity {
         // Save the image URI when the activity is paused
         outState.putParcelable(IMAGE_URI_KEY, imageUri);
     }
+
+    }
+
+
+    private void addHistoryData() {
+        String date = datentime.getText().toString().trim();
+        String timeHistory = time.getText().toString().trim();
+        String budget = constamount.getText().toString().trim();
+        String expense = expenses.getText().toString().trim();
+        String historyDescription = description.getText().toString().trim();
+
+        String id = databaseHistoryData.push().getKey();
+        HistoryData historyData = new HistoryData(date, timeHistory, budget, expense, historyDescription);
+
+        databaseHistoryData.child(id).setValue(historyData);
+        Toast.makeText(this, "added successfully", Toast.LENGTH_SHORT).show();
+
+    }
+
+    //setHistoryData
+    public void setHistoryData() {
+        String datentimeTXT = datentime.getText().toString();
+        String timeTXT = time.getText().toString();
+        String constamountTXT = constamount.getText().toString();
+        String expensesTXT = expenses.getText().toString();
+        String descriptionTXT = description.getText().toString();
+        myDB.insertuserdata(datentimeTXT, timeTXT, constamountTXT, expensesTXT, descriptionTXT);
+    }
+
+
 
     // SQLite Read and Display Data to TextViews
     void getDBData() {
