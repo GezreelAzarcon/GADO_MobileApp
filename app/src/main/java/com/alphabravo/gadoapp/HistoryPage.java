@@ -4,8 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +16,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class HistoryPage extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -22,9 +35,11 @@ public class HistoryPage extends AppCompatActivity {
     MyDatabaseHelper DB;
     MyAdapter adapter;
 
-
-
-    private Button backbtn;
+    //firebase
+    FirebaseAuth fAuth;
+    DatabaseReference databaseHistoryData;
+    String userID;
+    //firebase
 
 
     @SuppressLint("MissingInflatedId")
@@ -44,6 +59,11 @@ public class HistoryPage extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         displaydata();
 
+        //firebase
+        fAuth = FirebaseAuth.getInstance();
+        userID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
+        databaseHistoryData = FirebaseDatabase.getInstance().getReference(userID);
+        //firebase
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_history);
@@ -65,7 +85,7 @@ public class HistoryPage extends AppCompatActivity {
         });
 
 
-        backbtn = (Button) findViewById(R.id.back_btn);
+        Button backbtn = (Button) findViewById(R.id.back_btn);
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +108,6 @@ public class HistoryPage extends AppCompatActivity {
         if (cursor.getCount()==0)
         {
             Toast.makeText(HistoryPage.this, "No Entry Exists.", Toast.LENGTH_SHORT).show();
-            return;
         }else{
             while (cursor.moveToNext()){
                 datentime.add(cursor.getString(0));
@@ -96,8 +115,6 @@ public class HistoryPage extends AppCompatActivity {
                 constamount.add(cursor.getString(2));
                 expenses.add(cursor.getString(3));
                 description.add(cursor.getString(4));
-
-
             }
         }
     }
