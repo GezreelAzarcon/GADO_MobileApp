@@ -98,19 +98,20 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <TextView
+            android:id="@+id/signInTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign In"
-            android:textStyle="bold"
+            android:layout_marginStart="75dp"
+            android:layout_marginTop="180dp"
             android:shadowColor="@color/white"
             android:shadowDx="2"
             android:shadowDy="2"
-            android:layout_marginStart="75dp"
-            android:layout_marginTop="180dp"
+            android:text="Sign In"
+            android:textColor="@color/black"
             android:textSize="45dp"
-            android:textColor="@color/black">
-        </TextView>
+            android:textStyle="bold"></TextView>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
