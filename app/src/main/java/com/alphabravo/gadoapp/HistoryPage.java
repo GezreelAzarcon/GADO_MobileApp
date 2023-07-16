@@ -57,7 +57,6 @@ public class HistoryPage extends AppCompatActivity {
         adapter = new MyAdapter(this, datentime, time, constamount, expenses, description);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //retrieveHistoryData();
         displaydata();
 
         //firebase

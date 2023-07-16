@@ -39,6 +39,7 @@ import java.util.Objects;
 
 import io.paperdb.Paper;
 
+
 public class SigninPage extends AppCompatActivity {
 
     private Button start;
@@ -66,6 +67,7 @@ public class SigninPage extends AppCompatActivity {
     ArrayList<String> budgets = new ArrayList<>();
     ArrayList<String> expense = new ArrayList<>();
     ArrayList<String> descriptions = new ArrayList<>();
+    boolean executed;
 
     String mema;
 
@@ -75,6 +77,10 @@ public class SigninPage extends AppCompatActivity {
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.signinpage);
 
+        //sql
+        myDatabase = new MyDatabaseHelper(SigninPage.this);
+        myDatabase.resetLocalDatabase();
+        myDatabase.resetLocalHistoryDatabase();
         email = findViewById(R.id.emailText2);
         pass = findViewById(R.id.passwordText2);
         check = (CheckBox) findViewById(R.id.SignInCheckBox);
@@ -90,12 +96,9 @@ public class SigninPage extends AppCompatActivity {
 
         //firebase
         fAuth = FirebaseAuth.getInstance();
-        userID = fAuth.getCurrentUser().getUid();
         //firebase
 
-        //sql
-        myDatabase = new MyDatabaseHelper(SigninPage.this);
-        addHistoryDataToSQLite();
+
         privacy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton CompoundButton, boolean b) {
@@ -241,7 +244,6 @@ public class SigninPage extends AppCompatActivity {
                     Toast.makeText(SigninPage.this, "Check Privacy Policy!", Toast.LENGTH_SHORT).show();
                 }else {
                     loginUser(txtEmail, txtPass);
-                    addHistoryDataToSQLite();
                 }
             }
         });
@@ -259,7 +261,7 @@ public class SigninPage extends AppCompatActivity {
     }
     private void retrieveHistoryData() {
 
-        userID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
+        userID = fAuth.getCurrentUser().getUid();
         databaseHistoryData = FirebaseDatabase.getInstance().getReference(userID);
         databaseHistoryData.addValueEventListener(new ValueEventListener() {
             @Override
@@ -280,17 +282,19 @@ public class SigninPage extends AppCompatActivity {
                     String description = zoneSnapshot.child("description").getValue(String.class);
                     descriptions.add(description);
                 }
+                addHistoryDataToSQLite();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(SigninPage.this, "Failed", Toast.LENGTH_SHORT).show();
 
             }
+
         });
     }
 
+
     private void addHistoryDataToSQLite() {
-        retrieveHistoryData();
         int size = dates.size();
         for (int i = 0; i < size ; i++) {
             myDatabase.insertuserdata(dates.get(i), times.get(i), budgets.get(i), expense.get(i), descriptions.get(i));
@@ -303,8 +307,8 @@ public class SigninPage extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
+                    retrieveHistoryData();
                     openInputPage();
-                    finish();
                 }else if (task.isSuccessful()){
 
                 }else{
@@ -323,14 +327,13 @@ public class SigninPage extends AppCompatActivity {
 
                     Paper.book().write(UserEmail, email);
                     Paper.book().write(UserPass, pass);
+                    AllowAccess(email, pass);
 
-                    Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
-                    openInputPage();
-                    finish();
                 }else if (task.isSuccessful()){
                     Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
+                    retrieveHistoryData();
                     openInputPage();
-                    finish();
+
                 }else{
                     Toast.makeText(SigninPage.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
                 }
@@ -342,6 +345,7 @@ public class SigninPage extends AppCompatActivity {
     public void openInputPage(){
         Intent intent = new Intent(this, InputPage.class);
         startActivity(intent);
+        finish();
 
     }
 

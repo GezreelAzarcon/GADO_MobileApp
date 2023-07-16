@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void openUsercredential(){
-        Intent intent = new Intent(this, SignupPage.class);
+        Intent intent = new Intent(getApplicationContext(), SignupPage.class);
         startActivity(intent);
         finish();
 

@@ -126,7 +126,6 @@ public class MainPage extends AppCompatActivity {
         description = findViewById(R.id.descriptionText);
         myDB = new MyDatabaseHelper(MainPage.this);
         pointBar = findViewById(R.id.progressBar);
-
         imageView = findViewById(R.id.imageView);
         button = findViewById(R.id.floatingActionButton);
         imageManager = ImageManager.getInstance();
@@ -138,13 +137,9 @@ public class MainPage extends AppCompatActivity {
 
         //firebase
         fAuth = FirebaseAuth.getInstance();
-        userID = fAuth.getCurrentUser().getUid();
-        userID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
-        databaseHistoryData = FirebaseDatabase.getInstance().getReference(userID);
         //firebase
 
         //sql
-        myDB = new MyDatabaseHelper(MainPage.this);
         getDBData(); // Displays Data
 
         //Code for bar progress
@@ -165,23 +160,12 @@ public class MainPage extends AppCompatActivity {
         });
 
 
-        enter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                setHistoryData();
-                addHistoryData();
-                updatePoint(); // Updates point each arithmetic
-            }
-        });
-
         // Restore the image URI if it is available
         if (imageManager.getImageUri() != null) {
             imageView.setImageURI(imageManager.getImageUri());
         }
 
         // Set current date and time
-
-        });
 
         long date = System.currentTimeMillis();
         Calendar calendar = Calendar.getInstance();
@@ -219,10 +203,6 @@ public class MainPage extends AppCompatActivity {
         // removed
         //String userAmount = getIntent().getStringExtra("amountUser");
 
-
-
-
-
         // Restore the image URI when the activity is recreated
         if (savedInstanceState != null) {
             imageUri = savedInstanceState.getParcelable(IMAGE_URI_KEY);
@@ -231,12 +211,21 @@ public class MainPage extends AppCompatActivity {
             }
         }
 
+        enter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                //addHistoryData();
+                setHistoryData();
+                updatePoint(); // Updates point each arithmetic
+            }
+        });
+
+
         // daily reset logic button (temporary)
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myDB.resetLocalDatabase();
-                myDB.resetLocalHistoryDatabase();
                 startActivity(new Intent(MainPage.this, InputPage.class));
             }
         });
@@ -249,10 +238,11 @@ public class MainPage extends AppCompatActivity {
         outState.putParcelable(IMAGE_URI_KEY, imageUri);
     }
 
-    }
-
 
     private void addHistoryData() {
+        userID = fAuth.getCurrentUser().getUid();
+        databaseHistoryData = FirebaseDatabase.getInstance().getReference(userID);
+
         String date = datentime.getText().toString().trim();
         String timeHistory = time.getText().toString().trim();
         String budget = constamount.getText().toString().trim();
@@ -261,7 +251,6 @@ public class MainPage extends AppCompatActivity {
 
         String id = databaseHistoryData.push().getKey();
         HistoryData historyData = new HistoryData(date, timeHistory, budget, expense, historyDescription);
-
         databaseHistoryData.child(id).setValue(historyData);
         Toast.makeText(this, "added successfully", Toast.LENGTH_SHORT).show();
 
@@ -274,6 +263,7 @@ public class MainPage extends AppCompatActivity {
         String constamountTXT = constamount.getText().toString();
         String expensesTXT = expenses.getText().toString();
         String descriptionTXT = description.getText().toString();
+
         myDB.insertuserdata(datentimeTXT, timeTXT, constamountTXT, expensesTXT, descriptionTXT);
     }
 

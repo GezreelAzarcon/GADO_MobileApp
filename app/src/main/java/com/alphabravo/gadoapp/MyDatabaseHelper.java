@@ -63,7 +63,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
 
     }
-
     public Cursor getdata()
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -114,8 +113,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     SQLiteDatabase db = this.getWritableDatabase();
     long result = db.delete("Userdetails", null, null);
     db.execSQL("DELETE FROM Userdetails");
-    db.execSQL("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME= Userdetails");
-
     if (result == -1) {
         Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
     }else {
