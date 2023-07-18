@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GADOApp"
         tools:targetApi="31">
-
         <activity
             android:name=".MyAdapter"
             android:exported="false"/>

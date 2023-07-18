@@ -67,9 +67,7 @@ public class SigninPage extends AppCompatActivity {
     ArrayList<String> budgets = new ArrayList<>();
     ArrayList<String> expense = new ArrayList<>();
     ArrayList<String> descriptions = new ArrayList<>();
-    boolean executed;
 
-    String mema;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -81,6 +79,7 @@ public class SigninPage extends AppCompatActivity {
         myDatabase = new MyDatabaseHelper(SigninPage.this);
         myDatabase.resetLocalDatabase();
         myDatabase.resetLocalHistoryDatabase();
+
         email = findViewById(R.id.emailText2);
         pass = findViewById(R.id.passwordText2);
         check = (CheckBox) findViewById(R.id.SignInCheckBox);
@@ -91,8 +90,6 @@ public class SigninPage extends AppCompatActivity {
 
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
         start.setEnabled(false);
-
-        signInText = findViewById(R.id.signInTxt);
 
         //firebase
         fAuth = FirebaseAuth.getInstance();
@@ -235,6 +232,7 @@ public class SigninPage extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                start.setEnabled(false);
                 String txtEmail = email.getText().toString();
                 String txtPass = pass.getText().toString();
 
@@ -307,10 +305,7 @@ public class SigninPage extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
-                    retrieveHistoryData();
                     openInputPage();
-                }else if (task.isSuccessful()){
-
                 }else{
                     Toast.makeText(SigninPage.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
                 }
@@ -331,7 +326,6 @@ public class SigninPage extends AppCompatActivity {
 
                 }else if (task.isSuccessful()){
                     Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
-                    retrieveHistoryData();
                     openInputPage();
 
                 }else{
@@ -343,6 +337,7 @@ public class SigninPage extends AppCompatActivity {
     }
 
     public void openInputPage(){
+        retrieveHistoryData();
         Intent intent = new Intent(this, InputPage.class);
         startActivity(intent);
         finish();

@@ -8,14 +8,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import io.paperdb.Paper;
 
@@ -23,6 +32,16 @@ public class SettingsPage extends AppCompatActivity {
 
     private Button logout;
     MyDatabaseHelper myDB; // SQLite
+    FirebaseAuth fAuth;
+    String userID;
+    DatabaseReference firebaseWrite;
+    DatabaseReference databaseHistoryData;
+
+    ArrayList<String> date1 = new ArrayList<>();
+    ArrayList<String> time1 = new ArrayList<>();
+    ArrayList<String> budget1 = new ArrayList<>();
+    ArrayList<String> expenses1 = new ArrayList<>();
+    ArrayList<String> description1 = new ArrayList<>();
 
 
     @SuppressLint("MissingInflatedId")
@@ -33,19 +52,33 @@ public class SettingsPage extends AppCompatActivity {
 
         logout = findViewById(R.id.logoutButton1);
         myDB = new MyDatabaseHelper(SettingsPage.this);
+        fAuth = FirebaseAuth.getInstance();
+        userID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
+        firebaseWrite = FirebaseDatabase.getInstance().getReference(userID);
+
+
+        //firebase
+
+        //sql
+
+
         Paper.init(this);
+
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
+                logout.setEnabled(false);
                 Paper.book().destroy();
+                firebaseWriteExecute();
                 myDB.resetLocalDatabase();
                 myDB.resetLocalHistoryDatabase();
+                FirebaseAuth.getInstance().signOut();
                 Toast.makeText(SettingsPage.this, "Account Logged Out!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(), SigninPage.class));
             }
         });
+
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -55,11 +88,11 @@ public class SettingsPage extends AppCompatActivity {
 
             if (item.getItemId() == R.id.bottom_home) {
                 startActivity(new Intent(getApplicationContext(), MainPage.class));
-                overridePendingTransition(0, 0);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 return true;
             } else if (item.getItemId() == R.id.bottom_history) {
                 startActivity(new Intent(getApplicationContext(), HistoryPage.class));
-                overridePendingTransition(0, 0);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 return true;
             } else if (item.getItemId() == R.id.bottom_settings) {
                 return true;
@@ -68,5 +101,46 @@ public class SettingsPage extends AppCompatActivity {
         });
 
     }
+    private void firebaseWrite() {
 
+        int size = date1.size();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database.getReference(userID).removeValue();
+
+        String dateT;
+        String timeT;
+        String budgetT;
+        String expensesT;
+        String descT;
+        for (int i = 0; i < size; i++) {
+            String id = firebaseWrite.push().getKey();
+            dateT = date1.get(i);
+            timeT = time1.get(i);
+            budgetT =budget1.get(i);
+            expensesT = expenses1.get(i);
+            descT = description1.get(i);
+
+            HistoryData historyData = new HistoryData(dateT, timeT, budgetT, expensesT, descT);
+            firebaseWrite.child(id).setValue(historyData);
+        }
+    }
+
+    private void firebaseWriteExecute(){
+        Cursor cursor = myDB.getdata();
+        if (cursor.getCount()==0)
+        {
+            Toast.makeText(SettingsPage.this, "No Entry Exists.", Toast.LENGTH_SHORT).show();
+
+        }else{
+            while (cursor.moveToNext()){
+                date1.add(cursor.getString(0));
+                time1.add(cursor.getString(1));
+                budget1.add(cursor.getString(2));
+                expenses1.add(cursor.getString(3));
+                description1.add(cursor.getString(4));
+            }
+            firebaseWrite();
+        }
+    }
 }
