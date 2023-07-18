@@ -286,10 +286,10 @@ public class SignupPage extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(SignupPage.this, "User Registration Successful!", Toast.LENGTH_SHORT).show();
                     FirebaseAuth.getInstance().signOut();
+                    Toast.makeText(SignupPage.this, "User Registration Successful!", Toast.LENGTH_SHORT).show();
                     openVerificationpage();
-
+                    finish();
                 }else{
                     Toast.makeText(SignupPage.this, "User Registration Failed! Check Credentials", Toast.LENGTH_LONG).show();
                 }
@@ -300,7 +300,7 @@ public class SignupPage extends AppCompatActivity {
     public void openSigninPage(){
         Intent intent = new Intent(this, SigninPage.class);
         startActivity(intent);
-
+        finish();
 
     }
 
