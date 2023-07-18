@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +64,11 @@ public class MainPage extends AppCompatActivity {
 
     DatabaseReference firebaseWrite;
 
+    private ProgressBar pointBar;
+    private double maxBudget = 0;
+    private double currentBudget = 0;
+
+
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,15 +94,29 @@ public class MainPage extends AppCompatActivity {
 
         //sql
         myDB = new MyDatabaseHelper(MainPage.this);
+
+        pointBar = findViewById(R.id.progressBar);
+
+
+
         getDBData(); // Displays Data
 
 
         //try
 
+        String budgetString = constamount.getText().toString();
+        if (!budgetString.isEmpty()) {
+            maxBudget = Double.parseDouble(budgetString);
+            currentBudget = maxBudget;
+            pointBar.setMax((int) maxBudget);
+            pointBar.setProgress((int) currentBudget);
+        }
+
 
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
+                addProgressData();
                 addHistoryData();
                 updatePoint(); // Updates point each arithmetic
 
@@ -163,6 +183,19 @@ public class MainPage extends AppCompatActivity {
         String historyDescription = description.getText().toString().trim();
 
         myDB.insertuserdata(date, timeHistory, budget, expense, historyDescription);
+    }
+
+    private void addProgressData() {
+        String spendingString = expenses.getText().toString();
+        if (!spendingString.isEmpty()) {
+            double spendingAmount = Double.parseDouble(spendingString);
+            currentBudget -= spendingAmount;
+            if (currentBudget < 0) {
+                currentBudget = 0;
+            }
+            pointBar.setProgress((int) currentBudget);
+        }
+
     }
 
 
