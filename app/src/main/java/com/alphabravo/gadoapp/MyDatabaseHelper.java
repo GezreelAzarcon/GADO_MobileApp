@@ -45,7 +45,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
-    void insertuserdata(String datentime, String time, String constamount, String expenses, String description){
+    public Boolean insertuserdata(String datentime, String time, String constamount, String expenses, String description){
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -57,12 +57,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         long result = db.insert("Userdetails", null, contentValues);
 
         if (result == -1){
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+            return false;
+
         }else {
-            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+            return true;
         }
 
     }
+
     public Cursor getdata()
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -99,8 +101,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     void resetLocalDatabase() {
         SQLiteDatabase db = this.getWritableDatabase();
         long result = db.delete(TABLE_NAME, null, null);
-        db.execSQL("DELETE FROM " + TABLE_NAME);
-        db.execSQL("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME= '" + TABLE_NAME + "'");
+        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + TABLE_NAME + "'");
 
         if (result == -1) {
             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
@@ -110,15 +111,15 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     void resetLocalHistoryDatabase() {
-    SQLiteDatabase db = this.getWritableDatabase();
-    long result = db.delete("Userdetails", null, null);
-    db.execSQL("DELETE FROM Userdetails");
-    if (result == -1) {
-        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-    }else {
-        Toast.makeText(context, "Data Reset", Toast.LENGTH_SHORT).show();
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete("Userdetails", null, null);
+        db.execSQL("DELETE FROM Userdetails");
+        if (result == -1) {
+            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(context, "Data Reset", Toast.LENGTH_SHORT).show();
+        }
     }
-}
 
 
 

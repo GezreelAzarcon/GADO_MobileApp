@@ -6,11 +6,13 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +41,27 @@ public class HistoryPage extends AppCompatActivity {
     FirebaseAuth fAuth;
     DatabaseReference databaseHistoryData;
     String userID;
+    boolean isEmpty;
     //firebase
+
+    //try
+    private ArrayList<String> dates, times, budgets, expense, descriptions;
+
+    ArrayList<String> date1 = new ArrayList<>();
+    ArrayList<String> time1 = new ArrayList<>();
+    ArrayList<String> budget1 = new ArrayList<>();
+    ArrayList<String> expenses1 = new ArrayList<>();
+    ArrayList<String> desc1 = new ArrayList<>();
+
+    ArrayList<String> date2 = new ArrayList<>();
+    ArrayList<String> time2 = new ArrayList<>();
+    ArrayList<String> budget2 = new ArrayList<>();
+    ArrayList<String> expenses2 = new ArrayList<>();
+    ArrayList<String> desc2 = new ArrayList<>();
+
+    //try
+
+    private Button backbtn;
 
 
     @SuppressLint("MissingInflatedId")
@@ -48,19 +70,22 @@ public class HistoryPage extends AppCompatActivity {
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.historypage);
         DB = new MyDatabaseHelper(this);
+
         datentime = new ArrayList<>();
         time = new ArrayList<>();
         constamount = new ArrayList<>();
         expenses = new ArrayList<>();
         description = new ArrayList<>();
-        recyclerView = findViewById(R.id.recycleview);
-        adapter = new MyAdapter(this, datentime, time, constamount, expenses, description);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        displaydata();
+
+        isEmpty = true;
+
+        recycleView();
+
+        //retrieveHistoryData();
 
         //firebase
         fAuth = FirebaseAuth.getInstance();
+        userID = fAuth.getCurrentUser().getUid();
         userID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
         databaseHistoryData = FirebaseDatabase.getInstance().getReference(userID);
         //firebase
@@ -72,20 +97,20 @@ public class HistoryPage extends AppCompatActivity {
 
             if (item.getItemId() == R.id.bottom_home) {
                 startActivity(new Intent(getApplicationContext(), MainPage.class));
-                overridePendingTransition(0, 0);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 return true;
             } else if (item.getItemId() == R.id.bottom_history) {
                 return true;
             } else if (item.getItemId() == R.id.bottom_settings) {
                 startActivity(new Intent(getApplicationContext(), SettingsPage.class));
-                overridePendingTransition(0, 0);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 return true;
             }
             return false;
         });
 
 
-        Button backbtn = (Button) findViewById(R.id.back_btn);
+        backbtn = (Button) findViewById(R.id.back_btn);
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +128,7 @@ public class HistoryPage extends AppCompatActivity {
 
     }
 
+
     private void displaydata(){
         Cursor cursor = DB.getdata();
         if (cursor.getCount()==0)
@@ -118,7 +144,17 @@ public class HistoryPage extends AppCompatActivity {
             }
         }
     }
+
+    private void recycleView() {
+        displaydata();
+        recyclerView = findViewById(R.id.recycleview);
+        adapter = new MyAdapter(this, datentime, time, constamount, expenses, description);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
 }
+
+
 
 
 
