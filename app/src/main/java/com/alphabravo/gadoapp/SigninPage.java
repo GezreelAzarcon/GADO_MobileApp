@@ -3,15 +3,8 @@ package com.alphabravo.gadoapp;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -35,7 +28,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import io.paperdb.Paper;
 
@@ -46,11 +38,14 @@ public class SigninPage extends AppCompatActivity {
     private EditText email, pass;
     private CheckBox check, privacy;
     private FirebaseAuth auth;
+    TextView forgotpass;
 
     private MaterialAlertDialogBuilder materialAlertDialogBuilder;
 
     private static final String UserEmail = "UserEmail";
     private static final String UserPass = "UserPass";
+
+    private TextView Login;
 
 
     //firebase & sqlite
@@ -86,6 +81,7 @@ public class SigninPage extends AppCompatActivity {
         privacy = (CheckBox) findViewById(R.id.PrivacyCheckBox);
         Paper.init(this);
         start = (Button) findViewById(R.id.startBtn);
+        forgotpass = (TextView) findViewById(R.id.forgotBtn);
         auth = FirebaseAuth.getInstance();
 
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
@@ -94,6 +90,21 @@ public class SigninPage extends AppCompatActivity {
         //firebase
         fAuth = FirebaseAuth.getInstance();
         //firebase
+        Login = (TextView) findViewById(R.id.logintextBtn);
+
+        Login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSignupPage();
+
+            }
+        });
+        forgotpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openForgotpass();
+            }
+        });
 
 
         privacy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
@@ -308,6 +319,7 @@ public class SigninPage extends AppCompatActivity {
                     openInputPage();
                 }else{
                     Toast.makeText(SigninPage.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
+                    start.setEnabled(true);
                 }
             }
         });
@@ -330,6 +342,7 @@ public class SigninPage extends AppCompatActivity {
 
                 }else{
                     Toast.makeText(SigninPage.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
+                    start.setEnabled(true);
                 }
             }
         });
@@ -338,9 +351,23 @@ public class SigninPage extends AppCompatActivity {
 
     public void openInputPage(){
         retrieveHistoryData();
-        Intent intent = new Intent(this, InputPage.class);
+        Intent intent = new Intent(this, WelcomeuserPage.class);
         startActivity(intent);
         finish();
+
+    }
+
+    public void openForgotpass() {
+        Intent intent = new Intent(this, forgotpassword_page.class);
+        startActivity(intent);
+
+    }
+
+    public void openSignupPage(){
+        Intent intent = new Intent(this, SignupPage.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
     }
 

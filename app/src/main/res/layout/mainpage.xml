@@ -46,7 +46,6 @@
             android:layout_marginTop="500dp"
             android:layout_marginEnd="75dp"
             android:background="@drawable/edit_round"
-            android:hint="0000"
             android:inputType="number"
             android:text=""
             android:textAlignment="center"
