@@ -1,7 +1,6 @@
 package com.alphabravo.gadoapp;
 
 
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 
 import io.paperdb.Paper;
 
@@ -33,6 +29,8 @@ public class InputPage extends AppCompatActivity {
         Paper.init(this);
         save = findViewById(R.id.saveBtn);
         amount = findViewById(R.id.amountEditText);
+        String useramount = getIntent().getStringExtra("keytxtwallet");
+        amount.setText(useramount);
 
 
 

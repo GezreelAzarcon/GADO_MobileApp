@@ -4,11 +4,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,11 +26,14 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignupPage extends AppCompatActivity {
 
-    private Button signin, create;
+    private Button  create;
     private EditText email, password;
+    private TextView signin;
     private CheckBox check;
     private FirebaseAuth auth;
     private MaterialAlertDialogBuilder materialAlertDialogBuilder;
+
+
 
     @Override
     protected void onCreate(Bundle SavedInstanceState) {
@@ -39,11 +46,24 @@ public class SignupPage extends AppCompatActivity {
         password = findViewById(R.id.passwordText1);
         check = (CheckBox) findViewById(R.id.signUpCheckBox);
         create = (Button) findViewById(R.id.createBtn);
-        signin = (Button) findViewById(R.id.signintextBtn);
+        signin = (TextView) findViewById(R.id.signintextBtn);
         auth = FirebaseAuth.getInstance();
-
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
         create.setEnabled(false);
+        ImageView imageViewShowpass = findViewById(R.id.hidepass);
+        imageViewShowpass.setImageResource(R.drawable.hide);
+        imageViewShowpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (password.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    imageViewShowpass.setImageResource(R.drawable.hide);
+                } else {
+                    password.setTransformationMethod((HideReturnsTransformationMethod.getInstance()));
+                    imageViewShowpass.setImageResource(R.drawable.view);
+                }
+            }
+        });
 
         check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
@@ -301,12 +321,14 @@ public class SignupPage extends AppCompatActivity {
         Intent intent = new Intent(this, SigninPage.class);
         startActivity(intent);
         finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
     }
 
     public void openVerificationpage(){
         Intent intent = new Intent(this, VerificationPage.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
     }
 
