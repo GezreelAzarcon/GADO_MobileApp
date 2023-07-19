@@ -308,6 +308,7 @@ public class SigninPage extends AppCompatActivity {
                     openInputPage();
                 }else{
                     Toast.makeText(SigninPage.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
+                    start.setEnabled(true);
                 }
             }
         });
@@ -330,6 +331,7 @@ public class SigninPage extends AppCompatActivity {
 
                 }else{
                     Toast.makeText(SigninPage.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
+                    start.setEnabled(true);
                 }
             }
         });
