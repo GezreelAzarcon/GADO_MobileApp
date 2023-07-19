@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,35 +11,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.ktx.Firebase;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
-
-import javax.security.auth.login.LoginException;
-
-import io.paperdb.Paper;
 
 
 public class MainPage extends AppCompatActivity {
@@ -104,21 +84,12 @@ public class MainPage extends AppCompatActivity {
 
         //try
 
-        String budgetString = constamount.getText().toString();
-        if (!budgetString.isEmpty()) {
-            maxBudget = Double.parseDouble(budgetString);
-            currentBudget = maxBudget;
-            pointBar.setMax((int) maxBudget);
-            pointBar.setProgress((int) currentBudget);
-        }
-
 
 
 
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                addProgressData();
                 addHistoryData();
                 expensesCheck(); // Updates point each arithmetic
 
@@ -196,15 +167,11 @@ public class MainPage extends AppCompatActivity {
 
     private void addProgressData() {
         String spendingString = expenses.getText().toString();
-
         if (spendingString.matches("")) {
             double spendingAmount = 0;
             currentBudget -= spendingAmount;
             pointBar.setProgress((int) currentBudget);
         }else {
-
-        if (!spendingString.isEmpty()) {
-
             double spendingAmount = Double.parseDouble(spendingString);
             currentBudget -= spendingAmount;
             if (currentBudget < 0) {
@@ -215,7 +182,6 @@ public class MainPage extends AppCompatActivity {
 
     }
 
-
     private void pointLife() {
         String budgetString = budget;
         String currentString = pointText;
@@ -224,8 +190,6 @@ public class MainPage extends AppCompatActivity {
         pointBar.setMax((int) maxBudget);
         pointBar.setProgress((int) currentBudget);
     }
-
-
 
 
 
@@ -265,8 +229,8 @@ public class MainPage extends AppCompatActivity {
             myDB.updateScore(pointText, "1");
             lifepoints.setText(pointText);
             getDBData();
-            }
         }
+    }
 
 
     public void openhistory_page() {
@@ -275,5 +239,3 @@ public class MainPage extends AppCompatActivity {
 
     }
 }
-
-

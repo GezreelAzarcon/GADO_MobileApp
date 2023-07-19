@@ -10,42 +10,55 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/floatingActionButton"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="65dp"
+            android:layout_marginStart="320dp"
+            android:layout_marginBottom="28dp"
+            android:clickable="true"
+            app:srcCompat="@drawable/baseline_photo_question_24"
+            android:contentDescription="TODO"
+            android:focusable="true" />
+
         <EditText
             android:id="@+id/emailText2"
-            android:layout_width="600dp"
+            android:layout_width="300dp"
             android:layout_height="60dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="305dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="240dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/emailbg"
-            android:hint="Username/Email"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+            android:hint="E-mail Address"
+            android:textColor="@color/black"
             android:inputType="textEmailAddress"
-            android:textAlignment="center"
+            android:paddingEnd="25dp"
+            android:paddingStart="25dp"
             android:textSize="20dp" />
 
         <EditText
             android:id="@+id/passwordText2"
-            android:layout_width="600dp"
+            android:layout_width="300dp"
             android:layout_height="60dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="375dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="310dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/emailbg"
             android:hint="Password"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"
+            android:textColor="@color/black"
             android:inputType="textPassword"
-            android:textAlignment="center"
             android:textSize="20dp" />
 
         <CheckBox
             android:id="@+id/SignInCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="435dp"
+            android:layout_marginStart="130dp"
+            android:layout_below="@id/passwordText2"
             android:text="Remember Me?"
             tools:ignore="HardcodedText"></CheckBox>
 
@@ -53,9 +66,9 @@
             android:id="@+id/PrivacyCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="180dp"
-            android:layout_marginTop="435dp"
-            android:text="Privacy Policy"
+            android:layout_marginStart="115dp"
+            android:layout_marginTop="585dp"
+            android:text="I agree to Privacy Policy"
             tools:ignore="HardcodedText"></CheckBox>
 
 
@@ -63,29 +76,57 @@
 
         <Button
             android:id="@+id/startBtn"
-            android:layout_width="600dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="75dp"
-            android:layout_marginTop="500dp"
-            android:layout_marginEnd="75dp"
-            android:backgroundTint="@color/blue22"
-            android:text="Start"
+            android:layout_width="400dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="625dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="#56AB2F"
+            android:text="Log in"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold" />
 
-        <Button
+        <TextView
             android:id="@+id/forgotBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="115dp"
-            android:layout_marginTop="570dp"
-            android:text="Forgot Password?"
+            android:layout_marginStart="125dp"
+            android:layout_below="@id/SignInCheckBox"
+            android:text="Forgot your password?"
             android:textAlignment="center"
             android:backgroundTint="#1AFFFFFF"
             android:textColor="@color/black"
+            android:textStyle="bold"
             android:textSize="15dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account?"
+            android:textStyle="normal"
+            android:layout_marginStart="90dp"
+            android:layout_marginTop="675dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="17dp"
+            android:textColor="@color/black">
+        </TextView>
+
+        <TextView
+            android:id="@+id/logintextBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="268dp"
+            android:layout_marginTop="675dp"
+            android:layout_marginBottom="20dp"
+            android:text="Sign Up"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="#1C3423"
+            android:textSize="17dp"
             />
 
 
@@ -95,37 +136,7 @@
 
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign In"
-            android:textStyle="bold"
-            android:shadowColor="@color/white"
-            android:shadowDx="2"
-            android:shadowDy="2"
-            android:layout_marginStart="75dp"
-            android:layout_marginTop="180dp"
-            android:textSize="45dp"
-            android:textColor="@color/black">
-        </TextView>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Login your Account"
-            android:textStyle="bold"
-            android:layout_marginStart="75dp"
-            android:layout_marginTop="240dp"
-            android:textSize="20dp"
-            android:textColor="@color/black">
-        </TextView>
-    </LinearLayout>
+
 
 
 
