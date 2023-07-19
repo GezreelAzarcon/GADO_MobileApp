@@ -42,24 +42,30 @@ public class InputPage extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String budget = amount.getText().toString();
+                checkInput();
+            }
+        });
 
-                // SQLite Write Data
+
+
+        }
+
+        private void checkInput() {
+            // SQLite Write Data
+            String budget = amount.getText().toString();
+            if (budget.matches("")) {
+                Toast.makeText(this, "There's no Value!", Toast.LENGTH_SHORT).show();
+            }else {
                 MyDatabaseHelper myDB = new MyDatabaseHelper(InputPage.this);
                 myDB.addBook(amount.getText().toString().trim(),
-                             amount.getText().toString().trim());
+                        amount.getText().toString().trim());
 
                 //Intent intent = new Intent(InputPage.this, MainPage.class);
                 //intent.putExtra("amountUser", budget);
                 //startActivity(intent);
 
                 startActivity(new Intent(InputPage.this, MainPage.class));
-
-
             }
-        });
-
-
 
         }
 

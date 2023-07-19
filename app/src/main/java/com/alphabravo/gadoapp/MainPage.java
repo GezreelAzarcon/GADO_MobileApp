@@ -113,12 +113,14 @@ public class MainPage extends AppCompatActivity {
         }
 
 
+
+
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 addProgressData();
                 addHistoryData();
-                updatePoint(); // Updates point each arithmetic
+                expensesCheck(); // Updates point each arithmetic
 
             }
 
@@ -172,8 +174,15 @@ public class MainPage extends AppCompatActivity {
         });
 
     }
-
-
+    private void expensesCheck() {
+        String expense = expenses.getText().toString();
+        String desc = description.getText().toString();
+        if (expense.matches("") || desc.matches("")) {
+            Toast.makeText(this, "There's no value!", Toast.LENGTH_SHORT).show();
+        }else {
+            updatePoint();
+        }
+    }
 
     private void addHistoryData() {
         String date = datentime.getText().toString().trim();
@@ -187,7 +196,15 @@ public class MainPage extends AppCompatActivity {
 
     private void addProgressData() {
         String spendingString = expenses.getText().toString();
+
+        if (spendingString.matches("")) {
+            double spendingAmount = 0;
+            currentBudget -= spendingAmount;
+            pointBar.setProgress((int) currentBudget);
+        }else {
+
         if (!spendingString.isEmpty()) {
+
             double spendingAmount = Double.parseDouble(spendingString);
             currentBudget -= spendingAmount;
             if (currentBudget < 0) {
@@ -197,6 +214,18 @@ public class MainPage extends AppCompatActivity {
         }
 
     }
+
+
+    private void pointLife() {
+        String budgetString = budget;
+        String currentString = pointText;
+        maxBudget = Double.parseDouble(budgetString);
+        currentBudget = Double.parseDouble(currentString);
+        pointBar.setMax((int) maxBudget);
+        pointBar.setProgress((int) currentBudget);
+    }
+
+
 
 
 
@@ -211,6 +240,7 @@ public class MainPage extends AppCompatActivity {
                 pointText = cursor.getString(2);
                 lifepoints.setText(pointText);
                 constamount.setText(budget);
+                pointLife();
             }else {
                 cursor.close();
             }
@@ -220,12 +250,23 @@ public class MainPage extends AppCompatActivity {
 
     // SQLite Update Point Each Arithmetic
     void updatePoint() {
-        int expensesINT = Integer.valueOf(expenses.getText().toString());
-        int pointINT = Integer.valueOf(pointText);
-        pointText = String.valueOf(pointINT - expensesINT);
-        myDB.updateScore(pointText, "1");
-        lifepoints.setText(pointText);
-    }
+        String expensesSTR = expenses.getText().toString();
+        int pointINT = Integer.parseInt(pointText);
+
+        if (expensesSTR.matches("")) {
+            expensesSTR = "0";
+            int expensesINT = Integer.valueOf(expensesSTR);
+            pointText = String.valueOf(pointINT - expensesINT);
+            myDB.updateScore(pointText, "1");
+            getDBData();
+        }else {
+            int expensesINT = Integer.valueOf(expenses.getText().toString());
+            pointText = String.valueOf(pointINT - expensesINT);
+            myDB.updateScore(pointText, "1");
+            lifepoints.setText(pointText);
+            getDBData();
+            }
+        }
 
 
     public void openhistory_page() {
