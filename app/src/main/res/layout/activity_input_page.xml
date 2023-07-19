@@ -33,8 +33,9 @@
             android:layout_marginTop="350dp"
             android:layout_marginEnd="75dp"
             android:background="@drawable/edit_round"
-            android:text="0000"
+            android:hint="0000"
             android:inputType="numberDecimal"
+            android:text=""
             android:textAlignment="center"
             android:textSize="30dp" />
 
