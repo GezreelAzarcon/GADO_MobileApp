@@ -104,12 +104,21 @@ public class MainPage extends AppCompatActivity {
 
         //try
 
+        String budgetString = constamount.getText().toString();
+        if (!budgetString.isEmpty()) {
+            maxBudget = Double.parseDouble(budgetString);
+            currentBudget = maxBudget;
+            pointBar.setMax((int) maxBudget);
+            pointBar.setProgress((int) currentBudget);
+        }
+
 
 
 
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
+                addProgressData();
                 addHistoryData();
                 expensesCheck(); // Updates point each arithmetic
 
@@ -187,11 +196,15 @@ public class MainPage extends AppCompatActivity {
 
     private void addProgressData() {
         String spendingString = expenses.getText().toString();
+
         if (spendingString.matches("")) {
             double spendingAmount = 0;
             currentBudget -= spendingAmount;
             pointBar.setProgress((int) currentBudget);
         }else {
+
+        if (!spendingString.isEmpty()) {
+
             double spendingAmount = Double.parseDouble(spendingString);
             currentBudget -= spendingAmount;
             if (currentBudget < 0) {
@@ -202,6 +215,7 @@ public class MainPage extends AppCompatActivity {
 
     }
 
+
     private void pointLife() {
         String budgetString = budget;
         String currentString = pointText;
@@ -210,6 +224,8 @@ public class MainPage extends AppCompatActivity {
         pointBar.setMax((int) maxBudget);
         pointBar.setProgress((int) currentBudget);
     }
+
+
 
 
 
