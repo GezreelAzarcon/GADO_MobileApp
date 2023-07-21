@@ -145,7 +145,6 @@ public class MainPage extends AppCompatActivity {
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                addHistoryData();
                 expensesCheck(); // Updates point each arithmetic
 
             }
@@ -220,6 +219,7 @@ public class MainPage extends AppCompatActivity {
             Toast.makeText(this, "There's no value!", Toast.LENGTH_SHORT).show();
         }else {
             updatePoint();
+            addHistoryData();
         }
     }
 
