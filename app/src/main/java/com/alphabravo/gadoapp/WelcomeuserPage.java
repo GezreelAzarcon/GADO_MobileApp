@@ -45,7 +45,7 @@ public class WelcomeuserPage extends AppCompatActivity {
     }
 
     public void proceedUser(String txtWallet) {
-        Intent intent = new Intent(this, InputPage.class);
+        Intent intent = new Intent(this, Almostthere_page.class);
         intent.putExtra("keytxtwallet", txtWallet);
         startActivity(intent);
         overridePendingTransition(0, 0);

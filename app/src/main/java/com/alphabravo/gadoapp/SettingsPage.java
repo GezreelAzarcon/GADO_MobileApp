@@ -22,7 +22,7 @@ import io.paperdb.Paper;
 
 public class SettingsPage extends AppCompatActivity {
 
-    private Button logout;
+    private Button logout , reset;
     MyDatabaseHelper myDB; // SQLite
     FirebaseAuth fAuth;
     String userID;
@@ -47,6 +47,7 @@ public class SettingsPage extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         userID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
         firebaseWrite = FirebaseDatabase.getInstance().getReference(userID);
+        reset = findViewById(R.id.resetButton);
 
 
         //firebase
@@ -55,6 +56,14 @@ public class SettingsPage extends AppCompatActivity {
 
 
         Paper.init(this);
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDB.resetLocalDatabase();
+                startActivity(new Intent(SettingsPage.this, WelcomeuserPage.class));
+            }
+        });
 
 
         logout.setOnClickListener(new View.OnClickListener() {
