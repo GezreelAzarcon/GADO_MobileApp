@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/questionButton"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginTop="65dp"
@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="115dp"
-            android:layout_marginTop="585dp"
+            android:layout_above="@id/startBtn"
             android:text="I agree to Privacy Policy"
             tools:ignore="HardcodedText"></CheckBox>
 
@@ -77,11 +77,10 @@
         <Button
             android:id="@+id/startBtn"
             android:layout_width="400dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="625dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="30dp"
+            android:layout_above="@+id/donthaveaccount"
             android:backgroundTint="#56AB2F"
             android:text="Log in"
             android:textAlignment="center"
@@ -104,13 +103,13 @@
             />
 
         <TextView
+            android:id="@+id/donthaveaccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Don't have an account?"
             android:textStyle="normal"
             android:layout_marginStart="90dp"
-            android:layout_marginTop="675dp"
-            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true"
             android:textSize="17dp"
             android:textColor="@color/black">
         </TextView>
@@ -120,8 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="268dp"
-            android:layout_marginTop="675dp"
-            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true"
             android:text="Sign Up"
             android:textStyle="bold"
             android:textAlignment="center"
