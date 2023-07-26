@@ -5,24 +5,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue8"
+    android:background="@drawable/settings"
     tools:context=".SettingsPage">
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/logoutButton1"
-            android:layout_width="150dp"
-            android:layout_height="75dp"
-            android:layout_marginStart="220dp"
-            android:layout_marginTop="30dp"
-            android:textSize="25sp"
-            android:backgroundTint="@color/black"
-            android:text="Log Out" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/logoutButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="550dp"
+        android:layout_marginBottom="30dp"
+        android:layout_above="@+id/bottomNavigationView"
+        android:textSize="15sp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:text="Log Out" />
+
+
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="220dp"
+        android:layout_marginBottom="30dp"
+        android:textSize="15sp"
+        android:layout_above="@id/bottomNavigationView"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:text="Daily Reset" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -31,15 +43,14 @@
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="30dp"
         android:background="@drawable/bottom_background"
         android:elevation="16dp"
-        app:itemTextColor="@color/white"
+        app:itemTextColor="@color/black"
         app:itemIconSize="30dp"
         app:itemIconTint="@drawable/item_selector"
-        app:itemRippleColor="@android:color/transparent"
+        app:itemRippleColor="@android:color/white"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_menu" />
 

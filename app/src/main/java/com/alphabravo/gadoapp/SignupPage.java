@@ -1,17 +1,23 @@
 package com.alphabravo.gadoapp;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,12 +28,17 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignupPage extends AppCompatActivity {
 
-    private Button signin, create;
-    private EditText email, password;
+    private Button  create;
+    private EditText email, password, nickname;
+    private TextView signin;
     private CheckBox check;
     private FirebaseAuth auth;
+    private ImageView question;
     private MaterialAlertDialogBuilder materialAlertDialogBuilder;
 
+
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle SavedInstanceState) {
         super.onCreate(SavedInstanceState);
@@ -39,11 +50,34 @@ public class SignupPage extends AppCompatActivity {
         password = findViewById(R.id.passwordText1);
         check = (CheckBox) findViewById(R.id.signUpCheckBox);
         create = (Button) findViewById(R.id.createBtn);
-        signin = (Button) findViewById(R.id.signintextBtn);
+        signin = (TextView) findViewById(R.id.signintextBtn);
         auth = FirebaseAuth.getInstance();
-
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
         create.setEnabled(false);
+        ImageView imageViewShowpass = findViewById(R.id.hidepass);
+        imageViewShowpass.setImageResource(R.drawable.hide);
+        question = (ImageView) findViewById(R.id.questionButton);
+        nickname = findViewById(R.id.nickname);
+
+        question.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAlertDialog();
+            }
+        });
+
+        imageViewShowpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (password.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    imageViewShowpass.setImageResource(R.drawable.hide);
+                } else {
+                    password.setTransformationMethod((HideReturnsTransformationMethod.getInstance()));
+                    imageViewShowpass.setImageResource(R.drawable.view);
+                }
+            }
+        });
 
         check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
@@ -251,6 +285,7 @@ public class SignupPage extends AppCompatActivity {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 openSigninPage();
 
             }
@@ -260,6 +295,8 @@ public class SignupPage extends AppCompatActivity {
             public void onClick(View v) {
                 String txtEmail = email.getText().toString();
                 String txtPass = password.getText().toString();
+                String txtemail = email.getText().toString();
+                String txtnickname = nickname.getText().toString();
 
                 if (TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtPass) && check.isChecked()) {
                     Toast.makeText(SignupPage.this, "Credentials are Empty!", Toast.LENGTH_SHORT).show();
@@ -270,7 +307,7 @@ public class SignupPage extends AppCompatActivity {
                 }else if (txtPass.length() > 20){
                     Toast.makeText(SignupPage.this, "Password should be less than 20", Toast.LENGTH_SHORT).show();
                 }else{
-                    registerUser(txtEmail, txtPass);
+                    registerUser(txtEmail, txtPass, txtnickname, txtemail);
                 }
             }
         });
@@ -280,7 +317,30 @@ public class SignupPage extends AppCompatActivity {
 
     }
 
-    private void registerUser(String email, String pass) {
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("GĀDO App");
+        builder.setMessage("What is GĀDO?\n" +
+                "Inspired by the Japanese pronunciation of the word guard, GĀDO is a game-based and self-help Android application that aims to solve the budgeting problems of its users. It aims to help its users build budgeting skills and discipline on their own. The application targets audiences who are having a hard time maintaining and keeping track of their budget.\n" +
+                "\n" +
+                "How to use it?\n" +
+                "The application will ask for the user’s daily budget and uses it as the game's life/health points, and the goods, foods, commodities, etc. that are bought by the user are considered the enemy. The app has a simple goal in mind, it is to “guard” the game’s life which is your budget.\n" +
+                "\n" +
+                "How will the user benefit?\n" +
+                "The audience will benefit from the application by being reassured and by having their budget maintained and monitored, it may also help them self-develop budgeting skills and discipline as it is a self-help application. It is an app that is game-based so it might give positivity and enjoyment instead of stress and anxiety, it can also help them reevaluate their current budget for the optimal ‘game outcome’ that would directly translate to optimal budgeting in real life.");
+        builder.setPositiveButton("Skip", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                create.setEnabled(true);
+                dialogInterface.dismiss();
+
+            }
+        });
+        builder.create().show();
+
+    }
+
+    private void registerUser(String email, String pass, String txtnickname, String txtemail) {
 
         auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(SignupPage.this , new OnCompleteListener<AuthResult>() {
             @Override
@@ -288,7 +348,7 @@ public class SignupPage extends AppCompatActivity {
                 if(task.isSuccessful()){
                     FirebaseAuth.getInstance().signOut();
                     Toast.makeText(SignupPage.this, "User Registration Successful!", Toast.LENGTH_SHORT).show();
-                    openVerificationpage();
+                    openVerificationpage(txtnickname, txtemail);
                     finish();
                 }else{
                     Toast.makeText(SignupPage.this, "User Registration Failed! Check Credentials", Toast.LENGTH_LONG).show();
@@ -301,12 +361,16 @@ public class SignupPage extends AppCompatActivity {
         Intent intent = new Intent(this, SigninPage.class);
         startActivity(intent);
         finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
     }
 
-    public void openVerificationpage(){
+    public void openVerificationpage(String txtnickname, String txtemail){
         Intent intent = new Intent(this, VerificationPage.class);
+        intent.putExtra("keytxtnickname", txtnickname);
+        intent.putExtra("keytxtemail", txtemail);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
     }
 

@@ -2,195 +2,159 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/blue8"
+    android:background="@drawable/signupbg1"
     android:layout_height="match_parent">
 
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="500dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="80dp"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            android:paddingTop="10dp"
-            android:paddingLeft="45dp"
-            android:background="@drawable/veridesign"
-            android:textColor="@color/black">
-        </TextView>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="VERIFICATION"
-            android:layout_marginStart="85dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="105dp"
-            android:textColor="@color/white"
-            android:textSize="35sp"
-            android:textStyle="bold"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter the 4-digit code that we have sent through your email to complete Sign up."
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="60dp"
-            android:layout_marginTop="205dp"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="normal"/>
-
-    </LinearLayout>
-
-    <androidx.cardview.widget.CardView
+        android:id="@+id/hello"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:backgroundTint="@color/blue20"
-        android:layout_marginTop="300dp"
-        app:cardUseCompatPadding="true"
-        app:cardCornerRadius="40dp"
-        app:cardBackgroundColor="@color/white">
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:background="@color/blue20"
-            android:weightSum="4"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="50dp">
+            android:text="Hello,"
+            android:textStyle="bold"
+            android:textSize="50dp"
+            android:layout_marginTop="160dp"
+            android:layout_marginStart="40dp"
+            android:textColor="#1C3423"/>
 
-            <EditText
-                android:id="@+id/otp1"
-                android:layout_width="50dp"
-                android:layout_height="100dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLines="1"
-                android:maxLength="1"
-                android:textStyle="bold"
-                android:textSize="30sp"
-                android:background="@drawable/verificationbg"
-                android:textColor="@color/black"
-                android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="User"
+            android:textStyle="bold"
+            android:textSize="40dp"
+            android:layout_marginTop="160dp"
+            android:layout_marginStart="5dp"
+            android:textColor="#1C3423"/>
 
-            <EditText
-                android:id="@+id/otp2"
-                android:layout_width="50dp"
-                android:layout_height="100dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLines="1"
-                android:maxLength="1"
-                android:textStyle="bold"
-                android:textSize="30sp"
-                android:background="@drawable/verificationbg"
-                android:textColor="@color/black"
-                android:layout_weight="1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="!"
+            android:textStyle="bold"
+            android:textSize="50dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="160dp"
+            android:textColor="#1C3423"/>
 
-            <EditText
-                android:id="@+id/otp3"
-                android:layout_width="50dp"
-                android:layout_height="100dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLines="1"
-                android:maxLength="1"
-                android:textStyle="bold"
-                android:textSize="30sp"
-                android:background="@drawable/verificationbg"
-                android:textColor="@color/black"
-                android:layout_weight="1"/>
+    </LinearLayout>
 
-            <EditText
-                android:id="@+id/otp4"
-                android:layout_width="50dp"
-                android:layout_height="100dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLines="1"
-                android:maxLength="1"
-                android:textStyle="bold"
-                android:textSize="30sp"
-                android:background="@drawable/verificationbg"
-                android:textColor="@color/black"
-                android:layout_weight="1"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/gmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal= "true"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="230dp"
+            android:layout_marginEnd="25dp"
+            android:text="*******@gmail.com"
+            android:textColor="@color/gray1"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
 
 
-        </LinearLayout>
+
+
+
+
+
         <Button
             android:id="@+id/continueBtn"
-            android:layout_width="334dp"
-            android:layout_height="75dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="300dp"
-            android:layout_marginEnd="20dp"
-            android:backgroundTint="@color/blue21"
-            android:text="CONTINUE"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_above="@+id/donthaveaccount"
+            android:backgroundTint="#56AB2F"
+            android:text="Log in"
             android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:textSize="20dp"
             android:textStyle="bold" />
-        <RelativeLayout
+
+        <EditText
+            android:id="@+id/passwordText2"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="25dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/emailbg"
+            android:layout_below="@+id/gmail"
+            android:hint="Password"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"
+            android:textColor="@color/black"
+            android:inputType="textPassword"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/forgotBtn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/passwordText2"
+            android:text="Forgot your password?"
+            android:textAlignment="center"
+            android:backgroundTint="#1AFFFFFF"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            />
 
-            <Button
-                android:id="@+id/resendBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="250dp"
-                android:layout_marginTop="238dp"
-                android:text="Resend"
-                android:textAlignment="center"
-                android:backgroundTint="@color/blue20"
-                android:textColor="@color/blue19"
-                android:textSize="17dp"
-                />
-        </RelativeLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/donthaveaccount"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="If you didn't receive the code!"
-                android:textStyle="normal"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="250dp"
-                android:textSize="17dp"
-                android:textColor="@color/black"/>
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="Not you?"
+            android:textStyle="normal"
+            android:layout_marginStart="125dp"
+            android:layout_alignParentBottom="true"
+            android:textSize="17dp"
+            android:textColor="@color/black">
+        </TextView>
+
+        <TextView
+            android:id="@+id/switchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="195dp"
+            android:layout_alignParentBottom="true"
+            android:text="Switch Account"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="#1C3423"
+            android:textSize="17dp"
+            />
+
+
+    </RelativeLayout>
 
 
 
 
 
-    </androidx.cardview.widget.CardView>
+
+
+
+
+
+
 
 </RelativeLayout>

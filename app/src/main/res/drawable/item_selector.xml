@@ -3,10 +3,10 @@
 
     <item
         android:state_selected="true"
-        android:color = "@color/white" />
+        android:color = "#56AB2F" />
 
     <item
         android:state_selected="false"
-        android:color = "@color/gray1"/>
+        android:color = "@color/black"/>
 
 </selector>

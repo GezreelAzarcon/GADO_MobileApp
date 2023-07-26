@@ -3,50 +3,61 @@ package com.alphabravo.gadoapp;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.ktx.Firebase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-import java.text.DateFormat;
+import org.jetbrains.annotations.Nullable;
+
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
-import javax.security.auth.login.LoginException;
+class ImageManager {
+    private static ImageManager instance;
+    private Uri imageUri;
 
-import io.paperdb.Paper;
+    private ImageManager() {
+        // Private constructor to prevent instantiation
+    }
+
+    public static ImageManager getInstance() {
+        if (instance == null) {
+            instance = new ImageManager();
+        }
+        return instance;
+    }
+
+    public Uri getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(Uri imageUri) {
+        this.imageUri = imageUri;
+    }
+}
 
 
 public class MainPage extends AppCompatActivity {
     EditText expenses, datentime, time, description;
 
-    Button enter, reset;
 
     TextView lifepoints, constamount;
 
@@ -68,6 +79,20 @@ public class MainPage extends AppCompatActivity {
     private double maxBudget = 0;
     private double currentBudget = 0;
 
+    ImageView imageView, button, enter;
+    private ImageManager imageManager;
+    private StorageReference storageReference;
+
+    private DatabaseReference databaseReference;
+
+    public Uri imageUri;
+    private static final String IMAGE_URI_KEY = "imageUri"; // Key for storing the image URI
+
+    private TextView contactus;
+    private MaterialAlertDialogBuilder materialAlertDialogBuilder;
+
+
+
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
@@ -76,7 +101,6 @@ public class MainPage extends AppCompatActivity {
         setContentView(R.layout.mainpage);
 
         enter = findViewById(R.id.EnterBtn);
-        reset = findViewById(R.id.resetButton);
         expenses = findViewById(R.id.expensesText);
         datentime = findViewById(R.id.text_view_date);
         time = findViewById(R.id.text_view_time);
@@ -97,13 +121,40 @@ public class MainPage extends AppCompatActivity {
 
         pointBar = findViewById(R.id.progressBar);
 
+        imageView = findViewById(R.id.imageView);
+        button = findViewById(R.id.floatingActionButton);
+        imageManager = ImageManager.getInstance();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
 
         getDBData(); // Displays Data
+        contactus = (TextView) findViewById(R.id.contactus);
+        materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
 
 
-        //try
 
+
+        contactus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                materialAlertDialogBuilder.setTitle("Send us Feedback, Suggestions, or Concerns.");
+                materialAlertDialogBuilder.setMessage("gezreelwazrcon@gmail.com\n" + "villarizaced@gmail.com\n");
+                materialAlertDialogBuilder.show();
+            }
+        });
+
+
+
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImagePicker.with(MainPage.this).crop().compress(1024).maxResultSize(1080,1080).start();
+            }
+        });
 
 
 
@@ -118,7 +169,7 @@ public class MainPage extends AppCompatActivity {
 
         long date = System.currentTimeMillis();
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy ");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
         SimpleDateFormat stf = new SimpleDateFormat("hh:mm a");
         String currentDate = sdf.format(date);
         String currentTime = stf.format(date);
@@ -134,36 +185,53 @@ public class MainPage extends AppCompatActivity {
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
-            if (item.getItemId() == R.id.bottom_home) {
+            if (item.getItemId() == R.id.bottom_budget) {
+                startActivity(new Intent(getApplicationContext(), InputPage.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (item.getItemId() == R.id.bottom_home) {
                 return true;
             } else if (item.getItemId() == R.id.bottom_history) {
                 startActivity(new Intent(getApplicationContext(), HistoryPage.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                overridePendingTransition(0, 0);
                 return true;
             } else if (item.getItemId() == R.id.bottom_settings) {
                 startActivity(new Intent(getApplicationContext(), SettingsPage.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                overridePendingTransition(0, 0);
                 return true;
             }
             return false;
         });
 
+        // Restore the image URI if it is available
+        if (imageManager.getImageUri() != null) {
+            imageView.setImageURI(imageManager.getImageUri());
+        }
 
+        // Restore the image URI when the activity is recreated
+        if (savedInstanceState != null) {
+            imageUri = savedInstanceState.getParcelable(IMAGE_URI_KEY);
+            if (imageUri != null) {
+                imageView.setImageURI(imageUri);
+            }
+        }
 
         // removed
         //String userAmount = getIntent().getStringExtra("amountUser");
 
 
         //daily reset logic button (temporary)
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myDB.resetLocalDatabase();
-                startActivity(new Intent(MainPage.this, InputPage.class));
-            }
-        });
+
 
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save the image URI when the activity is paused
+        outState.putParcelable(IMAGE_URI_KEY, imageUri);
+    }
+
     private void expensesCheck() {
         String expense = expenses.getText().toString();
         String desc = description.getText().toString();
@@ -258,4 +326,47 @@ public class MainPage extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            imageUri = data.getData();
+            imageView.setImageURI(imageUri);
+
+            // Store the image URI in the ImageManager
+            imageManager.setImageUri(imageUri);
+
+            uploadPicture();
+        }
+    }
+
+    // Code to save the picture to Firebase Storage and Realtime database
+    private void uploadPicture() {
+        if (imageUri != null) {
+            String key = databaseReference.child("images").push().getKey();
+            StorageReference imageRef = storageReference.child("images/" + key + ".jpg");
+            UploadTask uploadTask = imageRef.putFile(imageUri);
+            uploadTask.addOnSuccessListener(taskSnapshot -> {
+                // Image upload success
+                // Get the download URL of the uploaded image
+                imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    String imageURL = uri.toString();
+                    // Store the image URL in the Realtime Database
+                    databaseReference.child("images").child(key).setValue(imageURL)
+                            .addOnSuccessListener(aVoid -> {
+                                // Image URL stored successfully
+                            })
+                            .addOnFailureListener(e -> {
+                                // Handle any errors that occurred while storing the image URL
+                            });
+                }).addOnFailureListener(e -> {
+                    // Handle any errors that occurred while retrieving the download URL
+                });
+            }).addOnFailureListener(e -> {
+                // Handle any errors that occurred during image upload
+            });
+        }
+    }
+
 }

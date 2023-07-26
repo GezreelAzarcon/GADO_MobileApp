@@ -4,31 +4,22 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class HistoryPage extends AppCompatActivity {
@@ -42,6 +33,8 @@ public class HistoryPage extends AppCompatActivity {
     DatabaseReference databaseHistoryData;
     String userID;
     boolean isEmpty;
+    private TextView contactus;
+    private MaterialAlertDialogBuilder materialAlertDialogBuilder;
     //firebase
 
     //try
@@ -81,6 +74,20 @@ public class HistoryPage extends AppCompatActivity {
 
         recycleView();
 
+        contactus = (TextView) findViewById(R.id.contactus);
+        materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
+
+
+
+        contactus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                materialAlertDialogBuilder.setTitle("Send us Feedback, Suggestions, or Concerns.");
+                materialAlertDialogBuilder.setMessage("gezreelwazrcon@gmail.com\n" + "villarizaced@gmail.com\n");
+                materialAlertDialogBuilder.show();
+            }
+        });
+
         //retrieveHistoryData();
 
         //firebase
@@ -95,29 +102,25 @@ public class HistoryPage extends AppCompatActivity {
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
-            if (item.getItemId() == R.id.bottom_home) {
+            if (item.getItemId() == R.id.bottom_budget) {
+                startActivity(new Intent(getApplicationContext(), InputPage.class));
+                overridePendingTransition(0, 0);
+            } else if (item.getItemId() == R.id.bottom_home) {
                 startActivity(new Intent(getApplicationContext(), MainPage.class));
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                overridePendingTransition(0, 0);
                 return true;
             } else if (item.getItemId() == R.id.bottom_history) {
                 return true;
             } else if (item.getItemId() == R.id.bottom_settings) {
                 startActivity(new Intent(getApplicationContext(), SettingsPage.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                overridePendingTransition(0, 0);
                 return true;
             }
             return false;
         });
 
 
-        backbtn = (Button) findViewById(R.id.back_btn);
-        backbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openmain_page();
 
-            }
-        });
 
 
     }
