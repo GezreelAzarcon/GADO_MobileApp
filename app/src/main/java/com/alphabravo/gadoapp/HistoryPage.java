@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,6 +33,8 @@ public class HistoryPage extends AppCompatActivity {
     DatabaseReference databaseHistoryData;
     String userID;
     boolean isEmpty;
+    private TextView contactus;
+    private MaterialAlertDialogBuilder materialAlertDialogBuilder;
     //firebase
 
     //try
@@ -69,6 +74,20 @@ public class HistoryPage extends AppCompatActivity {
 
         recycleView();
 
+        contactus = (TextView) findViewById(R.id.contactus);
+        materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
+
+
+
+        contactus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                materialAlertDialogBuilder.setTitle("Send us Feedback, Suggestions, or Concerns.");
+                materialAlertDialogBuilder.setMessage("gezreelwazrcon@gmail.com\n" + "villarizaced@gmail.com\n");
+                materialAlertDialogBuilder.show();
+            }
+        });
+
         //retrieveHistoryData();
 
         //firebase
@@ -83,7 +102,10 @@ public class HistoryPage extends AppCompatActivity {
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
-            if (item.getItemId() == R.id.bottom_home) {
+            if (item.getItemId() == R.id.bottom_budget) {
+                startActivity(new Intent(getApplicationContext(), InputPage.class));
+                overridePendingTransition(0, 0);
+            } else if (item.getItemId() == R.id.bottom_home) {
                 startActivity(new Intent(getApplicationContext(), MainPage.class));
                 overridePendingTransition(0, 0);
                 return true;

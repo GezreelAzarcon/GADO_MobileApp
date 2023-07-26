@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -87,6 +88,10 @@ public class MainPage extends AppCompatActivity {
     public Uri imageUri;
     private static final String IMAGE_URI_KEY = "imageUri"; // Key for storing the image URI
 
+    private TextView contactus;
+    private MaterialAlertDialogBuilder materialAlertDialogBuilder;
+
+
 
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
@@ -124,10 +129,21 @@ public class MainPage extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
 
 
-
-
-
         getDBData(); // Displays Data
+        contactus = (TextView) findViewById(R.id.contactus);
+        materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
+
+
+
+        contactus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                materialAlertDialogBuilder.setTitle("Send us Feedback, Suggestions, or Concerns.");
+                materialAlertDialogBuilder.setMessage("gezreelwazrcon@gmail.com\n" + "villarizaced@gmail.com\n");
+                materialAlertDialogBuilder.show();
+            }
+        });
+
 
 
 
@@ -169,7 +185,11 @@ public class MainPage extends AppCompatActivity {
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
-            if (item.getItemId() == R.id.bottom_home) {
+            if (item.getItemId() == R.id.bottom_budget) {
+                startActivity(new Intent(getApplicationContext(), InputPage.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (item.getItemId() == R.id.bottom_home) {
                 return true;
             } else if (item.getItemId() == R.id.bottom_history) {
                 startActivity(new Intent(getApplicationContext(), HistoryPage.class));

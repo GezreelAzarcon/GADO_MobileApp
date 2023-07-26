@@ -7,14 +7,21 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class WelcomeuserPage extends AppCompatActivity {
 
     private ImageView wallet;
     private EditText amount;
+
+    private TextView contactus;
+    private MaterialAlertDialogBuilder materialAlertDialogBuilder;
+
 
 
 
@@ -26,6 +33,19 @@ public class WelcomeuserPage extends AppCompatActivity {
 
         wallet = (ImageView) findViewById(R.id.walletBtn);
         amount = (EditText) findViewById(R.id.amountEditText1);
+        contactus = (TextView) findViewById(R.id.contactus);
+        materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
+
+
+
+        contactus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                materialAlertDialogBuilder.setTitle("Send us Feedback, Suggestions, or Concerns.");
+                materialAlertDialogBuilder.setMessage("gezreelwazrcon@gmail.com\n" + "villarizaced@gmail.com\n");
+                materialAlertDialogBuilder.show();
+            }
+        });
 
 
         wallet.setOnClickListener(new View.OnClickListener() {

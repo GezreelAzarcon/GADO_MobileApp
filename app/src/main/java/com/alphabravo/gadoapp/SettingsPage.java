@@ -87,7 +87,11 @@ public class SettingsPage extends AppCompatActivity {
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
-            if (item.getItemId() == R.id.bottom_home) {
+            if (item.getItemId() == R.id.bottom_budget) {
+                startActivity(new Intent(getApplicationContext(), InputPage.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (item.getItemId() == R.id.bottom_home) {
                 startActivity(new Intent(getApplicationContext(), MainPage.class));
                 overridePendingTransition(0, 0);
                 return true;

@@ -89,6 +89,16 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/contactus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Need help or concern? Contact us."
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:textSize="15dp"
+        android:layout_marginBottom="20dp"/>
+
 
 
 

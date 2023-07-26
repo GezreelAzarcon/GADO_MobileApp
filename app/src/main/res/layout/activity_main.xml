@@ -36,6 +36,29 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About the"
+        android:layout_marginStart="110dp"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"/>
+
+    <TextView
+        android:id="@+id/aboutgado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GĀDO Mobile App"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="180dp"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:textColor="#1C3423"
+        android:layout_alignParentBottom="true"/>
+
 
 </RelativeLayout>
 
