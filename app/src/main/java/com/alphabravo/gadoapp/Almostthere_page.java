@@ -7,14 +7,19 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class Almostthere_page extends AppCompatActivity {
 
     private ImageView backbutton, proceed;
     private EditText amount1;
+    private TextView contactus;
+    private MaterialAlertDialogBuilder materialAlertDialogBuilder;
 
 
     @SuppressLint("MissingInflatedId")
@@ -28,6 +33,21 @@ public class Almostthere_page extends AppCompatActivity {
         backbutton = (ImageView) findViewById(R.id.backbtn);
         String useramount = getIntent().getStringExtra("keytxtwallet");
         amount1.setText(useramount);
+        contactus = (TextView) findViewById(R.id.contactus);
+        materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
+
+
+
+        contactus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                materialAlertDialogBuilder.setTitle("Send us Feedback, Suggestions, or Concerns.");
+                materialAlertDialogBuilder.setMessage("gezreelwazrcon@gmail.com\n" + "villarizaced@gmail.com\n");
+                materialAlertDialogBuilder.show();
+            }
+        });
+
+
 
 
         proceed.setOnClickListener(new View.OnClickListener() {

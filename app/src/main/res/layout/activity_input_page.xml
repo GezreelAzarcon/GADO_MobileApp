@@ -102,15 +102,42 @@
             android:id="@+id/saveBtn"
             android:layout_width="175dp"
             android:layout_height="125dp"
-            android:layout_marginTop="550dp"
             android:layout_marginStart="125dp"
+            android:layout_marginTop="480dp"
             android:layout_marginEnd="125dp"
-            android:paddingBottom="38dp"
-            app:srcCompat="@drawable/savebtn"
-            android:textSize="45dp" />
+            android:textSize="45dp"
+            app:srcCompat="@drawable/savebtn" />
 
 
     </RelativeLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/bottom_background"
+        android:elevation="16dp"
+        app:itemTextColor="@color/black"
+        app:itemIconSize="30dp"
+        app:itemIconTint="@drawable/item_selector"
+        app:itemRippleColor="@android:color/white"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_menu" />
+
+    <TextView
+        android:id="@+id/contactus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottomNavigationView"
+        android:text="Need help or concern? Contact us."
+        android:layout_centerInParent="true"
+        android:textSize="15dp"
+        android:layout_marginBottom="5dp"/>
+
 
 
 

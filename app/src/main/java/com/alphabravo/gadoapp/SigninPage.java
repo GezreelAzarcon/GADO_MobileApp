@@ -10,10 +10,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,6 +41,7 @@ public class SigninPage extends AppCompatActivity {
     private CheckBox check, privacy;
     private FirebaseAuth auth;
     TextView forgotpass;
+    private ImageView question;
 
     private MaterialAlertDialogBuilder materialAlertDialogBuilder;
 
@@ -91,6 +94,15 @@ public class SigninPage extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         //firebase
         Login = (TextView) findViewById(R.id.logintextBtn);
+        question= (ImageView) findViewById(R.id.questionButton);
+
+        question.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog();
+            }
+        });
+
 
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -268,6 +280,32 @@ public class SigninPage extends AppCompatActivity {
 
 
     }
+
+    private void alertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("GĀDO App");
+        builder.setMessage("What is GĀDO?\n" +
+                "Inspired by the Japanese pronunciation of the word guard, GĀDO is a game-based and self-help Android application that aims to solve the budgeting problems of its users. It aims to help its users build budgeting skills and discipline on their own. The application targets audiences who are having a hard time maintaining and keeping track of their budget.\n" +
+                "\n" +
+                "How to use it?\n" +
+                "The application will ask for the user’s daily budget and uses it as the game's life/health points, and the goods, foods, commodities, etc. that are bought by the user are considered the enemy. The app has a simple goal in mind, it is to “guard” the game’s life which is your budget.\n" +
+                "\n" +
+                "How will the user benefit?\n" +
+                "The audience will benefit from the application by being reassured and by having their budget maintained and monitored, it may also help them self-develop budgeting skills and discipline as it is a self-help application. It is an app that is game-based so it might give positivity and enjoyment instead of stress and anxiety, it can also help them reevaluate their current budget for the optimal ‘game outcome’ that would directly translate to optimal budgeting in real life.");
+        builder.setPositiveButton("Skip", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                start.setEnabled(true);
+                dialogInterface.dismiss();
+
+            }
+        });
+        builder.create().show();
+
+    }
+
+
+
     private void retrieveHistoryData() {
 
         userID = fAuth.getCurrentUser().getUid();
@@ -360,6 +398,9 @@ public class SigninPage extends AppCompatActivity {
     public void openForgotpass() {
         Intent intent = new Intent(this, forgotpassword_page.class);
         startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
 
     }
 
