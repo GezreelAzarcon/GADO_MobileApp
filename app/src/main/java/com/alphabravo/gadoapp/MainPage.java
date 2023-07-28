@@ -135,6 +135,7 @@ public class MainPage extends AppCompatActivity {
 
 
 
+
         contactus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,7 +155,6 @@ public class MainPage extends AppCompatActivity {
                 ImagePicker.with(MainPage.this).crop().compress(1024).maxResultSize(1080,1080).start();
             }
         });
-
 
 
 
@@ -368,4 +368,5 @@ public class MainPage extends AppCompatActivity {
             });
         }
     }
+
 }
