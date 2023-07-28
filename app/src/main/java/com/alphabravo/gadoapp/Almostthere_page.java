@@ -21,6 +21,23 @@ public class Almostthere_page extends AppCompatActivity {
     private TextView contactus;
     private MaterialAlertDialogBuilder materialAlertDialogBuilder;
 
+    //press again to exit
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+    private long mBackPressed;
+
+    @Override
+    public void onBackPressed()
+    {
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
+        {
+            super.onBackPressed();
+            return;
+        }
+        else { Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show(); }
+
+        mBackPressed = System.currentTimeMillis();
+    }
+    //press again to exit
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -82,11 +99,19 @@ public class Almostthere_page extends AppCompatActivity {
     }
 
     public void proceedUser(String txtProceed) {
+        String budget = amount1.getText().toString();
+        if (budget.matches("")) {
+            Toast.makeText(this, "There's no Value!", Toast.LENGTH_SHORT).show();
+        }else {
+            MyDatabaseHelper myDB = new MyDatabaseHelper(Almostthere_page.this);
+            myDB.addBook(amount1.getText().toString().trim(),
+                    amount1.getText().toString().trim());
+
         Intent intent = new Intent(this, InputPage.class);
         intent.putExtra("keytxtproceed", txtProceed);
         startActivity(intent);
         overridePendingTransition(0, 0);
-
+        }
     }
 }
 
