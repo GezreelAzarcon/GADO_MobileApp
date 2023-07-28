@@ -26,9 +26,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import io.paperdb.Paper;
+
 public class SignupPage extends AppCompatActivity {
 
     private Button  create;
+    MyDatabaseHelper myDatabase; // SQLite
     private EditText email, password, nickname;
     private TextView signin;
     private CheckBox check;
@@ -36,7 +39,23 @@ public class SignupPage extends AppCompatActivity {
     private ImageView question;
     private MaterialAlertDialogBuilder materialAlertDialogBuilder;
 
+    //press again to exit
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+    private long mBackPressed;
 
+    @Override
+    public void onBackPressed()
+    {
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
+        {
+            super.onBackPressed();
+            return;
+        }
+        else { Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show(); }
+
+        mBackPressed = System.currentTimeMillis();
+    }
+    //press again to exit
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -44,7 +63,9 @@ public class SignupPage extends AppCompatActivity {
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.usercredentialpage);
 
+        myDatabase = new MyDatabaseHelper(SignupPage.this);
 
+        Paper.init(this);
 
         email = findViewById(R.id.emailText1);
         password = findViewById(R.id.passwordText1);
@@ -308,6 +329,8 @@ public class SignupPage extends AppCompatActivity {
                     Toast.makeText(SignupPage.this, "Password should be less than 20", Toast.LENGTH_SHORT).show();
                 }else{
                     registerUser(txtEmail, txtPass, txtnickname, txtemail);
+                    myDatabase.resetLocalDatabase();
+                    myDatabase.resetLocalHistoryDatabase();
                 }
             }
         });
@@ -346,9 +369,10 @@ public class SignupPage extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    FirebaseAuth.getInstance().signOut();
                     Toast.makeText(SignupPage.this, "User Registration Successful!", Toast.LENGTH_SHORT).show();
-                    openVerificationpage(txtnickname, txtemail);
+                    Paper.book().write("UserEmail", email);
+                    Paper.book().write("UserPass", pass);
+                    openInputPage();
                     finish();
                 }else{
                     Toast.makeText(SignupPage.this, "User Registration Failed! Check Credentials", Toast.LENGTH_LONG).show();
@@ -361,8 +385,13 @@ public class SignupPage extends AppCompatActivity {
         Intent intent = new Intent(this, SigninPage.class);
         startActivity(intent);
         finish();
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 
+    public void openInputPage() {
+        Intent intent = new Intent(this, WelcomeuserPage.class);
+        startActivity(intent);
+        finish();
     }
 
     public void openVerificationpage(String txtnickname, String txtemail){

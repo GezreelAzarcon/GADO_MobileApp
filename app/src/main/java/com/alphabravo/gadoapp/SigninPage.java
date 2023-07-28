@@ -45,8 +45,8 @@ public class SigninPage extends AppCompatActivity {
 
     private MaterialAlertDialogBuilder materialAlertDialogBuilder;
 
-    private static final String UserEmail = "UserEmail";
-    private static final String UserPass = "UserPass";
+    public static final String UserEmail = "UserEmail";
+    public static final String UserPass = "UserPass";
 
     private TextView Login;
 
@@ -66,6 +66,24 @@ public class SigninPage extends AppCompatActivity {
     ArrayList<String> expense = new ArrayList<>();
     ArrayList<String> descriptions = new ArrayList<>();
 
+    //press again to exit
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+    private long mBackPressed;
+
+    @Override
+    public void onBackPressed()
+    {
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
+        {
+            super.onBackPressed();
+            return;
+        }
+        else { Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show(); }
+
+        mBackPressed = System.currentTimeMillis();
+    }
+    //press again to exit
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -75,8 +93,6 @@ public class SigninPage extends AppCompatActivity {
 
         //sql
         myDatabase = new MyDatabaseHelper(SigninPage.this);
-        myDatabase.resetLocalDatabase();
-        myDatabase.resetLocalHistoryDatabase();
 
         email = findViewById(R.id.emailText2);
         pass = findViewById(R.id.passwordText2);
@@ -86,6 +102,14 @@ public class SigninPage extends AppCompatActivity {
         start = (Button) findViewById(R.id.startBtn);
         forgotpass = (TextView) findViewById(R.id.forgotBtn);
         auth = FirebaseAuth.getInstance();
+
+        String UserEmail1 = Paper.book().read("UserEmail");
+        String UserPass1 = Paper.book().read("UserPass");
+        if (UserPass1 != "" && UserPass1 != ""){
+            if (!TextUtils.isEmpty(UserEmail1) && !TextUtils.isEmpty(UserPass1)){
+                AllowAccess(UserEmail1, UserPass1);
+            }
+        }
 
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
         start.setEnabled(false);
@@ -251,7 +275,6 @@ public class SigninPage extends AppCompatActivity {
             }
         });
 
-
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -264,22 +287,15 @@ public class SigninPage extends AppCompatActivity {
                 }else if (!privacy.isChecked()){
                     Toast.makeText(SigninPage.this, "Check Privacy Policy!", Toast.LENGTH_SHORT).show();
                 }else {
+                    myDatabase.resetLocalDatabase();
+                    myDatabase.resetLocalHistoryDatabase();
+                    Paper.book().write("UserEmail", txtEmail);
+                    Paper.book().write("UserPass", txtPass);
                     loginUser(txtEmail, txtPass);
                 }
             }
         });
-
-        String UserEmail1 = Paper.book().read(UserEmail);
-        String UserPass1 = Paper.book().read(UserPass);
-        if (UserPass1 != "" && UserPass1 != ""){
-            if (!TextUtils.isEmpty(UserEmail1) && !TextUtils.isEmpty(UserPass1)){
-                AllowAccess(UserEmail1, UserPass1);
-            }
         }
-
-
-
-    }
 
     private void alertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -354,7 +370,7 @@ public class SigninPage extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
-                    openInputPage();
+                    openMainPage();
                 }else{
                     Toast.makeText(SigninPage.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
                     start.setEnabled(true);
@@ -364,20 +380,12 @@ public class SigninPage extends AppCompatActivity {
     }
 
     private void loginUser(String email, String pass) {
-
         auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(SigninPage.this , new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful() && check.isChecked()) {
-
-                    Paper.book().write(UserEmail, email);
-                    Paper.book().write(UserPass, pass);
-                    AllowAccess(email, pass);
-
-                }else if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
                     openInputPage();
-
                 }else{
                     Toast.makeText(SigninPage.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
                     start.setEnabled(true);
@@ -408,8 +416,13 @@ public class SigninPage extends AppCompatActivity {
         Intent intent = new Intent(this, SignupPage.class);
         startActivity(intent);
         finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
 
+    public void openMainPage() {
+        Intent intent = new Intent(this, MainPage.class);
+        startActivity(intent);
+        finish();
     }
 
 }

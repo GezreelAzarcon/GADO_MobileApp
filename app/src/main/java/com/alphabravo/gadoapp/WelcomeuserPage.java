@@ -22,6 +22,24 @@ public class WelcomeuserPage extends AppCompatActivity {
     private TextView contactus;
     private MaterialAlertDialogBuilder materialAlertDialogBuilder;
 
+    //press again to exit
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+    private long mBackPressed;
+
+    @Override
+    public void onBackPressed()
+    {
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
+        {
+            super.onBackPressed();
+            return;
+        }
+        else { Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show(); }
+
+        mBackPressed = System.currentTimeMillis();
+    }
+    //press again to exit
+
 
 
 
@@ -63,6 +81,8 @@ public class WelcomeuserPage extends AppCompatActivity {
             }
         });
     }
+
+
 
     public void proceedUser(String txtWallet) {
         Intent intent = new Intent(this, Almostthere_page.class);
