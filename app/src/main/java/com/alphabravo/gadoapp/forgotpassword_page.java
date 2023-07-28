@@ -58,7 +58,7 @@ public class forgotpassword_page extends AppCompatActivity {
     }
 
     public void openVerification(String txtEmail) {
-        Intent intent = new Intent(this, verificationnewpass_page.class);
+        Intent intent = new Intent(this, passwordupdated_page.class);
         intent.putExtra("keytxtemail1", txtEmail);
         startActivity(intent);
         overridePendingTransition(0, 0);
