@@ -3,6 +3,7 @@ package com.alphabravo.gadoapp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,12 +23,30 @@ import io.paperdb.Paper;
 public class InputPage extends AppCompatActivity {
 
 
+    String budget = ""; //constant budget variable
+    MyDatabaseHelper myDB; // SQLite
     private TextView datentime, time, amount;
     private ImageView save, logout;
     private TextView contactus;
     private MaterialAlertDialogBuilder materialAlertDialogBuilder;
 
+    //press again to exit
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+    private long mBackPressed;
 
+    @Override
+    public void onBackPressed()
+    {
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
+        {
+            super.onBackPressed();
+            return;
+        }
+        else { Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show(); }
+
+        mBackPressed = System.currentTimeMillis();
+    }
+    //press again to exit
 
     @SuppressLint({"NonConstantResourceId", "MissingInflatedId", "WrongViewCast"})
     @Override
@@ -35,19 +54,19 @@ public class InputPage extends AppCompatActivity {
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.activity_input_page);
 
+        myDB = new MyDatabaseHelper(InputPage.this);
+
         Paper.init(this);
         save = findViewById(R.id.saveBtn);
         datentime = (TextView) findViewById(R.id.text_view_date1);
         time = (TextView) findViewById(R.id.text_view_time1);
         amount = findViewById(R.id.amountEditText);
-        String useramount = getIntent().getStringExtra("keytxtproceed");
-        amount.setText(useramount);
-        amount.setFocusable(false);
+
         contactus = (TextView) findViewById(R.id.contactus);
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
 
 
-
+        getDBData();
         contactus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,32 +122,29 @@ public class InputPage extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkInput();
+                startActivity(new Intent(InputPage.this, MainPage.class));
+
             }
         });
 
 
 
         }
-
-        private void checkInput() {
-            // SQLite Write Data
-            String budget = amount.getText().toString();
-            if (budget.matches("")) {
-                Toast.makeText(this, "There's no Value!", Toast.LENGTH_SHORT).show();
+    void getDBData() {
+        Cursor cursor = myDB.readAllData();
+        if (cursor.getCount() == 0){
+            Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
+        } else {
+            if (cursor.moveToFirst()){
+                budget = cursor.getString(1);
+                amount.setText(budget);
             }else {
-                MyDatabaseHelper myDB = new MyDatabaseHelper(InputPage.this);
-                myDB.addBook(amount.getText().toString().trim(),
-                        amount.getText().toString().trim());
-
-                //Intent intent = new Intent(InputPage.this, MainPage.class);
-                //intent.putExtra("amountUser", budget);
-                //startActivity(intent);
-
-                startActivity(new Intent(InputPage.this, MainPage.class));
+                cursor.close();
             }
-
         }
+    }
+
+
 
     }
 
