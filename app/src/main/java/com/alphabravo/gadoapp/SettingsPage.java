@@ -1,16 +1,20 @@
 package com.alphabravo.gadoapp;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -22,7 +26,10 @@ import io.paperdb.Paper;
 
 public class SettingsPage extends AppCompatActivity {
 
-    private Button logout , reset;
+    private Button logout;
+    private ImageView reset;
+    private MaterialAlertDialogBuilder materialAlertDialogBuilder;
+
     MyDatabaseHelper myDB; // SQLite
     FirebaseAuth fAuth;
     String userID;
@@ -78,8 +85,7 @@ public class SettingsPage extends AppCompatActivity {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myDB.resetLocalDatabase();
-                startActivity(new Intent(SettingsPage.this, WelcomeuserPage.class));
+                alertDialog();
             }
         });
 
@@ -124,6 +130,32 @@ public class SettingsPage extends AppCompatActivity {
         });
 
     }
+
+    private void alertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Back to Fund Page?");
+        builder.setMessage("Your budget will reset if you proceed.");
+        builder.setPositiveButton("Proceed", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                startActivity(new Intent(SettingsPage.this, WelcomeuserPage.class));
+                myDB.resetLocalDatabase();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+
+
+            }
+        });
+        builder.create().show();
+    }
+
     private void firebaseWrite() {
 
         int size = date1.size();
