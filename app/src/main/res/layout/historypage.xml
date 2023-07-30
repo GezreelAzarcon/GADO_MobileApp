@@ -4,15 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/history"
+    android:background="@drawable/historybg"
     tools:context=".HistoryPage">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="150dp"
-        android:layout_marginBottom="125dp"/>
+        android:layout_marginTop="130dp"
+        android:layout_marginBottom="195dp"/>
 
 
 
@@ -46,11 +46,14 @@
         android:textSize="15dp"
         android:layout_marginBottom="5dp"/>
 
-    <Button
+    <ImageView
         android:id="@+id/resetHistory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="reset" />
+        android:layout_width="150dp"
+        android:layout_height="55dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/contactus"
+
+        android:src="@drawable/historyreset" />
 
 
 </RelativeLayout>

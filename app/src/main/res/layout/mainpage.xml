@@ -22,7 +22,7 @@
             app:lottie_cacheComposition="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/fallingcoins"
-            app:lottie_speed="1" />
+            app:lottie_speed="0.7" />
 
 
     </LinearLayout>

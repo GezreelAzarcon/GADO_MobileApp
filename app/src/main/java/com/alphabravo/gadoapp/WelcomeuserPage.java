@@ -83,11 +83,8 @@ public class WelcomeuserPage extends AppCompatActivity {
 
                 wallet.setEnabled(true);
                 String txtWallet = amount.getText().toString();
-                int intWallet = Integer.parseInt(txtWallet);
                 if (TextUtils.isEmpty(txtWallet)){
-                    Toast.makeText(WelcomeuserPage.this, "Enter your Budget to Proceed.", Toast.LENGTH_SHORT).show();
-                }else if (intWallet == 0) {
-                    Toast.makeText(WelcomeuserPage.this, "Budget must be greater than 0.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WelcomeuserPage.this, "Enter your Budget to Proceed", Toast.LENGTH_SHORT).show();
                 }else {
                     proceedUser(txtWallet);
                 }
