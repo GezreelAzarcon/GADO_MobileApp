@@ -188,7 +188,6 @@ public class MainPage extends AppCompatActivity {
             public void onClick(View v) {
                 if (!animationPlayed) {
                     anim.setRepeatCount(0); // Set the repeat count to 0 (play once)
-                    anim.playAnimation();
                     expensesCheck(); // Updates point each arithmetic
                     animationPlayed = true; // Set the flag to true after playing the animation
                 } else {
@@ -305,6 +304,7 @@ public class MainPage extends AppCompatActivity {
         }else {
             updatePoint();
             addHistoryData();
+            anim.playAnimation();
         }
     }
 
