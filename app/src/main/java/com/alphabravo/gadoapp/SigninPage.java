@@ -289,8 +289,6 @@ public class SigninPage extends AppCompatActivity {
                 }else {
                     myDatabase.resetLocalDatabase();
                     myDatabase.resetLocalHistoryDatabase();
-                    Paper.book().write("UserEmail", txtEmail);
-                    Paper.book().write("UserPass", txtPass);
                     loginUser(txtEmail, txtPass);
                 }
             }
@@ -383,16 +381,20 @@ public class SigninPage extends AppCompatActivity {
         auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(SigninPage.this , new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
+                if (task.isSuccessful() && check.isChecked()) {
+                    Paper.book().write("UserEmail", email);
+                    Paper.book().write("UserPass", pass);
                     Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
                     openInputPage();
-                }else{
+                }else if (task.isSuccessful()){
+                    Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
+                    openInputPage();
+                }else {
                     Toast.makeText(SigninPage.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
                     start.setEnabled(true);
                 }
             }
         });
-
     }
 
     public void openInputPage(){

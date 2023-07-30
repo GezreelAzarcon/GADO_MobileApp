@@ -32,7 +32,7 @@ public class SignupPage extends AppCompatActivity {
 
     private Button  create;
     MyDatabaseHelper myDatabase; // SQLite
-    private EditText email, password, nickname;
+    private EditText email, password;
     private TextView signin;
     private CheckBox check;
     private FirebaseAuth auth;
@@ -78,7 +78,6 @@ public class SignupPage extends AppCompatActivity {
         ImageView imageViewShowpass = findViewById(R.id.hidepass);
         imageViewShowpass.setImageResource(R.drawable.hide);
         question = (ImageView) findViewById(R.id.questionButton);
-        nickname = findViewById(R.id.nickname);
 
         question.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -317,7 +316,6 @@ public class SignupPage extends AppCompatActivity {
                 String txtEmail = email.getText().toString();
                 String txtPass = password.getText().toString();
                 String txtemail = email.getText().toString();
-                String txtnickname = nickname.getText().toString();
 
                 if (TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtPass) && check.isChecked()) {
                     Toast.makeText(SignupPage.this, "Credentials are Empty!", Toast.LENGTH_SHORT).show();
@@ -328,7 +326,7 @@ public class SignupPage extends AppCompatActivity {
                 }else if (txtPass.length() > 20){
                     Toast.makeText(SignupPage.this, "Password should be less than 20", Toast.LENGTH_SHORT).show();
                 }else{
-                    registerUser(txtEmail, txtPass, txtnickname, txtemail);
+                    registerUser(txtEmail, txtPass, txtemail);
                     myDatabase.resetLocalDatabase();
                     myDatabase.resetLocalHistoryDatabase();
                 }
@@ -363,7 +361,7 @@ public class SignupPage extends AppCompatActivity {
 
     }
 
-    private void registerUser(String email, String pass, String txtnickname, String txtemail) {
+    private void registerUser(String email, String pass, String txtemail) {
 
         auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(SignupPage.this , new OnCompleteListener<AuthResult>() {
             @Override

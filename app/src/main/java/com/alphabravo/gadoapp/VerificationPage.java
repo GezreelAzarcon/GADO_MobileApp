@@ -26,7 +26,7 @@ public class VerificationPage extends AppCompatActivity {
     FirebaseUser user;
     AuthCredential credential;
     private EditText password;
-    private TextView nickname, gmail, forgotpass, switchs;
+    private TextView gmail, forgotpass, switchs;
     String useremail, userpass;
     FirebaseAuth auth;
 
@@ -59,14 +59,11 @@ public class VerificationPage extends AppCompatActivity {
 
 
         continuebtn = (Button) findViewById(R.id.continueBtn);
-        nickname = findViewById(R.id.nickname);
         gmail = findViewById(R.id.gmail);
         forgotpass = (TextView) findViewById(R.id.forgotBtn);
-        String usernickname = getIntent().getStringExtra("keytxtnickname");
 
         userpass = password.getText().toString();
         useremail = getIntent().getStringExtra("keytxtemail");
-        nickname.setText(usernickname);
         gmail.setText(useremail);
         switchs = findViewById(R.id.switchBtn);
 
