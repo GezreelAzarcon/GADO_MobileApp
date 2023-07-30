@@ -2,6 +2,7 @@ package com.alphabravo.gadoapp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,6 +20,7 @@ public class Almostthere_page extends AppCompatActivity {
     private ImageView backbutton, proceed, settings;
     private EditText amount1;
     private TextView contactus;
+    MyDatabaseHelper myDB;
     private MaterialAlertDialogBuilder materialAlertDialogBuilder;
 
     //press again to exit
@@ -53,11 +55,11 @@ public class Almostthere_page extends AppCompatActivity {
         contactus = (TextView) findViewById(R.id.contactus);
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
         settings = findViewById(R.id.settings);
-
+        myDB = new MyDatabaseHelper(this);
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                opensettings();
+                settingsCheck();
             }
         });
 
@@ -84,6 +86,7 @@ public class Almostthere_page extends AppCompatActivity {
                 if (TextUtils.isEmpty(txtProceed)) {
                     Toast.makeText(Almostthere_page.this, "Enter your Budget to Proceed.", Toast.LENGTH_SHORT).show();
                 } else {
+                    myDB.resetLocalDatabase();
                     proceedUser(txtProceed);
                 }
 
@@ -100,7 +103,7 @@ public class Almostthere_page extends AppCompatActivity {
 
     }
 
-    private void opensettings() {
+    private void openSettings() {
         Intent intent = new Intent(this, SettingsPage.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -125,6 +128,16 @@ public class Almostthere_page extends AppCompatActivity {
         intent.putExtra("keytxtproceed", txtProceed);
         startActivity(intent);
         overridePendingTransition(0, 0);
+        }
+    }
+
+    private void settingsCheck(){
+        Cursor cursor = myDB.readAllData();
+        if (cursor.getCount()==0)
+        {
+            Toast.makeText(Almostthere_page.this, "Input a daily budget first!", Toast.LENGTH_SHORT).show();
+        }else{
+            openSettings();
         }
     }
 }
