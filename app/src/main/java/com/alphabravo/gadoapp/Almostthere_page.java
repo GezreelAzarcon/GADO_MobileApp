@@ -83,9 +83,12 @@ public class Almostthere_page extends AppCompatActivity {
 
                 proceed.setEnabled(true);
                 String txtProceed = amount1.getText().toString();
+                int intWallet = Integer.parseInt(txtProceed);
                 if (TextUtils.isEmpty(txtProceed)) {
                     Toast.makeText(Almostthere_page.this, "Enter your Budget to Proceed.", Toast.LENGTH_SHORT).show();
-                } else {
+                }else if (intWallet == 0) {
+                    Toast.makeText(Almostthere_page.this, "Budget must be greater than 0.", Toast.LENGTH_SHORT).show();
+                }else {
                     myDB.resetLocalDatabase();
                     proceedUser(txtProceed);
                 }

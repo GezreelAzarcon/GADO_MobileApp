@@ -161,7 +161,7 @@ public class HistoryPage extends AppCompatActivity {
     private void alertDialogReset() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Reset your History?");
-        builder.setMessage("All of your history will be reset.");
+        builder.setMessage("All of your history will be gone. You will be redirected to budget input.");
         builder.setPositiveButton("Proceed", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -169,10 +169,10 @@ public class HistoryPage extends AppCompatActivity {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 database.getReference(userID).removeValue();
                 DB.resetLocalHistoryDatabase();
+                DB.resetLocalDatabase();
+                startActivity(new Intent(HistoryPage.this, WelcomeuserPage.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
-                overridePendingTransition(0, 0);
-                startActivity(getIntent());
-                overridePendingTransition(0, 0);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
