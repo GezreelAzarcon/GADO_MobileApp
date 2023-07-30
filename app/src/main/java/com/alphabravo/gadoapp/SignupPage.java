@@ -1,5 +1,6 @@
 package com.alphabravo.gadoapp;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,23 +26,46 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import io.paperdb.Paper;
+
 public class SignupPage extends AppCompatActivity {
 
     private Button  create;
+    MyDatabaseHelper myDatabase; // SQLite
     private EditText email, password;
     private TextView signin;
     private CheckBox check;
     private FirebaseAuth auth;
+    private ImageView question;
     private MaterialAlertDialogBuilder materialAlertDialogBuilder;
 
+    //press again to exit
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+    private long mBackPressed;
 
+    @Override
+    public void onBackPressed()
+    {
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
+        {
+            super.onBackPressed();
+            return;
+        }
+        else { Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show(); }
 
+        mBackPressed = System.currentTimeMillis();
+    }
+    //press again to exit
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle SavedInstanceState) {
         super.onCreate(SavedInstanceState);
         setContentView(R.layout.usercredentialpage);
 
+        myDatabase = new MyDatabaseHelper(SignupPage.this);
 
+        Paper.init(this);
 
         email = findViewById(R.id.emailText1);
         password = findViewById(R.id.passwordText1);
@@ -52,6 +77,15 @@ public class SignupPage extends AppCompatActivity {
         create.setEnabled(false);
         ImageView imageViewShowpass = findViewById(R.id.hidepass);
         imageViewShowpass.setImageResource(R.drawable.hide);
+        question = (ImageView) findViewById(R.id.questionButton);
+
+        question.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAlertDialog();
+            }
+        });
+
         imageViewShowpass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -271,6 +305,7 @@ public class SignupPage extends AppCompatActivity {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 openSigninPage();
 
             }
@@ -280,6 +315,7 @@ public class SignupPage extends AppCompatActivity {
             public void onClick(View v) {
                 String txtEmail = email.getText().toString();
                 String txtPass = password.getText().toString();
+                String txtemail = email.getText().toString();
 
                 if (TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtPass) && check.isChecked()) {
                     Toast.makeText(SignupPage.this, "Credentials are Empty!", Toast.LENGTH_SHORT).show();
@@ -290,7 +326,9 @@ public class SignupPage extends AppCompatActivity {
                 }else if (txtPass.length() > 20){
                     Toast.makeText(SignupPage.this, "Password should be less than 20", Toast.LENGTH_SHORT).show();
                 }else{
-                    registerUser(txtEmail, txtPass);
+                    registerUser(txtEmail, txtPass, txtemail);
+                    myDatabase.resetLocalDatabase();
+                    myDatabase.resetLocalHistoryDatabase();
                 }
             }
         });
@@ -300,15 +338,39 @@ public class SignupPage extends AppCompatActivity {
 
     }
 
-    private void registerUser(String email, String pass) {
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("GĀDO App");
+        builder.setMessage("What is GĀDO?\n" +
+                "Inspired by the Japanese pronunciation of the word guard, GĀDO is a game-based and self-help Android application that aims to solve the budgeting problems of its users. It aims to help its users build budgeting skills and discipline on their own. The application targets audiences who are having a hard time maintaining and keeping track of their budget.\n" +
+                "\n" +
+                "How to use it?\n" +
+                "The application will ask for the user’s daily budget and uses it as the game's life/health points, and the goods, foods, commodities, etc. that are bought by the user are considered the enemy. The app has a simple goal in mind, it is to “guard” the game’s life which is your budget.\n" +
+                "\n" +
+                "How will the user benefit?\n" +
+                "The audience will benefit from the application by being reassured and by having their budget maintained and monitored, it may also help them self-develop budgeting skills and discipline as it is a self-help application. It is an app that is game-based so it might give positivity and enjoyment instead of stress and anxiety, it can also help them reevaluate their current budget for the optimal ‘game outcome’ that would directly translate to optimal budgeting in real life.");
+        builder.setPositiveButton("Skip", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                create.setEnabled(true);
+                dialogInterface.dismiss();
+
+            }
+        });
+        builder.create().show();
+
+    }
+
+    private void registerUser(String email, String pass, String txtemail) {
 
         auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(SignupPage.this , new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    FirebaseAuth.getInstance().signOut();
                     Toast.makeText(SignupPage.this, "User Registration Successful!", Toast.LENGTH_SHORT).show();
-                    openVerificationpage();
+                    Paper.book().write("UserEmail", email);
+                    Paper.book().write("UserPass", pass);
+                    openInputPage();
                     finish();
                 }else{
                     Toast.makeText(SignupPage.this, "User Registration Failed! Check Credentials", Toast.LENGTH_LONG).show();
@@ -321,12 +383,19 @@ public class SignupPage extends AppCompatActivity {
         Intent intent = new Intent(this, SigninPage.class);
         startActivity(intent);
         finish();
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
-    public void openVerificationpage(){
+    public void openInputPage() {
+        Intent intent = new Intent(this, WelcomeuserPage.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void openVerificationpage(String txtnickname, String txtemail){
         Intent intent = new Intent(this, VerificationPage.class);
+        intent.putExtra("keytxtnickname", txtnickname);
+        intent.putExtra("keytxtemail", txtemail);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -14,48 +15,51 @@
         tools:targetApi="31">
         <activity
             android:name=".Almostthere_page"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".WelcomeuserPage"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".MyAdapter"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".SettingsPage"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".verificationnewpass_page"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".passwordupdated_page"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".newcredential_page"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".forgotpassword_page"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".SigninPage"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".SignupPage"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".VerificationPage"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".HistoryPage"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".MainPage"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".InputPage"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:exported="false">
+        </activity>
+        <activity android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

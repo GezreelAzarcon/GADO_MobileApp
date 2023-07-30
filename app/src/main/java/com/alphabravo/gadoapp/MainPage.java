@@ -1,5 +1,6 @@
 package com.alphabravo.gadoapp;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,8 +15,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -86,6 +89,31 @@ public class MainPage extends AppCompatActivity {
 
     public Uri imageUri;
     private static final String IMAGE_URI_KEY = "imageUri"; // Key for storing the image URI
+    private LottieAnimationView anim;
+
+    private TextView contactus;
+    private MaterialAlertDialogBuilder materialAlertDialogBuilder;
+    private boolean animationPlayed = false;
+
+
+    //press again to exit
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+    private long mBackPressed;
+
+    @Override
+    public void onBackPressed()
+    {
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
+        {
+            super.onBackPressed();
+            return;
+        }
+        else { Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show(); }
+
+        mBackPressed = System.currentTimeMillis();
+    }
+    //press again to exit
+
 
 
 
@@ -102,6 +130,7 @@ public class MainPage extends AppCompatActivity {
         lifepoints = findViewById(R.id.lifePoint);
         constamount = findViewById(R.id.constLife);
         description = findViewById(R.id.descriptionText);
+        anim = findViewById(R.id.fallingcoin);
 
         //firebase
         fAuth = FirebaseAuth.getInstance();
@@ -124,10 +153,22 @@ public class MainPage extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
 
 
-
-
-
         getDBData(); // Displays Data
+        contactus = (TextView) findViewById(R.id.contactus);
+        materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
+
+
+
+
+        contactus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                materialAlertDialogBuilder.setTitle("Send us Feedback, Suggestions, or Concerns.");
+                materialAlertDialogBuilder.setMessage("gezreelwazrcon@gmail.com\n" + "villarizaced@gmail.com\n");
+                materialAlertDialogBuilder.show();
+            }
+        });
+
 
 
 
@@ -141,15 +182,54 @@ public class MainPage extends AppCompatActivity {
 
 
 
-
         enter.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v){
-                expensesCheck(); // Updates point each arithmetic
+            public void onClick(View v) {
+                if (!animationPlayed) {
+                    anim.setRepeatCount(0); // Set the repeat count to 0 (play once)
+                    expensesCheck(); // Updates point each arithmetic
+                    animationPlayed = true; // Set the flag to true after playing the animation
+                } else {
+                    anim.setRepeatCount(0); // Set the repeat count to 1 (play once again)
+                    anim.playAnimation();
+                }
 
             }
 
+
         });
+        // Add an AnimationListener to the animation
+        anim.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                // Animation starts
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                // Animation ends
+                if (animationPlayed) {
+                    anim.setRepeatCount(0); // Set the repeat count to 0 if animation is played once
+                    animationPlayed = false; // Reset the animationPlayed flag to allow playing on the next click
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                // Animation canceled
+                stopAnimation(); // Ensure the animation is stopped if it's canceled
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                // Animation repeats (if set to repeat)
+            }
+        });
+
+
+// Method to stop the animation
+
 
         long date = System.currentTimeMillis();
         Calendar calendar = Calendar.getInstance();
@@ -169,7 +249,11 @@ public class MainPage extends AppCompatActivity {
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
-            if (item.getItemId() == R.id.bottom_home) {
+            if (item.getItemId() == R.id.bottom_budget) {
+                startActivity(new Intent(getApplicationContext(), InputPage.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (item.getItemId() == R.id.bottom_home) {
                 return true;
             } else if (item.getItemId() == R.id.bottom_history) {
                 startActivity(new Intent(getApplicationContext(), HistoryPage.class));
@@ -220,6 +304,7 @@ public class MainPage extends AppCompatActivity {
         }else {
             updatePoint();
             addHistoryData();
+            anim.playAnimation();
         }
     }
 
@@ -321,6 +406,14 @@ public class MainPage extends AppCompatActivity {
         }
     }
 
+
+    private void stopAnimation() {
+        anim.cancelAnimation(); // Stops the animation
+        animationPlayed = false; // Reset the animationPlayed flag to allow playing on the next click
+        enter.setEnabled(true);
+
+    }
+
     // Code to save the picture to Firebase Storage and Realtime database
     private void uploadPicture() {
         if (imageUri != null) {
@@ -348,4 +441,5 @@ public class MainPage extends AppCompatActivity {
             });
         }
     }
+
 }

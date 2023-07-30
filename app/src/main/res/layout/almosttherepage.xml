@@ -24,7 +24,7 @@
             android:text="Enter your Daily Budget:"
             android:textColor="@color/white"
             android:visibility="invisible"
-            android:textSize="25dp">
+            android:textSize="20dp">
 
 
         </TextView>
@@ -88,6 +88,33 @@
             android:focusable="true" />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/contactus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="5dp"
+        android:layout_above="@+id/settings"
+        android:text="Need help or concern? Contact us."
+        android:textColor="@color/black"
+        android:textSize="15dp" />
+
+
+    <ImageView
+        android:id="@+id/settings"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="20dp"
+        android:src="@drawable/settingsbutton"
+        android:textColor="@color/black"
+        android:layout_alignParentBottom="true"
+        android:textSize="45dp"
+        android:background="@android:color/transparent"
+        android:textStyle="bold">
+
+    </ImageView>
 
 
 

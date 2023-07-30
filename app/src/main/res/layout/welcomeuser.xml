@@ -7,6 +7,7 @@
     android:background="@drawable/welcomeuser"
     tools:context=".WelcomeuserPage">
 
+
     <RelativeLayout
         android:id="@+id/relay2"
         android:layout_width="wrap_content"
@@ -21,7 +22,8 @@
             android:layout_marginTop="170dp"
             android:text="Enter your Daily Budget:"
             android:textColor="@color/white"
-            android:textSize="25dp">
+            android:textSize="20dp">
+
 
         </TextView>
 
@@ -33,7 +35,7 @@
             android:layout_below="@+id/dailybudgettext"
             android:layout_centerInParent="true"
             android:layout_marginStart="60dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="9dp"
             android:layout_marginEnd="75dp"
             android:background="@drawable/edit_round"
             android:inputType="numberDecimal"
@@ -49,8 +51,7 @@
             android:layout_marginStart="70dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
-            android:src="@drawable/php"
-           />
+            android:src="@drawable/php" />
 
         <ImageView
             android:id="@+id/walletBtn"
@@ -58,7 +59,7 @@
             android:layout_height="125dp"
             android:layout_below="@id/amountEditText1"
             android:layout_centerInParent="true"
-            android:layout_marginStart="150dp"
+            android:layout_marginStart="145dp"
             android:layout_marginTop="75dp"
             android:layout_marginEnd="100dp"
             android:paddingBottom="38dp"
@@ -68,16 +69,44 @@
             android:textSize="45dp"
             android:textStyle="bold" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-
-
-        </RelativeLayout>
-
-
     </RelativeLayout>
+
+
+
+
+    <TextView
+        android:id="@+id/contactus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="5dp"
+        android:layout_above="@+id/settings"
+        android:text="Need help or concern? Contact us."
+        android:textColor="@color/black"
+        android:textSize="15dp" />
+
+
+    <ImageView
+        android:id="@+id/settings"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="20dp"
+        android:src="@drawable/settingsbutton"
+        android:textColor="@color/black"
+        android:layout_alignParentBottom="true"
+        android:textSize="45dp"
+        android:background="@android:color/transparent"
+        android:textStyle="bold">
+
+    </ImageView>
+
+
+
+
+
+
+
 
 
 

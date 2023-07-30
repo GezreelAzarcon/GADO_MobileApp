@@ -10,10 +10,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,11 +41,12 @@ public class SigninPage extends AppCompatActivity {
     private CheckBox check, privacy;
     private FirebaseAuth auth;
     TextView forgotpass;
+    private ImageView question;
 
     private MaterialAlertDialogBuilder materialAlertDialogBuilder;
 
-    private static final String UserEmail = "UserEmail";
-    private static final String UserPass = "UserPass";
+    public static final String UserEmail = "UserEmail";
+    public static final String UserPass = "UserPass";
 
     private TextView Login;
 
@@ -63,6 +66,24 @@ public class SigninPage extends AppCompatActivity {
     ArrayList<String> expense = new ArrayList<>();
     ArrayList<String> descriptions = new ArrayList<>();
 
+    //press again to exit
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+    private long mBackPressed;
+
+    @Override
+    public void onBackPressed()
+    {
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
+        {
+            super.onBackPressed();
+            return;
+        }
+        else { Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show(); }
+
+        mBackPressed = System.currentTimeMillis();
+    }
+    //press again to exit
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -72,8 +93,6 @@ public class SigninPage extends AppCompatActivity {
 
         //sql
         myDatabase = new MyDatabaseHelper(SigninPage.this);
-        myDatabase.resetLocalDatabase();
-        myDatabase.resetLocalHistoryDatabase();
 
         email = findViewById(R.id.emailText2);
         pass = findViewById(R.id.passwordText2);
@@ -84,6 +103,14 @@ public class SigninPage extends AppCompatActivity {
         forgotpass = (TextView) findViewById(R.id.forgotBtn);
         auth = FirebaseAuth.getInstance();
 
+        String UserEmail1 = Paper.book().read("UserEmail");
+        String UserPass1 = Paper.book().read("UserPass");
+        if (UserPass1 != "" && UserPass1 != ""){
+            if (!TextUtils.isEmpty(UserEmail1) && !TextUtils.isEmpty(UserPass1)){
+                AllowAccess(UserEmail1, UserPass1);
+            }
+        }
+
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
         start.setEnabled(false);
 
@@ -91,6 +118,15 @@ public class SigninPage extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         //firebase
         Login = (TextView) findViewById(R.id.logintextBtn);
+        question= (ImageView) findViewById(R.id.questionButton);
+
+        question.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog();
+            }
+        });
+
 
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,7 +275,6 @@ public class SigninPage extends AppCompatActivity {
             }
         });
 
-
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -252,22 +287,39 @@ public class SigninPage extends AppCompatActivity {
                 }else if (!privacy.isChecked()){
                     Toast.makeText(SigninPage.this, "Check Privacy Policy!", Toast.LENGTH_SHORT).show();
                 }else {
+                    myDatabase.resetLocalDatabase();
+                    myDatabase.resetLocalHistoryDatabase();
                     loginUser(txtEmail, txtPass);
                 }
             }
         });
-
-        String UserEmail1 = Paper.book().read(UserEmail);
-        String UserPass1 = Paper.book().read(UserPass);
-        if (UserPass1 != "" && UserPass1 != ""){
-            if (!TextUtils.isEmpty(UserEmail1) && !TextUtils.isEmpty(UserPass1)){
-                AllowAccess(UserEmail1, UserPass1);
-            }
         }
 
+    private void alertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("GĀDO App");
+        builder.setMessage("What is GĀDO?\n" +
+                "Inspired by the Japanese pronunciation of the word guard, GĀDO is a game-based and self-help Android application that aims to solve the budgeting problems of its users. It aims to help its users build budgeting skills and discipline on their own. The application targets audiences who are having a hard time maintaining and keeping track of their budget.\n" +
+                "\n" +
+                "How to use it?\n" +
+                "The application will ask for the user’s daily budget and uses it as the game's life/health points, and the goods, foods, commodities, etc. that are bought by the user are considered the enemy. The app has a simple goal in mind, it is to “guard” the game’s life which is your budget.\n" +
+                "\n" +
+                "How will the user benefit?\n" +
+                "The audience will benefit from the application by being reassured and by having their budget maintained and monitored, it may also help them self-develop budgeting skills and discipline as it is a self-help application. It is an app that is game-based so it might give positivity and enjoyment instead of stress and anxiety, it can also help them reevaluate their current budget for the optimal ‘game outcome’ that would directly translate to optimal budgeting in real life.");
+        builder.setPositiveButton("Skip", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                start.setEnabled(true);
+                dialogInterface.dismiss();
 
+            }
+        });
+        builder.create().show();
 
     }
+
+
+
     private void retrieveHistoryData() {
 
         userID = fAuth.getCurrentUser().getUid();
@@ -316,7 +368,7 @@ public class SigninPage extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
-                    openInputPage();
+                    openMainPage();
                 }else{
                     Toast.makeText(SigninPage.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
                     start.setEnabled(true);
@@ -326,27 +378,23 @@ public class SigninPage extends AppCompatActivity {
     }
 
     private void loginUser(String email, String pass) {
-
         auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(SigninPage.this , new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful() && check.isChecked()) {
-
-                    Paper.book().write(UserEmail, email);
-                    Paper.book().write(UserPass, pass);
-                    AllowAccess(email, pass);
-
+                    Paper.book().write("UserEmail", email);
+                    Paper.book().write("UserPass", pass);
+                    Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
+                    openInputPage();
                 }else if (task.isSuccessful()){
                     Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
                     openInputPage();
-
-                }else{
+                }else {
                     Toast.makeText(SigninPage.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
                     start.setEnabled(true);
                 }
             }
         });
-
     }
 
     public void openInputPage(){
@@ -360,6 +408,9 @@ public class SigninPage extends AppCompatActivity {
     public void openForgotpass() {
         Intent intent = new Intent(this, forgotpassword_page.class);
         startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
 
     }
 
@@ -367,8 +418,13 @@ public class SigninPage extends AppCompatActivity {
         Intent intent = new Intent(this, SignupPage.class);
         startActivity(intent);
         finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
 
+    public void openMainPage() {
+        Intent intent = new Intent(this, MainPage.class);
+        startActivity(intent);
+        finish();
     }
 
 }
