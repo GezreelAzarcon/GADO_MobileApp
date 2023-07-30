@@ -1,5 +1,6 @@
 package com.alphabravo.gadoapp;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -87,9 +89,12 @@ public class MainPage extends AppCompatActivity {
 
     public Uri imageUri;
     private static final String IMAGE_URI_KEY = "imageUri"; // Key for storing the image URI
+    private LottieAnimationView anim;
 
     private TextView contactus;
     private MaterialAlertDialogBuilder materialAlertDialogBuilder;
+    private boolean animationPlayed = false;
+
 
     //press again to exit
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
@@ -125,6 +130,7 @@ public class MainPage extends AppCompatActivity {
         lifepoints = findViewById(R.id.lifePoint);
         constamount = findViewById(R.id.constLife);
         description = findViewById(R.id.descriptionText);
+        anim = findViewById(R.id.fallingcoin);
 
         //firebase
         fAuth = FirebaseAuth.getInstance();
@@ -177,13 +183,54 @@ public class MainPage extends AppCompatActivity {
 
 
         enter.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v){
-                expensesCheck(); // Updates point each arithmetic
+            public void onClick(View v) {
+                if (!animationPlayed) {
+                    anim.setRepeatCount(0); // Set the repeat count to 0 (play once)
+                    anim.playAnimation();
+                    expensesCheck(); // Updates point each arithmetic
+                    animationPlayed = true; // Set the flag to true after playing the animation
+                } else {
+                    anim.setRepeatCount(0); // Set the repeat count to 1 (play once again)
+                    anim.playAnimation();
+                }
 
             }
 
+
         });
+        // Add an AnimationListener to the animation
+        anim.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                // Animation starts
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                // Animation ends
+                if (animationPlayed) {
+                    anim.setRepeatCount(0); // Set the repeat count to 0 if animation is played once
+                    animationPlayed = false; // Reset the animationPlayed flag to allow playing on the next click
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                // Animation canceled
+                stopAnimation(); // Ensure the animation is stopped if it's canceled
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                // Animation repeats (if set to repeat)
+            }
+        });
+
+
+// Method to stop the animation
+
 
         long date = System.currentTimeMillis();
         Calendar calendar = Calendar.getInstance();
@@ -357,6 +404,14 @@ public class MainPage extends AppCompatActivity {
 
             uploadPicture();
         }
+    }
+
+
+    private void stopAnimation() {
+        anim.cancelAnimation(); // Stops the animation
+        animationPlayed = false; // Reset the animationPlayed flag to allow playing on the next click
+        enter.setEnabled(true);
+
     }
 
     // Code to save the picture to Firebase Storage and Realtime database

@@ -13,10 +13,9 @@
     <Button
         android:id="@+id/logoutButton1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="550dp"
-        android:layout_marginBottom="30dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="230dp"
+        android:layout_marginBottom="55dp"
         android:layout_above="@+id/bottomNavigationView"
         android:textSize="15sp"
         android:backgroundTint="@color/white"
@@ -24,18 +23,14 @@
         android:text="Log Out" />
 
 
-    <Button
+    <ImageView
         android:id="@+id/resetButton"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="220dp"
-        android:layout_marginBottom="30dp"
-        android:textSize="15sp"
-        android:layout_above="@id/bottomNavigationView"
-        android:backgroundTint="@color/white"
-        android:textColor="@color/black"
-        android:text="Daily Reset" />
-
+        android:src="@drawable/fundpage"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="35dp"
+        android:layout_above="@id/bottomNavigationView"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
