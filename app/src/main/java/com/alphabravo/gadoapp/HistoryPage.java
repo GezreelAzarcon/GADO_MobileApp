@@ -1,6 +1,7 @@
 package com.alphabravo.gadoapp;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,11 +24,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import io.paperdb.Paper;
+
 public class HistoryPage extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<String> datentime, time, constamount, expenses, description;
     MyDatabaseHelper DB;
     MyAdapter adapter;
+
+    Button resetHistory;
 
     //firebase
     FirebaseAuth fAuth;
@@ -90,6 +96,8 @@ public class HistoryPage extends AppCompatActivity {
 
         isEmpty = true;
 
+        resetHistory = findViewById(R.id.resetHistory);
+
         recycleView();
 
         contactus = (TextView) findViewById(R.id.contactus);
@@ -103,6 +111,13 @@ public class HistoryPage extends AppCompatActivity {
                 materialAlertDialogBuilder.setTitle("Send us Feedback, Suggestions, or Concerns.");
                 materialAlertDialogBuilder.setMessage("gezreelwazrcon@gmail.com\n" + "villarizaced@gmail.com\n");
                 materialAlertDialogBuilder.show();
+            }
+        });
+
+        resetHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialogReset();
             }
         });
 
@@ -141,6 +156,35 @@ public class HistoryPage extends AppCompatActivity {
 
 
 
+    }
+
+    private void alertDialogReset() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Reset your History?");
+        builder.setMessage("All of your history will be gone. You will be redirected to budget input.");
+        builder.setPositiveButton("Proceed", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                userID = fAuth.getCurrentUser().getUid();
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                database.getReference(userID).removeValue();
+                DB.resetLocalHistoryDatabase();
+                DB.resetLocalDatabase();
+                startActivity(new Intent(HistoryPage.this, WelcomeuserPage.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                finish();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+
+
+            }
+        });
+        builder.create().show();
     }
 
     public void openmain_page() {
