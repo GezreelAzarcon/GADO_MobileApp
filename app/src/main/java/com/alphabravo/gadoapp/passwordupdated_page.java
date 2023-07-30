@@ -63,7 +63,7 @@ public class passwordupdated_page extends AppCompatActivity {
             public void onClick(View v) {
                 Uri mUri = Uri.parse("market://details?id=" + "com.google.android.gm");
                 Intent mIntent = new Intent(Intent.ACTION_VIEW, mUri);
-                startActivity(mIntent );
+                startActivity(mIntent);
             }
         });
 

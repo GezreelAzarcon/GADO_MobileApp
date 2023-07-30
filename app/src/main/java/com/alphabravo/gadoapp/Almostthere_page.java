@@ -16,7 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class Almostthere_page extends AppCompatActivity {
 
-    private ImageView backbutton, proceed;
+    private ImageView backbutton, proceed, settings;
     private EditText amount1;
     private TextView contactus;
     private MaterialAlertDialogBuilder materialAlertDialogBuilder;
@@ -52,6 +52,14 @@ public class Almostthere_page extends AppCompatActivity {
         amount1.setText(useramount);
         contactus = (TextView) findViewById(R.id.contactus);
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
+        settings = findViewById(R.id.settings);
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                opensettings();
+            }
+        });
 
 
 
@@ -90,6 +98,12 @@ public class Almostthere_page extends AppCompatActivity {
         });
 
 
+    }
+
+    private void opensettings() {
+        Intent intent = new Intent(this, SettingsPage.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     private void goToInputPage() {

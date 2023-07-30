@@ -16,7 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class WelcomeuserPage extends AppCompatActivity {
 
-    private ImageView wallet;
+    private ImageView wallet, settings;
     private EditText amount;
 
     private TextView contactus;
@@ -25,6 +25,7 @@ public class WelcomeuserPage extends AppCompatActivity {
     //press again to exit
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     private long mBackPressed;
+
 
     @Override
     public void onBackPressed()
@@ -53,7 +54,14 @@ public class WelcomeuserPage extends AppCompatActivity {
         amount = (EditText) findViewById(R.id.amountEditText1);
         contactus = (TextView) findViewById(R.id.contactus);
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
+        settings = findViewById(R.id.settings);
 
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                opensettings();
+            }
+        });
 
 
         contactus.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +90,14 @@ public class WelcomeuserPage extends AppCompatActivity {
         });
     }
 
+    private void opensettings() {
+        Intent intent = new Intent(this, SettingsPage.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+
+
+    }
 
 
     public void proceedUser(String txtWallet) {
