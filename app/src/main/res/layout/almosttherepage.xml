@@ -24,7 +24,7 @@
             android:text="Enter your Daily Budget:"
             android:textColor="@color/white"
             android:visibility="invisible"
-            android:textSize="25dp">
+            android:textSize="20dp">
 
 
         </TextView>
