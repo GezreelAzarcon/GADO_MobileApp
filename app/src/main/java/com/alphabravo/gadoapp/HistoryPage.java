@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -158,6 +159,32 @@ public class HistoryPage extends AppCompatActivity {
 
 
     }
+    private void setResetHistory() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+
+        final AlertDialog dlg = builder.create();
+
+        dlg.show();
+
+        Handler mHandler = new Handler();
+        Runnable mRunnable = new Runnable() {
+
+            public void run() {
+                if(dlg != null && dlg.isShowing()){
+                    DB.resetLocalHistoryDatabase();
+                    DB.resetLocalDatabase();
+                    startActivity(new Intent(HistoryPage.this, WelcomeuserPage.class));
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                    finish();
+                    dlg.dismiss();
+                }
+            }
+        };
+        mHandler.postDelayed(mRunnable,0);
+
+    }
+
 
     private void alertDialogReset() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -169,11 +196,7 @@ public class HistoryPage extends AppCompatActivity {
                 userID = fAuth.getCurrentUser().getUid();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 database.getReference(userID).removeValue();
-                DB.resetLocalHistoryDatabase();
-                DB.resetLocalDatabase();
-                startActivity(new Intent(HistoryPage.this, WelcomeuserPage.class));
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                finish();
+                setResetHistory();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
