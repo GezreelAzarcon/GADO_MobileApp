@@ -3,6 +3,7 @@ package com.alphabravo.gadoapp;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -282,13 +283,13 @@ public class SigninPage extends AppCompatActivity {
                 String txtEmail = email.getText().toString();
                 String txtPass = pass.getText().toString();
 
-                if (TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtPass) && check.isChecked()) {
+                if (TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtPass)) {
                     Toast.makeText(SigninPage.this, "Credentials are Empty!", Toast.LENGTH_SHORT).show();
+                    start.setEnabled(true);
                 }else if (!privacy.isChecked()){
                     Toast.makeText(SigninPage.this, "Check Privacy Policy!", Toast.LENGTH_SHORT).show();
+                    start.setEnabled(true);
                 }else {
-                    myDatabase.resetLocalDatabase();
-                    myDatabase.resetLocalHistoryDatabase();
                     loginUser(txtEmail, txtPass);
                 }
             }
@@ -368,7 +369,7 @@ public class SigninPage extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
-                    openMainPage();
+                    whatToOpen();
                 }else{
                     Toast.makeText(SigninPage.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
                     start.setEnabled(true);
@@ -376,19 +377,32 @@ public class SigninPage extends AppCompatActivity {
             }
         });
     }
+    private void whatToOpen(){
+        Cursor cursor = myDatabase.readAllData();
+        if (cursor.getCount()==0)
+        {
+            openInputPage();
+        }else{
+            openMainPage();
+        }
+    }
 
     private void loginUser(String email, String pass) {
         auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(SigninPage.this , new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful() && check.isChecked()) {
+                    myDatabase.resetLocalDatabase();
+                    myDatabase.resetLocalHistoryDatabase();
                     Paper.book().write("UserEmail", email);
                     Paper.book().write("UserPass", pass);
                     Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
-                    openInputPage();
+                    whatToOpen();
                 }else if (task.isSuccessful()){
+                    myDatabase.resetLocalDatabase();
+                    myDatabase.resetLocalHistoryDatabase();
                     Toast.makeText(SigninPage.this, "Log In Successful!", Toast.LENGTH_SHORT).show();
-                    openInputPage();
+                    whatToOpen();
                 }else {
                     Toast.makeText(SigninPage.this, "Log In Failed! Check Credentials!", Toast.LENGTH_SHORT).show();
                     start.setEnabled(true);

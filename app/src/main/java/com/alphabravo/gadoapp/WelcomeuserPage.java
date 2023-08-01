@@ -17,7 +17,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class WelcomeuserPage extends AppCompatActivity {
 
-    private ImageView wallet, settings;
+    private ImageView wallet;
     private EditText amount;
 
     MyDatabaseHelper DB;
@@ -57,14 +57,7 @@ public class WelcomeuserPage extends AppCompatActivity {
         amount = (EditText) findViewById(R.id.amountEditText1);
         contactus = (TextView) findViewById(R.id.contactus);
         materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
-        settings = findViewById(R.id.settings);
         DB = new MyDatabaseHelper(this);
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                settingsCheck();
-            }
-        });
 
 
         contactus.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +110,7 @@ public class WelcomeuserPage extends AppCompatActivity {
             Toast.makeText(WelcomeuserPage.this, "Input a daily budget first!", Toast.LENGTH_SHORT).show();
         }else{
             openSettings();
-            }
         }
     }
+}
 

@@ -186,15 +186,9 @@ public class MainPage extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if (!animationPlayed) {
-                    anim.setRepeatCount(0); // Set the repeat count to 0 (play once)
-                    expensesCheck(); // Updates point each arithmetic
-                    animationPlayed = true; // Set the flag to true after playing the animation
-                } else {
-                    anim.setRepeatCount(0); // Set the repeat count to 1 (play once again)
-                    anim.playAnimation();
-                }
-
+                expensesCheck(); // Updates point each arithmetic
+                expenses.setText("");
+                description.setText("");
             }
 
 
@@ -296,22 +290,34 @@ public class MainPage extends AppCompatActivity {
         outState.putParcelable(IMAGE_URI_KEY, imageUri);
     }
 
+    private void playAnimation() {
+        if (!animationPlayed) {
+            anim.setRepeatCount(0); // Set the repeat count to 0 (play once)
+            anim.playAnimation();
+            animationPlayed = true; // Set the flag to true after playing the animation
+        } else {
+            anim.setRepeatCount(0); // Set the repeat count to 1 (play once again)
+            anim.playAnimation();
+        }
+    }
+
     private void expensesCheck() {
         String expense = expenses.getText().toString();
         String desc = description.getText().toString();
         if (expense.matches("") || desc.matches("")) {
-            Toast.makeText(this, "There's no value!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Incomplete value!", Toast.LENGTH_SHORT).show();
         }else {
             updatePoint();
             addHistoryData();
-            anim.playAnimation();
+            playAnimation();
         }
     }
 
     private void addHistoryData() {
         String date = datentime.getText().toString().trim();
         String timeHistory = time.getText().toString().trim();
-        String budget = constamount.getText().toString().trim();
+        String budget1 = constamount.getText().toString().trim();
+        String budget = pointText + "/" + budget1;
         String expense = expenses.getText().toString().trim();
         String historyDescription = description.getText().toString().trim();
 

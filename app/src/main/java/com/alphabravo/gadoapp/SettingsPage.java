@@ -27,6 +27,8 @@ import io.paperdb.Paper;
 
 public class SettingsPage extends AppCompatActivity {
 
+    String budget, pointText;
+    String expenseTXT;
     private Button logout;
     private ImageView reset;
     private MaterialAlertDialogBuilder materialAlertDialogBuilder;
@@ -83,6 +85,7 @@ public class SettingsPage extends AppCompatActivity {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                resetAddHistoryData();
                 alertDialog();
             }
         });
@@ -91,6 +94,7 @@ public class SettingsPage extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                logoutAddHistoryData();
                 alertDialogLogout();
             }
         });
@@ -120,6 +124,61 @@ public class SettingsPage extends AppCompatActivity {
             return false;
         });
 
+    }
+    void getDBData() {
+        Cursor cursor = myDB.readAllData();
+        if (cursor.getCount() == 0){
+            Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
+        } else {
+            if (cursor.moveToFirst()){
+                budget = cursor.getString(1);
+                pointText = cursor.getString(2);
+            }else {
+                cursor.close();
+            }
+        }
+    }
+    private void logoutAddHistoryData() {
+        getDBData();
+        String date = "User Logged Out";
+        String timeHistory = "Description:";
+        String historyDescription = "Total Expense and Final Points";
+        String budgetTXT = pointText + "/" + budget;
+
+        int expenseINT = Integer.parseInt(pointText);
+        int budgetINT = Integer.parseInt(budget);
+        if (expenseINT < 0) {
+            expenseINT *= -1;
+            expenseINT += budgetINT;
+            expenseTXT = String.valueOf(expenseINT);
+        }else if(expenseINT == budgetINT) {
+            expenseTXT = "No expenses!";
+        }else {
+            expenseTXT = String.valueOf(expenseINT);
+        }
+
+        myDB.insertuserdata(date, timeHistory, budgetTXT, expenseTXT, historyDescription);
+    }
+    private void resetAddHistoryData() {
+        getDBData();
+        String date = "Daily Reset Done";
+        String timeHistory = "Description:";
+        String historyDescription = "Total Expense and Final Points";
+        String budgetTXT = pointText + "/" + budget;
+
+        int expenseINT = Integer.parseInt(pointText);
+        int budgetINT = Integer.parseInt(budget);
+        if (expenseINT < 0) {
+            expenseINT *= -1;
+            expenseINT += budgetINT;
+            expenseTXT = String.valueOf(expenseINT);
+        }else if(expenseINT == budgetINT) {
+            expenseTXT = "No expenses!";
+        }else {
+            expenseTXT = String.valueOf(expenseINT);
+        }
+
+        myDB.insertuserdata(date, timeHistory, budgetTXT, expenseTXT, historyDescription);
     }
 
     private void alertDialog() {
