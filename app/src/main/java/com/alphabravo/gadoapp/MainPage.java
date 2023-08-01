@@ -311,7 +311,8 @@ public class MainPage extends AppCompatActivity {
     private void addHistoryData() {
         String date = datentime.getText().toString().trim();
         String timeHistory = time.getText().toString().trim();
-        String budget = constamount.getText().toString().trim();
+        String budget1 = constamount.getText().toString().trim();
+        String budget = pointText + "/" + budget1;
         String expense = expenses.getText().toString().trim();
         String historyDescription = description.getText().toString().trim();
 
