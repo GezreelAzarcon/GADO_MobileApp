@@ -49,18 +49,4 @@
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_menu" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="370dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="107dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginBottom="282dp"
-        app:srcCompat="@drawable/greenbg" />
-
 </RelativeLayout>

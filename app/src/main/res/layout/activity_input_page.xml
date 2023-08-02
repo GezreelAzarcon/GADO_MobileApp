@@ -134,10 +134,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/bottomNavigationView"
-        android:text="Need help or concern? Contact us."
         android:layout_centerInParent="true"
-        android:textSize="15dp"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="5dp"
+        android:text="Need help or concern? Contact us."
+        android:textSize="13dp" />
 
 
 
